@@ -1,0 +1,14 @@
+{
+  "id": "pack-parity",
+  "name": "数字奇偶",
+  "difficulty": 2,
+  "conflictPolicy": "block",
+  "initialActive": 2,
+  "revealEvery": 8,
+  "rules": [
+    { "id": "red_left", "predicate": { "color": "red" }, "action": "LEFT", "priority": 10, "text": "红色按左", "example": "红 → 左" },
+    { "id": "blue_right", "predicate": { "color": "blue" }, "action": "RIGHT", "priority": 10, "text": "蓝色按右", "example": "蓝 → 右" },
+    { "id": "even_right", "predicate": { "numberIsEven": true }, "action": "RIGHT", "priority": 20, "text": "偶数按右", "example": "显示 8 → 右" },
+    { "id": "odd_left", "predicate": { "numberIsOdd": true }, "action": "LEFT", "priority": 20, "text": "奇数按左", "example": "显示 7 → 左" }
+  ]
+}

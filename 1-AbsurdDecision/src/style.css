@@ -1,0 +1,129 @@
+:root {
+  --bg: #f4f1e8;
+  --panel: #ffffff;
+  --ink: #2b2b2b;
+  --muted: #8a857a;
+  --line: #e6e1d4;
+  --accent: #ff7a59;
+  --accent2: #4c8bf5;
+  --good: #3fae6b;
+  --warn: #e0a32e;
+  --danger: #e8702a;
+  --crit: #d6453d;
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --radius: 14px;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.app-wrap {
+  width: min(720px, 94vw);
+  margin: 0 auto;
+  padding: 16px 0 40px;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow);
+  transition: transform 0.08s ease, filter 0.12s ease;
+}
+.btn:hover {
+  filter: brightness(1.05);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  background: #cfc9bb;
+  color: #fff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.btn.blue {
+  background: var(--accent2);
+}
+.card {
+  background: var(--panel);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  border: 1px solid var(--line);
+}
+.center {
+  text-align: center;
+}
+.title-xl {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+}
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.band-stable {
+  color: var(--good);
+}
+.band-warning {
+  color: var(--warn);
+}
+.band-danger {
+  color: var(--danger);
+}
+.band-critical {
+  color: var(--crit);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.18s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.err-banner {
+  background: #fdecea;
+  color: #b3261e;
+  border: 1px solid #f5c2bd;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  white-space: pre-wrap;
+}

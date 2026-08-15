@@ -1,0 +1,23 @@
+{
+  "name": "shifting-rules",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "《规则正在跑路》— 规则变化反应判断游戏 (Phaser + TypeScript + Vite)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 5173",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "phaser": "^3.80.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10",
+    "vitest": "^1.6.0"
+  }
+}

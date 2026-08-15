@@ -1,0 +1,247 @@
+:root {
+  --bg: #0c1018;
+  --panel: #151b27;
+  --panel-2: #1c2433;
+  --line: #2a3447;
+  --text: #e6ecf5;
+  --muted: #8a98ad;
+  --accent: #36d1a0;
+  --accent-2: #4ea3ff;
+  --warn: #ffb547;
+  --error: #ff5d6c;
+  --ok: #36d1a0;
+  --risk: #ff7a59;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans CJK SC', 'Microsoft YaHei',
+    sans-serif;
+  background: radial-gradient(1200px 800px at 70% -10%, #16203180, transparent),
+    var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 18px 18px 60px;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
+  border-radius: 9px;
+  padding: 9px 13px;
+  font-size: 14px;
+  transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+}
+button:hover:not(:disabled) {
+  background: #243049;
+  border-color: #3a4a66;
+}
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+button.primary {
+  background: linear-gradient(180deg, #3ee0ad, #25b98a);
+  color: #06231a;
+  border-color: transparent;
+  font-weight: 700;
+}
+button.danger {
+  background: linear-gradient(180deg, #ff727f, #e23b4b);
+  color: #fff;
+  border-color: transparent;
+  font-weight: 700;
+}
+button.ghost {
+  background: transparent;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 10px;
+}
+.muted {
+  color: var(--muted);
+}
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.spread {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 设备卡片 */
+.device {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--panel-2);
+  min-width: 200px;
+  flex: 1 1 200px;
+}
+.device.selected {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 1px var(--accent-2) inset;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  margin: 3px 3px 0 0;
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot.on {
+  background: var(--ok);
+  box-shadow: 0 0 8px var(--ok);
+}
+.dot.off {
+  background: #43506a;
+}
+.dot.warn {
+  background: var(--warn);
+}
+.dot.err {
+  background: var(--error);
+  box-shadow: 0 0 8px var(--error);
+}
+
+.sev-error {
+  color: var(--error);
+}
+.sev-warn {
+  color: var(--warn);
+}
+.sev-info {
+  color: var(--accent-2);
+}
+
+.log {
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 13px;
+  background: #0a0e16;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  max-height: 190px;
+  overflow: auto;
+}
+.log div {
+  padding: 2px 0;
+  border-bottom: 1px solid #141b27;
+}
+
+.action-btn {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 168px;
+}
+.action-btn .meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+.tag {
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+}
+.tag.risk {
+  color: var(--risk);
+  border-color: #5a3326;
+}
+.tag.irr {
+  color: var(--muted);
+}
+.tag.rev {
+  color: var(--ok);
+}
+
+.modal-back {
+  position: fixed;
+  inset: 0;
+  background: #0009;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.modal {
+  max-width: 420px;
+  width: 90%;
+}
+
+.grade {
+  font-size: 54px;
+  font-weight: 800;
+  line-height: 1;
+}
+.grade.S { color: #ffd166; }
+.grade.A { color: var(--ok); }
+.grade.B { color: var(--accent-2); }
+.grade.C { color: var(--warn); }
+.grade.F { color: var(--error); }
+
+.hud {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.meter {
+  height: 8px;
+  border-radius: 999px;
+  background: #243049;
+  overflow: hidden;
+  flex: 1;
+  min-width: 120px;
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}

@@ -1,0 +1,228 @@
+:root {
+  --bg: #0f1320;
+  --bg-soft: #171c2e;
+  --panel: #1d2336;
+  --panel-2: #232a40;
+  --line: #2e3650;
+  --text: #e7ebf5;
+  --muted: #9aa3c0;
+  --accent: #ffcf6b;
+  --accent-2: #6bb7ff;
+  --danger: #ff6b8b;
+  --ok: #5fd6a0;
+  --warn: #ffb347;
+  --font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: radial-gradient(1200px 600px at 50% -10%, #1a2138 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  font-size: var(--font-size);
+  line-height: 1.55;
+}
+button {
+  font-family: inherit;
+  font-size: 0.95em;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease;
+}
+button:hover:not(:disabled) {
+  background: #2b3350;
+  border-color: var(--accent-2);
+}
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: linear-gradient(180deg, #ffd97f, #f0b94a);
+  color: #2a1d00;
+  border-color: #d8a23a;
+  font-weight: 700;
+}
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #ffe39a, #f5c25c);
+}
+.btn-ghost {
+  background: transparent;
+}
+.btn-danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+.muted {
+  color: var(--muted);
+}
+.chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.8em;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.kbd {
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  background: #0c1020;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1px 6px;
+}
+.shake {
+  animation: shake 0.4s;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+.no-shake .shake {
+  animation: none;
+}
+.colorblind .ok {
+  outline: 2px solid var(--ok);
+}
+.colorblind .danger {
+  outline: 2px dashed var(--danger);
+}
+.colorblind .warn {
+  outline: 2px dotted var(--warn);
+}
+
+/* 布局 */
+#app {
+  display: flex;
+  flex-direction: column;
+}
+.app-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 14px 16px 28px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 4px 14px;
+}
+.topbar h1 {
+  font-size: 1.15em;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+.topbar .spacer {
+  flex: 1;
+}
+.stage {
+  flex: 1;
+}
+.row {
+  display: flex;
+  gap: 12px;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.grid {
+  display: grid;
+  gap: 12px;
+}
+.grid-2 {
+  grid-template-columns: 1fr 1fr;
+}
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 760px) {
+  .grid-2,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+.fact {
+  font-size: 0.85em;
+  color: var(--muted);
+}
+.bubble {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.bubble.me {
+  background: #1b2740;
+  border-color: var(--accent-2);
+}
+.evidence-item {
+  border-left: 3px solid var(--accent-2);
+}
+.scroll {
+  overflow: auto;
+}
+.title-screen {
+  text-align: center;
+  padding: 40px 16px;
+}
+.title-screen .big {
+  font-size: 2.2em;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ffd97f, #6bb7ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hint {
+  font-size: 0.85em;
+  color: var(--muted);
+  border-left: 3px solid var(--warn);
+  padding-left: 10px;
+}
+.success-text {
+  color: var(--ok);
+}
+.partial-text {
+  color: var(--warn);
+}
+.fail-text {
+  color: var(--danger);
+}

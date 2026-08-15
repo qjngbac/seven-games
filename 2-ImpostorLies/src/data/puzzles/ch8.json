@@ -1,0 +1,425 @@
+[
+  {
+    "id": "ch8_01",
+    "title": "第八章 · 末日方舟 · 第 1 关",
+    "scene": "方舟启航前夜，四名乘员身份各异，内鬼混在其中。",
+    "roles": [
+      "captain",
+      "pilot",
+      "engineer",
+      "impostor"
+    ],
+    "roleLabels": {
+      "captain": "船长",
+      "pilot": "领航员",
+      "engineer": "工程师",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "灰袍乘员",
+        "blurb": "沉着"
+      },
+      {
+        "id": "B",
+        "name": "白袍乘员",
+        "blurb": "健谈"
+      },
+      {
+        "id": "C",
+        "name": "黑袍乘员",
+        "blurb": "警惕"
+      },
+      {
+        "id": "D",
+        "name": "棕袍乘员",
+        "blurb": "不安"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我和 棕袍乘员 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "A",
+            "b": "D"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我是船长。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "captain"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是领航员。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "pilot"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "灰袍乘员 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "impostor"
+          }
+        }
+      }
+    ],
+    "mechanic": "身份谜·四人版：每人身份各不相同（船长/领航/工程师/伪装者），先排出全员真实身份。"
+  },
+  {
+    "id": "ch8_02",
+    "title": "第八章 · 末日方舟 · 第 2 关",
+    "scene": "避难所登记处，四人各持一种身份，其中一人是冒名者。",
+    "roles": [
+      "captain",
+      "pilot",
+      "engineer",
+      "impostor"
+    ],
+    "roleLabels": {
+      "captain": "船长",
+      "pilot": "领航员",
+      "engineer": "工程师",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "灰袍乘员",
+        "blurb": "沉着"
+      },
+      {
+        "id": "B",
+        "name": "白袍乘员",
+        "blurb": "健谈"
+      },
+      {
+        "id": "C",
+        "name": "黑袍乘员",
+        "blurb": "警惕"
+      },
+      {
+        "id": "D",
+        "name": "棕袍乘员",
+        "blurb": "不安"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我不是工程师。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "engineer"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我和 棕袍乘员 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "B",
+            "b": "D"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是船长。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "captain"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "D",
+          "role": "impostor"
+        }
+      }
+    ],
+    "mechanic": "身份谜·四人版：每人身份各不相同（船长/领航/工程师/伪装者），先排出全员真实身份。"
+  },
+  {
+    "id": "ch8_03",
+    "title": "第八章 · 末日方舟 · 第 3 关",
+    "scene": "殖民船四名船员，名册上身份互不相同，藏着伪装者。",
+    "roles": [
+      "captain",
+      "pilot",
+      "engineer",
+      "impostor"
+    ],
+    "roleLabels": {
+      "captain": "船长",
+      "pilot": "领航员",
+      "engineer": "工程师",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "灰袍乘员",
+        "blurb": "沉着"
+      },
+      {
+        "id": "B",
+        "name": "白袍乘员",
+        "blurb": "健谈"
+      },
+      {
+        "id": "C",
+        "name": "黑袍乘员",
+        "blurb": "警惕"
+      },
+      {
+        "id": "D",
+        "name": "棕袍乘员",
+        "blurb": "不安"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我不是领航员。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "pilot"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我和 棕袍乘员 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "B",
+            "b": "D"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是工程师。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "engineer"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "白袍乘员 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "B",
+            "role": "impostor"
+          }
+        }
+      }
+    ],
+    "mechanic": "身份谜·四人版：每人身份各不相同（船长/领航/工程师/伪装者），先排出全员真实身份。"
+  },
+  {
+    "id": "ch8_04",
+    "title": "第八章 · 末日方舟 · 第 4 关",
+    "scene": "最后列车四节车厢，乘员身份各不相同，有人顶替。",
+    "roles": [
+      "captain",
+      "pilot",
+      "engineer",
+      "impostor"
+    ],
+    "roleLabels": {
+      "captain": "船长",
+      "pilot": "领航员",
+      "engineer": "工程师",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "灰袍乘员",
+        "blurb": "沉着"
+      },
+      {
+        "id": "B",
+        "name": "白袍乘员",
+        "blurb": "健谈"
+      },
+      {
+        "id": "C",
+        "name": "黑袍乘员",
+        "blurb": "警惕"
+      },
+      {
+        "id": "D",
+        "name": "棕袍乘员",
+        "blurb": "不安"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "棕袍乘员 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我是工程师。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "engineer"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是船长。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "captain"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我不是船长。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "captain"
+          }
+        }
+      }
+    ],
+    "mechanic": "身份谜·四人版：每人身份各不相同（船长/领航/工程师/伪装者），先排出全员真实身份。"
+  }
+]

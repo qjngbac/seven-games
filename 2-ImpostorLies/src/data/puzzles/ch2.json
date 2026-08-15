@@ -1,0 +1,312 @@
+[
+  {
+    "id": "ch2_01",
+    "title": "第二章 · 外星食堂 · 第 1 关",
+    "scene": "外星食堂里三个触手服务员，其中一个是伪装成服务员的间谍。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "老实外星人",
+      "impostor": "伪装间谍"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "触手甲",
+        "blurb": "绿色那只"
+      },
+      {
+        "id": "B",
+        "name": "触手乙",
+        "blurb": "紫色那只"
+      },
+      {
+        "id": "C",
+        "name": "触手丙",
+        "blurb": "蓝色那只"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我是伪装间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我是伪装间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "触手乙 是伪装间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "impostor"
+        }
+      }
+    ],
+    "mechanic": "进阶：角色会引用彼此的真假（「我和他说的相同/不同」）。注意互指。"
+  },
+  {
+    "id": "ch2_02",
+    "title": "第二章 · 外星食堂 · 第 2 关",
+    "scene": "星际补给舱三人小组，话里有话。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "老实外星人",
+      "impostor": "伪装间谍"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "触手甲",
+        "blurb": "绿色那只"
+      },
+      {
+        "id": "B",
+        "name": "触手乙",
+        "blurb": "紫色那只"
+      },
+      {
+        "id": "C",
+        "name": "触手丙",
+        "blurb": "蓝色那只"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "触手丙 不是伪装间谍。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我是老实外星人。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "normal"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "触手甲 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_A"
+          }
+        }
+      }
+    ],
+    "mechanic": "进阶：角色会引用彼此的真假（「我和他说的相同/不同」）。注意互指。"
+  },
+  {
+    "id": "ch2_03",
+    "title": "第二章 · 外星食堂 · 第 3 关",
+    "scene": "翻译官两两对质，谁在配合谁？",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "老实外星人",
+      "impostor": "伪装间谍"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "触手甲",
+        "blurb": "绿色那只"
+      },
+      {
+        "id": "B",
+        "name": "触手乙",
+        "blurb": "紫色那只"
+      },
+      {
+        "id": "C",
+        "name": "触手丙",
+        "blurb": "蓝色那只"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我是老实外星人。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "normal"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "触手丙 不是伪装间谍。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我是老实外星人。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "normal"
+        }
+      }
+    ],
+    "mechanic": "进阶：角色会引用彼此的真假（「我和他说的相同/不同」）。注意互指。"
+  },
+  {
+    "id": "ch2_04",
+    "title": "第二章 · 外星食堂 · 第 4 关",
+    "scene": "外星小孩玩「谁在骗人」游戏，规则是恰好一句真话。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "老实外星人",
+      "impostor": "伪装间谍"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "触手甲",
+        "blurb": "绿色那只"
+      },
+      {
+        "id": "B",
+        "name": "触手乙",
+        "blurb": "紫色那只"
+      },
+      {
+        "id": "C",
+        "name": "触手丙",
+        "blurb": "蓝色那只"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "触手丙 不是伪装间谍。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "触手甲 不是伪装间谍。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "触手甲 是伪装间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "impostor"
+        }
+      }
+    ],
+    "mechanic": "进阶：角色会引用彼此的真假（「我和他说的相同/不同」）。注意互指。"
+  }
+]

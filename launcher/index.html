@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>小游戏大厅 · 七款生产事故模拟器</title>
+  <style>
+    :root {
+      --bg: #0e1116;
+      --bg2: #161b22;
+      --card: #1c2330;
+      --card-h: #243043;
+      --line: #2b3441;
+      --text: #e6edf3;
+      --muted: #8b97a7;
+      --accent: #4ea1ff;
+      --ok: #3fb950;
+      --warn: #d29922;
+      --kbd: #6e7681;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(1200px 600px at 50% -10%, #1a2230 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      -webkit-text-size-adjust: 100%;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 18px 56px; }
+    header.hero { text-align: center; padding: 14px 0 8px; }
+    header.hero h1 { font-size: clamp(22px, 5vw, 32px); margin: 0 0 8px; letter-spacing: 1px; }
+    header.hero p { color: var(--muted); margin: 0; font-size: 14px; line-height: 1.7; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 26px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex; flex-direction: column;
+      text-decoration: none; color: inherit;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .card:hover, .card:focus-visible {
+      transform: translateY(-3px);
+      background: var(--card-h);
+      border-color: var(--accent);
+      outline: none;
+    }
+    .card .no {
+      display: inline-block; font-size: 12px; color: var(--muted);
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 2px 10px; width: fit-content; margin-bottom: 10px;
+    }
+    .card h2 { font-size: 17px; margin: 0 0 6px; line-height: 1.35; }
+    .card .sub { color: var(--muted); font-size: 12.5px; margin-bottom: 12px; min-height: 34px; }
+    .tags { margin-top: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; padding: 3px 8px; border-radius: 6px;
+      border: 1px solid var(--line); color: var(--muted);
+    }
+    .tag.click { color: var(--ok); border-color: rgba(63,185,80,.4); }
+    .tag.kbd { color: var(--warn); border-color: rgba(210,153,34,.4); }
+    .tag.mobile { color: var(--accent); border-color: rgba(78,161,255,.4); }
+    .note {
+      margin-top: 28px; background: var(--bg2); border: 1px solid var(--line);
+      border-radius: 12px; padding: 16px 18px; font-size: 13px; color: var(--muted); line-height: 1.8;
+    }
+    .note b { color: var(--text); }
+    .note code { background: #0c0f14; padding: 1px 6px; border-radius: 5px; color: #c9d1d9; }
+    footer { text-align: center; color: var(--kbd); font-size: 12px; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>🎮 七款小游戏 · 统一大厅</h1>
+      <p>一组以「生产事故 / 职场荒谬」为题材的网页解谜游戏。<br/>点任意卡片即玩，无需登录、无广告、纯本地运行。</p>
+    </header>
+
+    <main class="grid">
+      <a class="card" href="games/absurd-decision/index.html">
+        <span class="no">第 1 款</span>
+        <h2>今天也要做决定</h2>
+        <div class="sub">荒谬抉择：在离谱的二选一中找出不那么离谱的那个。</div>
+        <div class="tags"><span class="tag kbd">⌨ 键盘操作</span><span class="tag mobile">手机需桌面模式</span></div>
+      </a>
+
+      <a class="card" href="games/impostor-lies/index.html">
+        <span class="no">第 2 款</span>
+        <h2>这里有人在说谎 · 伪装者逻辑</h2>
+        <div class="sub">从互相矛盾的指认里，揪出那个说谎的人。</div>
+        <div class="tags"><span class="tag click">🖱 纯点击</span><span class="tag mobile">手机可玩</span></div>
+      </a>
+
+      <a class="card" href="games/no-server-boom/index.html">
+        <span class="no">第 3 款</span>
+        <h2>今天别把机房炸了</h2>
+        <div class="sub">错误操作模拟器：避开那些一碰就出事的按钮。</div>
+        <div class="tags"><span class="tag click">🖱 纯点击</span><span class="tag mobile">手机可玩</span></div>
+      </a>
+
+      <a class="card" href="games/absurd-censor/index.html">
+        <span class="no">第 4 款</span>
+        <h2>荒诞审查局</h2>
+        <div class="sub">按规则卡核验申请者，盖章放行或拒绝（含键盘快捷键）。</div>
+        <div class="tags"><span class="tag kbd">⌨ 键盘 A/S/D</span><span class="tag mobile">手机有屏幕按钮</span></div>
+      </a>
+
+      <a class="card" href="games/who-broke-prod/index.html">
+        <span class="no">第 5 款</span>
+        <h2>谁动了生产环境</h2>
+        <div class="sub">多人对话推理：问话、取证、连矛盾，锁定背锅侠与真凶。</div>
+        <div class="tags"><span class="tag click">🖱 纯点击</span><span class="tag mobile">手机可玩 · 已适配</span></div>
+      </a>
+
+      <a class="card" href="games/shifting-rules/index.html">
+        <span class="no">第 6 款</span>
+        <h2>规则正在跑路</h2>
+        <div class="sub">不断变化的规则：跟上那些偷偷改写的条款。</div>
+        <div class="tags"><span class="tag kbd">⌨ 键盘操作</span><span class="tag mobile">手机需桌面模式</span></div>
+      </a>
+
+      <a class="card" href="games/ridiculous-toolbox/index.html">
+        <span class="no">第 7 款</span>
+        <h2>离谱工具箱</h2>
+        <div class="sub">一堆名字正经、用法离谱的工具，随便折腾。</div>
+        <div class="tags"><span class="tag click">🖱 纯点击</span><span class="tag mobile">手机可玩</span></div>
+      </a>
+    </main>
+
+    <section class="note">
+      <b>📱 手机怎么玩：</b> 本机启动大厅后，手机连<b>同一个 WiFi</b>，浏览器打开页面底部显示的
+      <code>http://电脑局域网IP:5200/</code> 即可。纯点击类（2/3/5/7）手机体验良好；
+      依赖键盘的（1/4/6）建议在手机浏览器开「桌面版网站」或外接键盘。<br/>
+      <b>💾 迁移到别的电脑：</b> 把整个 <code>launcher</code> 文件夹复制过去，目标机装了 Node（≥14）后
+      双击 <code>start.cmd</code>（Windows）/ 运行 <code>start.sh</code>（Mac/Linux）即可。没有 Node 也行——
+      用任意静态服务器指向本文件夹（例如 <code>python -m http.server 5200</code>）同样能开。
+    </section>
+
+    <footer>纯静态 · 零依赖 · 数据存本地 · 断网也能玩</footer>
+  </div>
+</body>
+</html>

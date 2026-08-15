@@ -1,0 +1,15 @@
+{
+  "id": "pack-character",
+  "name": "角色反转",
+  "difficulty": 3,
+  "conflictPolicy": "block",
+  "initialActive": 2,
+  "revealEvery": 8,
+  "rules": [
+    { "id": "red_left", "predicate": { "color": "red" }, "action": "LEFT", "priority": 10, "text": "红色按左", "example": "红 → 左" },
+    { "id": "blue_right", "predicate": { "color": "blue" }, "action": "RIGHT", "priority": 10, "text": "蓝色按右", "example": "蓝 → 右" },
+    { "id": "cat_invert", "predicate": { "character": "cat" }, "action": "INVERT_BASE", "priority": 100, "text": "出现猫，规则反转", "example": "红猫 → 因反转变右" },
+    { "id": "dog_right", "predicate": { "character": "dog" }, "action": "RIGHT", "priority": 30, "text": "狗按右", "example": "狗 → 右" },
+    { "id": "robot_skip", "predicate": { "character": "robot" }, "action": "SKIP", "priority": 25, "text": "机器人跳过", "example": "机器人 → 跳过" }
+  ]
+}

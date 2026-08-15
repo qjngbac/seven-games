@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>七款小游戏制作难度分析</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#ffffff; --ink:#1f2330; --sub:#5b6172;
+    --line:#e6e8f0; --accent:#3b6cf6; --easy:#2bb673; --mid:#f0a020; --hard:#e0524a;
+    --shadow:0 1px 3px rgba(20,30,60,.08),0 6px 20px rgba(20,30,60,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.6;padding:28px 16px 60px;}
+  .wrap{max-width:1040px;margin:0 auto;}
+  header h1{font-size:26px;margin:0 0 6px;}
+  header p{color:var(--sub);margin:0 0 4px;font-size:14px;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 22px;font-size:13px;color:var(--sub);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .dot.e{background:var(--easy)} .dot.m{background:var(--mid)} .dot.h{background:var(--hard)}
+
+  .rank{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:18px 0 28px;}
+  .rank .r{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-align:center;box-shadow:var(--shadow);}
+  .rank .r .no{font-size:12px;color:var(--sub)}
+  .rank .r .nm{font-size:14px;font-weight:600;margin:4px 0}
+  .rank .r .sc{font-size:20px;font-weight:700}
+  .rank .r .lb{font-size:12px;margin-top:2px}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);font-size:14px;margin-bottom:30px;}
+  th,td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);}
+  th{background:#eef1fb;color:#3a3f52;font-weight:600;font-size:13px;}
+  tr:last-child td{border-bottom:none}
+  td .tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600;color:#fff;}
+  .tag.e{background:var(--easy)} .tag.m{background:var(--mid)} .tag.h{background:var(--hard)}
+
+  .cards{display:grid;grid-template-columns:1fr;gap:16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);}
+  .card h2{margin:0 0 2px;font-size:18px;}
+  .card .meta{color:var(--sub);font-size:13px;margin-bottom:12px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 26px;}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .kv{font-size:14px;margin:3px 0;}
+  .kv b{color:#3a3f52;}
+  .bar{height:8px;background:#eef0f6;border-radius:6px;overflow:hidden;margin:3px 0 9px;}
+  .bar>i{display:block;height:100%;border-radius:6px;}
+  .dims{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);}
+  .dims .d{display:flex;align-items:center;gap:10px;font-size:13px;margin:4px 0;}
+  .dims .d .name{width:84px;color:var(--sub);flex:none}
+  .dims .d .b{flex:1;height:7px;background:#eef0f6;border-radius:5px;overflow:hidden}
+  .dims .d .b>i{display:block;height:100%;background:var(--accent);border-radius:5px}
+  .dims .d .v{width:18px;text-align:right;color:var(--sub);flex:none}
+  .note{background:#fbfcff;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:10px 13px;margin-top:12px;font-size:13px;color:#3a3f52;}
+  .rec{background:linear-gradient(180deg,#eef3ff,#f6f8ff);border:1px solid #d6e0ff;border-radius:12px;padding:16px 20px;margin-top:26px;font-size:14px;}
+  .rec b{color:var(--accent)}
+  footer{color:var(--sub);font-size:12px;text-align:center;margin-top:34px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>七款小游戏制作难度分析</h1>
+    <p>依据各《开发文档》中的「类型 / 推荐技术栈 / 系统拆解 / 风险与常见失败」逐项评估。</p>
+    <p>评估口径：纯前端可上线的 MVP，1 人 + AI 辅助开发。难度指数 0–10（越高越难）。</p>
+    <div class="legend">
+      <span><i class="dot e"></i>简单（技术风险最低）</span>
+      <span><i class="dot m"></i>中等 / 中高</span>
+      <span><i class="dot h"></i>高（系统耦合最多）</span>
+    </div>
+  </header>
+
+  <div class="rank" id="rank"></div>
+
+  <table>
+    <thead><tr><th>排序</th><th>游戏（工作名）</th><th>类型</th><th>首选技术栈</th><th>难度指数</th><th>等级</th><th>核心难点</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>荒诞情境判断《今天也要做决定》</td><td>叙事选择 + 数值管理</td><td>Vue 3+TS+Vite+Pinia</td><td>2.0</td><td><span class="tag e">简单</span></td><td>内容质量（事件不好玩），无算法/物理</td></tr>
+      <tr><td>2</td><td>规则变化反应《规则正在跑路》</td><td>快速判断 / 规则叠加</td><td>Phaser+TS+Vite</td><td>2.5</td><td><span class="tag e">简单</span></td><td>规则唯一性验证、计时公平性</td></tr>
+      <tr><td>3</td><td>伪装者逻辑《这里有人在说谎》</td><td>逻辑推理 / 矛盾识别</td><td>Vue 3+TS+Vite</td><td>4.0</td><td><span class="tag m">中等</span></td><td>命题 AST + 确定性求解器 + 唯一解校验</td></tr>
+      <tr><td>4</td><td>物品组合解谜《离谱工具箱》</td><td>物品组合 / 场景解谜</td><td>Godot 2D（Vue 可替代）</td><td>4.5</td><td><span class="tag m">中等</span></td><td>配方匹配、拖拽/撤销交互、避免组合爆炸</td></tr>
+      <tr><td>5</td><td>错误操作模拟器《今天别把机房炸了》</td><td>故障诊断 / 轻模拟</td><td>Godot 2D（Vue 可替代）</td><td>6.0</td><td><span class="tag m">中高</span></td><td>依赖图状态传播、工单可行解自动验证</td></tr>
+      <tr><td>6</td><td>有限信息审查《荒诞审查局》</td><td>规则核对 / 文件审查</td><td>Godot 2D（Vue 可替代）</td><td>6.5</td><td><span class="tag m">中高</span></td><td>规则 DSL 解释器 + 跨日叙事 + 文件拖拽 UI</td></tr>
+      <tr><td>7</td><td>多人对话推理《谁动了生产环境》</td><td>对话侦探 / 证据推理</td><td>Vue 3+TS+状态机</td><td>8.5</td><td><span class="tag h">高</span></td><td>真相图+角色知识模型+对话引擎高度耦合</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cards" id="cards"></div>
+
+  <div class="rec">
+    <b>开发顺序建议</b>：文档 README 已指出「首次开发优先选 01 或 06，技术风险最低」，与下方评估一致。
+    推荐路线：先以 <b>01（叙事数值）</b> 或 <b>06（规则反应）</b> 练手打通「状态机 + 数据驱动 + 单元测试」范式；
+    再上 <b>02 / 07</b> 锻炼「规则引擎 / 匹配器」；最后挑战 <b>03 / 04 / 05</b> 这类模拟与多系统耦合作品。
+    所有游戏的共同铁律：<b>规则层必须独立于界面、数据驱动、可单元测试</b>，先内核后 UI。
+  </div>
+
+  <footer>生成于 2026-08-14 · 基于 7 份开发文档的结构化拆解（非运行实测）</footer>
+</div>
+
+<script>
+const games=[
+ {no:"1-",name:"荒诞情境判断游戏",work:"今天也要做决定",type:"叙事选择 + 轻度数值管理",tech:"Vue 3 + TS + Vite + Pinia",sc:2.0,lv:"简单",cls:"e",
+  core:["事件抽取：条件过滤 + 带权随机 + 冷却去重","选择与后果：效果列表 / 条件效果 / 延迟队列","资源状态（金钱/声誉/精神/技术债）","事件链与标签、日结与解锁成长"],
+  diff:"本质是「数据驱动的视觉小说 + 数值」，无实时循环、无物理、无复杂算法。技术难点几乎为零，真正风险在内容质量（事件要有取舍和笑点）而非工程。",
+  dims:{算法:1,引擎门槛:2,内容量:4,交互:2,测试:3}},
+ {no:"6-",name:"规则变化反应判断游戏",work:"规则正在跑路",type:"快速判断 / 反应 / 规则叠加",tech:"Phaser + TS + Vite",sc:2.5,lv:"简单",cls:"e",
+  core:["刺激生成：约束随机 + 唯一可判定校验","规则引擎：谓词 + 动作 + 优先级归约","输入与计时：高精度计时器 / 输入缓冲 / 去抖","连击评分、规则教学与慢放复盘"],
+  diff:"规则引擎规模小且完全确定；刺激生成只要保证「每个刺激经规则计算得唯一动作」即可。无物理、无 AI。主要工程细节是计时公平性（失焦冻结、动画期不算）与规则冲突在加载时拦截。",
+  dims:{算法:2,引擎门槛:3,内容量:2,交互:3,测试:4}},
+ {no:"2-",name:"伪装者逻辑推理游戏",work:"这里有人在说谎",type:"逻辑推理 / 矛盾识别 / 短关",tech:"Vue 3 + TS + Vite",sc:4.0,lv:"中等",cls:"m",
+  core:["命题 AST：展示文本与结构化命题一一对应","求值器：在候选世界中计算命题真假","求解器：3–8 人穷举/回溯，返回解集合","推理板（撤销栈）、三级提示、唯一解校验"],
+  diff:"核心是确定性逻辑，可完整单元测试，规模受控（角色少）。难点在 AST 表达 + 求值器 + 解释器的严谨性，以及「台词与 AST 语义一致」「AI 生成谜题必须过唯一解验证」。属于中等偏易的逻辑工程。",
+  dims:{算法:4,引擎门槛:2,内容量:3,交互:2,测试:4}},
+ {no:"7-",name:"物品组合解谜游戏",work:"离谱工具箱",type:"物品组合 / 场景解谜 / 多解",tech:"Godot 2D（Vue 卡片版可替代）",sc:4.5,lv:"中等",cls:"m",
+  core:["物品与标签系统：定义/实例分离、状态不污染共享","配方匹配：标准化输入 + 标签条件 + 优先级唯一匹配","场景交互热点、多解法（按最终状态）评分","撤销：命令模式 / 快照，可达性 BFS 校验"],
+  diff:"匹配器定义清晰、确定性强；真正麻烦的是内容设计——避免组合爆炸（用标签通用反馈代替逐对写）、拖拽/缩放交互、撤销与重置，以及保证每关至少一解可达。改用 Vue 卡片版可省去引擎学习，整体中等。",
+  dims:{算法:3,引擎门槛:3,内容量:4,交互:4,测试:3}},
+ {no:"3-",name:"错误操作模拟器",work:"今天别把机房炸了",type:"故障诊断 / 操作顺序 / 轻模拟",tech:"Godot 2D（Vue 卡片版可替代）",sc:6.0,lv:"中高",cls:"m",
+  core:["设备状态模拟：子状态 + 依赖图 + 事件总线","故障与症状：症状由底层状态推导（非写死）","工具与操作：前置条件 / 成本 / 风险 / 可逆性","时间压力（离散步）、验证验收、复盘时间线"],
+  diff:"核心算法是依赖图拓扑传播（设备断电→下游级联），需要严谨且可测试；还要保证每工单都有可行解（自动可解性测试）。Godot 引擎学习增加门槛；若用 Vue 卡片版可降低。属中高难度模拟类。",
+  dims:{算法:4,引擎门槛:3,内容量:3,交互:3,测试:4}},
+ {no:"4-",name:"有限信息审查游戏",work:"荒诞审查局",type:"规则核对 / 文件审查 / 叙事",tech:"Godot 2D（Vue 卡片版可替代）",sc:6.5,lv:"中高",cls:"m",
+  core:["规则 DSL：优先级 + 例外 + 版本 + 解释文本","申请者/文件系统：伪造=规则层不一致（非像素差异）","检查工具：给证据而非直接给答案","裁决评分：合法 vs 道德分离；跨日剧情引擎"],
+  diff:"规则引擎相当于一个小型解释器（与 02 共享逻辑基因，但系统更多：多日推进、叙事标签、延迟后果），且 UI 要做文件拖拽/缩放/高亮。难点是规则冲突确定性、申请者预期裁决由引擎预计算、合法与道德结果分离。中高。",
+  dims:{算法:4,引擎门槛:3,内容量:4,交互:4,测试:4}},
+ {no:"5-",name:"多人对话推理游戏",work:"谁动了生产环境",type:"对话侦探 / 证据推理 / 关系",tech:"Vue 3 + TS + 状态机",sc:8.5,lv:"高",cls:"h",
+  core:["真相图：客观事件链（不随玩家改变）","角色知识模型：所知/所信/隐瞒，不得越界","对话引擎：按话题/证据/关系/历史选回答版本","证词可靠性、证据推理板（图连接）、结构化指控校验"],
+  diff:"七款中系统最多且高度耦合：真相图必须作为唯一事实源，每个角色只有有限视角；对话引擎要按条件切换回答版本；还需保证关键证据可达、不会出现永久锁死（需遍历测试）。内容创作成本最高（每案要写真相图+知识边界+证据路径）。最高难度。",
+  dims:{算法:5,引擎门槛:2,内容量:5,交互:4,测试:5}}
+];
+
+const rank=document.getElementById('rank');
+games.forEach(g=>{
+  const d=document.createElement('div');d.className='r';
+  d.innerHTML=`<div class="no">${g.no}</div><div class="nm">${g.name}</div>
+    <div class="sc" style="color:gcls(g.cls)">${g.sc}</div><div class="lb ${g.cls}">${g.lv}</div>`;
+  rank.appendChild(d);
+});
+function gcls(c){return c==='e'?'#2bb673':c==='m'?'#f0a020':'#e0524a';}
+
+const cards=document.getElementById('cards');
+games.forEach(g=>{
+  const dims=Object.entries(g.dims).map(([k,v])=>
+    `<div class="d"><span class="name">${k}</span><span class="b"><i style="width:${v*20}%"></i></span><span class="v">${v}</span></div>`).join('');
+  const core=g.core.map(c=>`<div class="kv">· ${c}</div>`).join('');
+  const card=document.createElement('div');card.className='card';
+  card.innerHTML=`<h2>${g.no}${g.name}</h2>
+    <div class="meta">工作名《${g.work}》 · ${g.type} · 难度指数 <b style="color:${gcls(g.cls)}">${g.sc}</b> / 10（${g.lv}）</div>
+    <div class="grid2">
+      <div><div class="kv"><b>技术栈：</b>${g.tech}</div>${core}</div>
+      <div><div class="kv"><b>核心难点：</b></div><div class="kv" style="color:#3a3f52">${g.diff}</div></div>
+    </div>
+    <div class="dims"><div class="kv" style="color:var(--sub);font-size:13px">难度维度（1–5，越高越难）</div>${dims}</div>`;
+  cards.appendChild(card);
+});
+</script>
+</body>
+</html>

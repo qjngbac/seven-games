@@ -1,0 +1,508 @@
+[
+  {
+    "id": "server_room_smell_002",
+    "category": "repair",
+    "weight": 8,
+    "priority": 1.4,
+    "conditions": { "requiredTags": ["fan_note_found"] },
+    "title": "机房飘出一股焦味",
+    "body": "你想起机箱里那张便签写着「电容有点鼓」。今天机房隐隐有焦味，但监控一切正常。",
+    "clues": ["你之前抽出了离职交接便签", "监控数值正常", "鼻子很诚实"],
+    "choices": [
+      {
+        "id": "replace",
+        "text": "申请停机换电容",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -4 },
+          { "type": "resource", "target": "techDebt", "value": -4 },
+          { "type": "tag", "target": "fan_note_found", "value": false }
+        ],
+        "resultText": "你停机换了电容。金钱 -4，技术债 -4，隐患解除。",
+        "hidden": "正确但费钱"
+      },
+      {
+        "id": "ignore",
+        "text": "监控正常就当没闻到",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 1 },
+          { "type": "resource", "target": "techDebt", "value": 3 }
+        ],
+        "resultText": "你安慰自己监控没事。精神 +1，技术债 +3。",
+        "delayed": {
+          "daysLater": 2,
+          "effects": [
+            { "type": "resource", "target": "reputation", "value": -4 },
+            { "type": "resource", "target": "money", "value": -3 }
+          ],
+          "note": "焦味那台机器两天后烧了，客户全员掉线。"
+        },
+        "hidden": "掩耳盗铃的代价"
+      },
+      {
+        "id": "report",
+        "text": "写工单上报但不停机",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 1 },
+          { "type": "resource", "target": "techDebt", "value": -1 }
+        ],
+        "resultText": "你留了记录。声誉 +1，技术债 -1，至少追责时清白。",
+        "hidden": "明哲保身"
+      }
+    ],
+    "meta": { "testsJudgment": true, "hook": "承接 server_fan_001 的标签" }
+  },
+  {
+    "id": "camera_revisit_002",
+    "category": "repair",
+    "weight": 8,
+    "priority": 1.4,
+    "conditions": { "requiredTags": ["found_loose_cable"] },
+    "title": "摄像头又双叒离线了",
+    "body": "你上次发现是网线松了，客户却说「这周第三次了」。你怀疑是水晶头没掐好。",
+    "clues": ["你贴过 found_loose_cable 标签", "本周第三次"],
+    "choices": [
+      {
+        "id": "recrimp",
+        "text": "重做水晶头彻底解决",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 3 },
+          { "type": "resource", "target": "techDebt", "value": -2 },
+          { "type": "tag", "target": "found_loose_cable", "value": false }
+        ],
+        "resultText": "你重掐了水晶头。声誉 +3，技术债 -2，摄像头终于稳了。",
+        "hidden": "根治"
+      },
+      {
+        "id": "tape",
+        "text": "用胶带把网线缠死",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 1 },
+          { "type": "resource", "target": "techDebt", "value": 1 }
+        ],
+        "resultText": "胶带大法好。声誉 +1，技术债 +1，但看着很丑。",
+        "hidden": "凑合"
+      },
+      {
+        "id": "blame_again",
+        "text": "再说是客户网络",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -4 }
+        ],
+        "resultText": "客户这次直接拉群直播测速。声誉 -4。",
+        "hidden": "信用破产"
+      }
+    ],
+    "meta": { "testsJudgment": true, "hook": "承接 camera_offline_001 的标签" }
+  },
+  {
+    "id": "boss_review_002",
+    "category": "meeting",
+    "weight": 8,
+    "priority": 1.3,
+    "conditions": { "requiredTags": ["boss_meeting_done"], "dayMin": 2 },
+    "title": "老板的反向复盘",
+    "body": "老板把你那次一对一的对话翻出来：「上次你说做不完，现在看看？」气氛有点微妙。",
+    "clues": ["你之前和老板聊过指标", "老板记得每一句"],
+    "choices": [
+      {
+        "id": "show_result",
+        "text": "拿出交付数据说话",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 3 },
+          { "type": "relation", "target": "boss", "value": 2 }
+        ],
+        "resultText": "数据漂亮。声誉 +3，老板好感 +2。",
+        "hidden": "用结果翻盘"
+      },
+      {
+        "id": "apologize",
+        "text": "承认当时保守了",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 1 },
+          { "type": "relation", "target": "boss", "value": 1 }
+        ],
+        "resultText": "你大方认了。精神 +1，老板好感 +1。",
+        "hidden": "情商"
+      },
+      {
+        "id": "argue",
+        "text": "当场反驳老板记错了",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -3 },
+          { "type": "relation", "target": "boss", "value": -4 }
+        ],
+        "resultText": "老板笑了笑，记在小本本上。声誉 -3，老板好感 -4。",
+        "hidden": "冒险"
+      }
+    ],
+    "meta": { "testsJudgment": true, "hook": "承接 boss_meeting_001 的关系" }
+  },
+  {
+    "id": "standup_001",
+    "category": "meeting",
+    "weight": 8,
+    "title": "站会开成了坐会",
+    "body": "每日站会第 25 分钟，大家还在聊昨晚的球赛。你负责控场。",
+    "clues": ["已进行 25 分钟", "话题跑偏"],
+    "choices": [
+      {
+        "id": "cut",
+        "text": "直接打断拉回正题",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 1 },
+          { "type": "resource", "target": "techDebt", "value": -1 }
+        ],
+        "resultText": "你救了大家的时间。精神 +1，技术债 -1。",
+        "hidden": "高效"
+      },
+      {
+        "id": "join",
+        "text": "顺便聊两句球赛",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 2 },
+          { "type": "resource", "target": "reputation", "value": -1 }
+        ],
+        "resultText": "气氛很好。精神 +2，声誉 -1。",
+        "hidden": "团建但费时"
+      },
+      {
+        "id": "silent",
+        "text": "低头刷手机",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -1 },
+          { "type": "resource", "target": "reputation", "value": -1 }
+        ],
+        "resultText": "你啥也没贡献。精神 -1，声誉 -1。",
+        "hidden": "划水"
+      }
+    ],
+    "meta": { "funny": "站会坐牢" }
+  },
+  {
+    "id": "oncall_001",
+    "category": "ops",
+    "weight": 9,
+    "title": "凌晨三点的告警",
+    "body": "手机狂震：生产环境 5xx 飙升。你刚睡着，告警却很精神。",
+    "clues": ["凌晨 3 点", "5xx 在涨"],
+    "choices": [
+      {
+        "id": "wake_ops",
+        "text": "呼叫运维一起看",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -2 },
+          { "type": "relation", "target": "ops", "value": 1 }
+        ],
+        "resultText": "运维秒回。精神 -2，运维好感 +1。",
+        "hidden": "协作"
+      },
+      {
+        "id": "rollback",
+        "text": "直接回滚上一版",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -1 },
+          { "type": "resource", "target": "techDebt", "value": -2 }
+        ],
+        "resultText": "你回滚救火。精神 -1，技术债 -2。",
+        "hidden": "经典回滚"
+      },
+      {
+        "id": "ignore",
+        "text": "设个免打扰继续睡",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 2 },
+          { "type": "resource", "target": "reputation", "value": -4 }
+        ],
+        "resultText": "天亮后发现故障持续两小时。精神 +2，声誉 -4。",
+        "hidden": "侥幸"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "free_lunch_001",
+    "category": "absurd",
+    "weight": 7,
+    "title": "免费的豪华午餐",
+    "body": "楼下新开店「凭工牌免费吃」。你怀疑天下没有免费午餐，但肚子很诚实。",
+    "clues": ["凭工牌免费", "店员笑得很甜"],
+    "choices": [
+      {
+        "id": "eat",
+        "text": "开心地免费吃",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 2 },
+          { "type": "resource", "target": "money", "value": 2 }
+        ],
+        "resultText": "真免费。精神 +2，省下饭钱 +2。",
+        "hidden": "真香"
+      },
+      {
+        "id": "pay",
+        "text": "坚持付钱留发票",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -3 },
+          { "type": "resource", "target": "reputation", "value": 1 }
+        ],
+        "resultText": "你付了钱。金钱 -3，声誉 +1，财务对你刮目相看。",
+        "hidden": "合规"
+      },
+      {
+        "id": "refer",
+        "text": "拉全组去薅羊毛",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 3 },
+          { "type": "resource", "target": "techDebt", "value": 1 }
+        ],
+        "resultText": "全组狂欢。精神 +3，但老板看见你带头摸鱼，技术债 +1。",
+        "hidden": "团建过度"
+      }
+    ],
+    "meta": { "funny": "免费午餐陷阱" }
+  },
+  {
+    "id": "excel_magic_001",
+    "category": "absurd",
+    "weight": 7,
+    "title": "用 Excel 当数据库",
+    "body": "同事神秘地说：用户表就放共享 Excel 里，改起来比写接口快。你陷入了沉思。",
+    "clues": ["共享 Excel", "说是「临时」"],
+    "choices": [
+      {
+        "id": "agree_excel",
+        "text": "先凑合用 Excel",
+        "effects": [
+          { "type": "resource", "target": "money", "value": 2 },
+          { "type": "resource", "target": "techDebt", "value": 4 }
+        ],
+        "resultText": "上线飞快。金钱 +2，技术债 +4。你听见未来的自己在尖叫。",
+        "hidden": "埋雷"
+      },
+      {
+        "id": "build_db",
+        "text": "坚持建正规库表",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -3 },
+          { "type": "resource", "target": "techDebt", "value": -3 }
+        ],
+        "resultText": "你花时间建了库。金钱 -3，技术债 -3。",
+        "hidden": "长期主义"
+      },
+      {
+        "id": "sheet_db",
+        "text": "折中：用在线表但加校验",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": -1 },
+          { "type": "resource", "target": "reputation", "value": 1 }
+        ],
+        "resultText": "你加了校验脚本。技术债 -1，声誉 +1。",
+        "hidden": "折中"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "client_visit_001",
+    "category": "client",
+    "weight": 8,
+    "title": "客户突然来访",
+    "body": "重要客户说「顺路来坐坐」，但你工位像被台风刮过，演示环境也没起。",
+    "clues": ["客户已在电梯", "演示环境没起"],
+    "choices": [
+      {
+        "id": "demo_live",
+        "text": "现场现拉起演示",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 3 },
+          { "type": "resource", "target": "spirit", "value": -2 }
+        ],
+        "resultText": "你手忙脚乱起好了环境。声誉 +3，精神 -2。",
+        "hidden": "惊险"
+      },
+      {
+        "id": "coffee_talk",
+        "text": "先请喝咖啡拖时间",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -2 },
+          { "type": "resource", "target": "reputation", "value": 1 }
+        ],
+        "resultText": "咖啡续了三杯。金钱 -2，声誉 +1，环境偷偷起好了。",
+        "hidden": "缓兵"
+      },
+      {
+        "id": "cancel",
+        "text": "说今天不开门",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -3 }
+        ],
+        "resultText": "客户在门口愣住。声誉 -3。",
+        "hidden": "社死"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "performance_review_001",
+    "category": "meeting",
+    "weight": 9,
+    "conditions": { "dayMin": 3 },
+    "title": "期末绩效考核",
+    "body": "HR 发来自评表，末位要谈话。你这一周干了太多荒诞的事。",
+    "clues": ["自评表已发", "末位要谈话"],
+    "choices": [
+      {
+        "id": "brag",
+        "text": "把荒诞事写成亮点",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 2 },
+          { "type": "resource", "target": "spirit", "value": -1 }
+        ],
+        "resultText": "你包装得很漂亮。声誉 +2，精神 -1（写材料好累）。",
+        "hidden": "述职艺术"
+      },
+      {
+        "id": "honest",
+        "text": "如实写踩过的坑",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -1 },
+          { "type": "resource", "target": "techDebt", "value": -2 }
+        ],
+        "resultText": "你复盘了教训。声誉 -1，技术债 -2（沉淀成文档）。",
+        "hidden": "成长"
+      },
+      {
+        "id": "copy",
+        "text": "照抄同事的模板",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 2 },
+          { "type": "resource", "target": "reputation", "value": -2 }
+        ],
+        "resultText": "你抄出了雷同。精神 +2，声誉 -2（HR 发现了）。",
+        "hidden": "抄袭"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "open_source_001",
+    "category": "ops",
+    "weight": 8,
+    "title": "引入一个可疑开源库",
+    "body": "实习生推荐：「这个库星标 30k，一行搞定需求！」你看了眼最后提交时间：两年前。",
+    "clues": ["星标 30k", "最后提交两年前"],
+    "choices": [
+      {
+        "id": "use_it",
+        "text": "直接用，省时间",
+        "effects": [
+          { "type": "resource", "target": "money", "value": 2 },
+          { "type": "resource", "target": "techDebt", "value": 3 }
+        ],
+        "resultText": "需求秒过。金钱 +2，技术债 +3——你赌它没坑。",
+        "hidden": "赌徒"
+      },
+      {
+        "id": "audit",
+        "text": "先读源码再决定",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -2 },
+          { "type": "resource", "target": "techDebt", "value": -2 }
+        ],
+        "resultText": "你读了一半发现问题，自己写了。金钱 -2，技术债 -2。",
+        "hidden": "严谨"
+      },
+      {
+        "id": "fork",
+        "text": "fork 下来自己维护",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": -1 },
+          { "type": "resource", "target": "spirit", "value": -1 }
+        ],
+        "resultText": "你接手了维护。技术债 -1，精神 -1（多了一个娃要养）。",
+        "hidden": "责任"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "birthday_001",
+    "category": "social",
+    "weight": 7,
+    "title": "同事的生日惊喜",
+    "body": "小组群里有人起哄给你那讨厌的同事过生日，并「荣幸」地把你推去订蛋糕。",
+    "clues": ["群起哄", "你被推去订蛋糕"],
+    "choices": [
+      {
+        "id": "cake",
+        "text": "大方订个蛋糕",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -2 },
+          { "type": "relation", "target": "team", "value": 2 }
+        ],
+        "resultText": "蛋糕到位。金钱 -2，同事好感 +2。",
+        "hidden": "人情"
+      },
+      {
+        "id": "card",
+        "text": "只送张手写卡",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 1 },
+          { "type": "relation", "target": "team", "value": 1 }
+        ],
+        "resultText": "手写卡很走心。精神 +1，同事好感 +1。",
+        "hidden": "走心"
+      },
+      {
+        "id": "skip",
+        "text": "假装没看见群",
+        "effects": [
+          { "type": "relation", "target": "team", "value": -2 }
+        ],
+        "resultText": "同事记下了。同事好感 -2。",
+        "hidden": "社恐"
+      }
+    ],
+    "meta": { "funny": "被迫社交" }
+  },
+  {
+    "id": "rollback_001",
+    "category": "ops",
+    "weight": 9,
+    "title": "发布后一片绿，然后红了",
+    "body": "你刚发布完，监控全绿。三分钟后错误率飙升——你怀疑是缓存击穿。",
+    "clues": ["刚发布完", "三分钟后变红"],
+    "choices": [
+      {
+        "id": "hotfix",
+        "text": "紧急热修打补丁",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -2 },
+          { "type": "resource", "target": "techDebt", "value": 2 }
+        ],
+        "resultText": "你打了补丁。精神 -2，技术债 +2（补丁上有补丁）。",
+        "hidden": "救火"
+      },
+      {
+        "id": "rollback_clean",
+        "text": "干净回滚到上一版",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 1 },
+          { "type": "resource", "target": "techDebt", "value": -2 }
+        ],
+        "resultText": "你果断回滚。声誉 +1，技术债 -2。",
+        "hidden": "稳健"
+      },
+      {
+        "id": "wait",
+        "text": "等等看会不会自己好",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -3 },
+          { "type": "resource", "target": "money", "value": -2 }
+        ],
+        "resultText": "它没好，还扩散了。声誉 -3，金钱 -2（赔偿）。",
+        "hidden": "侥幸"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  }
+]

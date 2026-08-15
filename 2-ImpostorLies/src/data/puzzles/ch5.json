@@ -1,0 +1,425 @@
+[
+  {
+    "id": "ch5_01",
+    "title": "第五章 · 全员身份谜 · 第 1 关",
+    "scene": "医院里四人，分别是医生/护士/病人/伪装者，各不同。",
+    "roles": [
+      "doctor",
+      "nurse",
+      "patient",
+      "impostor"
+    ],
+    "roleLabels": {
+      "doctor": "医生",
+      "nurse": "护士",
+      "patient": "病人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "白大褂",
+        "blurb": "镇定"
+      },
+      {
+        "id": "B",
+        "name": "护士服",
+        "blurb": "忙碌"
+      },
+      {
+        "id": "C",
+        "name": "病号服",
+        "blurb": "虚弱"
+      },
+      {
+        "id": "D",
+        "name": "黑外套",
+        "blurb": "神秘"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "护士服 是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我和 病号服 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "B",
+            "b": "C"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是医生。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "doctor"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我不是病人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "patient"
+          }
+        }
+      }
+    ],
+    "mechanic": "身份谜：每人身份各不相同，伪装者混在其中。先排出所有人的真实身份。"
+  },
+  {
+    "id": "ch5_02",
+    "title": "第五章 · 全员身份谜 · 第 2 关",
+    "scene": "剧组四人，导演/主演/场记/冒名者，各不相同。",
+    "roles": [
+      "doctor",
+      "nurse",
+      "patient",
+      "impostor"
+    ],
+    "roleLabels": {
+      "doctor": "医生",
+      "nurse": "护士",
+      "patient": "病人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "白大褂",
+        "blurb": "镇定"
+      },
+      {
+        "id": "B",
+        "name": "护士服",
+        "blurb": "忙碌"
+      },
+      {
+        "id": "C",
+        "name": "病号服",
+        "blurb": "虚弱"
+      },
+      {
+        "id": "D",
+        "name": "黑外套",
+        "blurb": "神秘"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我不是护士。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "nurse"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "白大褂 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是护士。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "nurse"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我不是病人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "patient"
+          }
+        }
+      }
+    ],
+    "mechanic": "身份谜：每人身份各不相同，伪装者混在其中。先排出所有人的真实身份。"
+  },
+  {
+    "id": "ch5_03",
+    "title": "第五章 · 全员身份谜 · 第 3 关",
+    "scene": "实验室四人，主任/助理/访客/间谍，互不相同。",
+    "roles": [
+      "doctor",
+      "nurse",
+      "patient",
+      "impostor"
+    ],
+    "roleLabels": {
+      "doctor": "医生",
+      "nurse": "护士",
+      "patient": "病人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "白大褂",
+        "blurb": "镇定"
+      },
+      {
+        "id": "B",
+        "name": "护士服",
+        "blurb": "忙碌"
+      },
+      {
+        "id": "C",
+        "name": "病号服",
+        "blurb": "虚弱"
+      },
+      {
+        "id": "D",
+        "name": "黑外套",
+        "blurb": "神秘"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我和 病号服 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "A",
+            "b": "C"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "B",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我是病人。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "patient"
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我不是护士。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "nurse"
+          }
+        }
+      }
+    ],
+    "mechanic": "身份谜：每人身份各不相同，伪装者混在其中。先排出所有人的真实身份。"
+  },
+  {
+    "id": "ch5_04",
+    "title": "第五章 · 全员身份谜 · 第 4 关",
+    "scene": "航班四人，机长/空乘/乘客/偷渡者，各就各位。",
+    "roles": [
+      "doctor",
+      "nurse",
+      "patient",
+      "impostor"
+    ],
+    "roleLabels": {
+      "doctor": "医生",
+      "nurse": "护士",
+      "patient": "病人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "白大褂",
+        "blurb": "镇定"
+      },
+      {
+        "id": "B",
+        "name": "护士服",
+        "blurb": "忙碌"
+      },
+      {
+        "id": "C",
+        "name": "病号服",
+        "blurb": "虚弱"
+      },
+      {
+        "id": "D",
+        "name": "黑外套",
+        "blurb": "神秘"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "病号服 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我不是病人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "B",
+            "role": "patient"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我和 白大褂 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "C",
+            "b": "A"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我是护士。",
+        "expr": {
+          "op": "roleIs",
+          "character": "D",
+          "role": "nurse"
+        }
+      }
+    ],
+    "mechanic": "身份谜：每人身份各不相同，伪装者混在其中。先排出所有人的真实身份。"
+  }
+]

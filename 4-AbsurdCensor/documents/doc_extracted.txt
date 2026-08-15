@@ -1,0 +1,291 @@
+有限信息审查游戏开发文档
+独立游戏完整开发文档 · 工作名《荒诞审查局》
+面向个人开发者 / AI 编程 Agent / 小型 2D 或网页游戏 MVP
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="5043"/><w:gridCol w:w="5043"/></w:tblGrid><w:tr><w:trPr><w:tblHeader w:val="true"/></w:trPr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="19"/></w:rPr><w:t>项目项
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="19"/></w:rPr><w:t>设计说明
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>类型
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>规则核对 / 文件审查 / 时间管理 / 叙事
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>一句话玩法
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>玩家依据每天变化的规则审查人物与文件，在效率、准确、道德和组织压力之间做决定。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>推荐平台
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>Windows、网页、平板
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>单局时长
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>单日 8—15 分钟
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>首选技术路线
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>Godot 2D + GDScript
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>替代技术路线
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>Vue 3 + TypeScript；卡片式文档界面
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>最小团队
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>1 人也可以完成，AI 辅助编程与内容生成
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="10086"/></w:tblGrid><w:tr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="10086"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="1F4E78"/><w:sz w:val="21"/></w:rPr><w:t>开发文档使用方式
+先阅读“玩法架构”和“数据模型”，确定你真正想做的版本；再把“AI 总控提示词”交给 CodeWhale、Codex 或其他 Agent。不要一次要求 AI 完成全部游戏，应按里程碑逐阶段实现，每阶段都运行测试并保留 Git 提交。
+
+1. 项目定位与核心体验
+这是以“规则不断叠加、信息有限、决定有后果”为核心的审查游戏。玩家不只是找错别字，而是对照多份证件、当天规则和人物陈述，决定放行、拒绝或进一步检查。搞笑来自荒诞制度与申请者，深度来自规则冲突和道德选择。
+1.1 设计支柱
+规则必须明确可查，错误不能依赖像素级刁难。
+文件之间存在可验证的一致性关系。
+时间压力迫使玩家选择检查深度。
+制度规则和个人处境形成价值冲突。
+每天加入少量新规则，不让学习负担失控。
+1.2 目标玩家与使用场景
+适合喜欢找不同、规则记忆、流程判断和叙事选择的玩家。
+1.3 体验边界
+MVP 不做联网对战、不做大型开放世界、不做复杂账号系统。
+单局应能在 3 至 15 分钟内获得完整反馈，失败也要有笑点或新信息。
+随机性不能替代逻辑；玩家失败后应知道自己为什么失败。
+优先使用占位美术完成玩法验证，避免先花大量时间画素材。
+所有文本、关卡和规则都应可配置，避免散落在代码里。
+2. 完整玩法架构
+2.1 单局核心循环
+查看当天公告、允许条件和特殊例外。
+接待一名申请者，接收文件与口头陈述。
+拖动、放大、对照证件字段，使用检查工具。
+决定放行、拒绝或暂扣调查。
+立即获得部分反馈，完整后果可能在日结或后续剧情出现。
+在下班前处理尽可能多的人。
+日结统计准确率、收入、组织压力与良心值。
+2.2 长期成长循环
+随着天数推进，规则手册增加新章节，申请者故事形成连续剧情。玩家可以升级工作台工具，例如字段高亮、历史记录或快速印章，但工具只降低操作成本，不替代判断。多个结局由工作表现、阵营关系和关键人物选择决定。
+2.3 胜负、失败与结算
+完成当天最低配额并维持基本资源进入下一天。
+错误放行或错误拒绝会产生罚款、调查或剧情后果。
+连续严重错误可能被停职；关键道德选择可能主动离职或加入其他阵营。
+最终结局由制度服从、个人帮助、准确率和隐藏证据共同决定。
+2.4 难度曲线与重玩价值
+先从单证件和一条规则开始，逐步加入有效期、姓名差异、签发机构、物品清单、动态例外和跨日记录。每次只新增 1—2 个概念，并通过第一名申请者教学。
+3. 系统拆解
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/></w:tblGrid><w:tr><w:trPr><w:tblHeader w:val="true"/></w:trPr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>系统
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>玩家看到的内容
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>实现要点
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>规则手册
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>查看当天有效规则与例外。
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>规则 DSL、优先级、版本。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>申请者与文件系统
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>对照证件、申请表、物品和陈述。
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>PersonCase、Document、Field、Forgery。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>检查工具
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>高亮字段、核验编号、查询历史。
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>工具费用、时间成本、结果。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>裁决与评分
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>盖章决定并承担结果。
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>RuleEvaluator、DecisionResult。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>日结与叙事
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>接收罚单、新闻和人物回信。
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>事件队列、剧情标签、多结局。
+3.1 规则手册
+规则应结构化，例如 require(document.pass), fieldEquals(a.name,b.name), unless(tag.vip)。文本公告由规则生成或绑定，避免文字和执行逻辑不一致。
+高优先级例外必须明确标记。
+规则冲突由优先级和日期解决。
+每天保存规则快照。
+3.2 申请者与文件系统
+每名申请者包含真实状态和玩家可见材料。伪造应是规则层面的不一致，不做极难发现的微小像素差异。
+3.3 检查工具
+检查工具应提供证据而非直接给“通过/拒绝”。高级工具可减少翻页和重复输入。
+3.4 裁决与评分
+系统按当天规则评估裁决是否合法，同时记录道德、阵营与剧情效果。合法不一定等于道德选择。
+3.5 日结与叙事
+延迟后果让玩家理解每个决定不只是分数。关键人物可在后续再次出现。
+4. 页面、场景与交互流程
+推荐把页面做成有限状态机，所有界面切换都由明确状态驱动，而不是在多个按钮回调中直接随意跳转。这样便于存档、恢复、测试与后续扩展。
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/></w:tblGrid><w:tr><w:trPr><w:tblHeader w:val="true"/></w:trPr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>页面/场景
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>主要内容
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>进入与退出条件
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>主菜单与存档
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>继续、章节、设置
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>进入游戏
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>晨间公告
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>新规则、新闻、目标
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>开始工作日
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>审查工作台
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>申请者、文件、规则书、工具、印章
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>作出裁决
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>即时反馈
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>程序错误提示或无提示模式
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>继续下一人
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>日结
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>工资、罚款、准确率、剧情消息
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>进入下一天
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>档案室
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>历史人物、规则、结局线索
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>章节间查看
+推荐页面状态流
+MAIN_MENU → MORNING_BRIEF → DESKDESK → INSPECTION_TOOL → DESKDESK → DECISION → NEXT_CASE / DAY_ENDDAY_END → MORNING_BRIEF / ENDING
+5. 数据模型与内容配置
+核心内容应尽量数据驱动：程序负责解释规则，关卡、事件、角色、物品和文本放在 JSON/资源文件中。这样可以让 AI 批量生成内容，也能在不改代码的情况下扩充游戏。
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/></w:tblGrid><w:tr><w:trPr><w:tblHeader w:val="true"/></w:trPr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>实体
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>关键字段
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>用途
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>RuleSet
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>date、rules、priority、displayText
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>当天规则
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>Rule
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>operator、arguments、exception、severity
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>结构化校验规则
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>ApplicantCase
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>person、documents、items、truth、storyTags
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>一名申请者
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>Document
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>type、fields、issueDate、expiryDate、authenticity
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>证件
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>Decision
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>allow/deny/detain、reasonCodes
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>玩家裁决
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>CaseOutcome
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>legalCorrect、penalty、storyEffects
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>结果
+5.1 示例数据结构
+{  "date": 5,  "rules": [    {"id":"need_pass","op":"requireDocument","type":"access_pass","priority":10},    {"id":"robot_charge","op":"requireField","when":{"species":"robot"},"document":"charge_certificate","field":"level","compare":">=","value":60},    {"id":"cat_exception","op":"allowIf","when":{"carries":"cat"},"priority":100}  ]}
+5.2 数据校验规则
+同一天的规则优先级必须能给出确定结果。
+每个申请者至少有一个依据可判断的合法裁决。
+文件字段引用、文档类型和检查工具均存在。
+故事结论与规则合法性分开记录。
+随机生成申请者必须通过 RuleEvaluator 预先计算预期结果。
+6. 技术资料与工程架构
+6.1 推荐技术栈
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="5043"/><w:gridCol w:w="5043"/></w:tblGrid><w:tr><w:trPr><w:tblHeader w:val="true"/></w:trPr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="19"/></w:rPr><w:t>项目项
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="19"/></w:rPr><w:t>设计说明
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>客户端
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>Godot 2D + GDScript；Control UI 为主；使用当前稳定版本。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>数据配置
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>JSON 或引擎资源文件；关卡内容与程序逻辑分离。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>本地存档
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>Web 使用 IndexedDB/localStorage；Godot 使用 JSON 或 ConfigFile。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>测试
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>规则层必须可脱离界面运行单元测试；UI 另做交互测试。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>版本控制
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>Git；每个里程碑单独分支或提交，避免 AI 一次改动整个项目。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>内容工具
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>先使用表格/JSON；内容量增加后再制作内部关卡编辑器。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>部署
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>Web 可静态部署；Godot 可导出 Windows、Linux、Android 或 Web。
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/><w:shd w:fill="EAF2F8"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:sz w:val="18"/></w:rPr><w:t>可访问性
+<w:tcPr><w:tcW w:type="dxa" w:w="5043"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="276" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b w:val="0"/><w:sz w:val="18"/></w:rPr><w:t>支持字号、色弱模式、关闭抖动、键盘操作和音量分项。
+6.2 推荐目录结构
+project/  scenes/desk/  scripts/    rules/            # DSL、解析、评估、解释    cases/            # 申请者与文件    documents/        # 文档展示与拖拽    narrative/        # 跨日剧情    save/  data/    days/    rules/    applicants/    documents/  tests/
+6.3 模块职责
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/></w:tblGrid><w:tr><w:trPr><w:tblHeader w:val="true"/></w:trPr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>模块
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>职责
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>禁止承担的职责
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>RuleEvaluator
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>根据规则和真实材料计算合法裁决
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>不处理剧情道德
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>RuleExplainer
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>给出违反或满足的具体条款
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>不改变规则
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>CaseGenerator
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>从模板构造申请者并预计算结果
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>不直接显示 UI
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>DeskController
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>管理当前工作日与申请者队列
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>不实现字段比较
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>DocumentView
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>展示、拖拽、缩放和高亮
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>不判断真伪
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>NarrativeEngine
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>处理标签和延迟后果
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>不判定法规正确性
+6.4 关键算法与实现思路
+规则优先级评估：先应用基础要求，再处理条件规则和高优先级例外，最后返回允许的裁决集合与原因。
+active = rules.filter(matchesContext)sort active by priority ascendingresult = initialPolicyfor rule in active:    result = rule.apply(result, caseData)return result
+一致性比较：统一比较姓名、编号、日期与列表字段，并保留标准化前后值，便于解释。
+申请者生成：先确定目标合法/非法状态，再选择一到两个违规点生成文件，随后用规则引擎反向验证。
+7. 美术、音频与内容生产
+7.1 视觉方向
+工作台应支持文件拖拽、叠放、放大和并排比较。规则书固定可访问。使用印章、订书机和荒诞机关风格，但关键字段保持清晰。
+7.2 音频方向
+纸张、印章、抽屉、警报和排队人群环境音。重要规则变更可使用短提示音，提供关闭环境噪音选项。
+7.3 内容生产模板
+日期与主题：新增规则：申请者身份与诉求：真实合法状态：提供文件：不一致点或例外：口头陈述：合法裁决：道德选择：即时反馈：跨日后果：验证：规则引擎预期结果。
+7.4 示例关卡 / 示例事件
+当天规则：机器人进入需充电证明达到 60%；携带猫者可直接放行。申请者：电量 12% 的机器人，携带一只坚持自己是主管的猫。文件：充电证明 12%。合法裁决由高优先级“猫例外”允许；玩家若只看基础规则会误拒。后续新闻：该猫确实签署了部门预算。
+8. AI 生成游戏的完整提示词
+下面的提示词不是“请帮我做一个游戏”这种宽泛请求，而是给编码 Agent 的开发合同。使用时把项目路径、目标平台和你已经完成的内容替换进去。
+8.1 AI 总控提示词（建议首次使用）
+你是一名 Godot UI 主程、规则引擎开发者和叙事策划。创建“荒诞审查局”。
+要求：- Godot 2D，主要使用 Control 节点。- 实现结构化规则 DSL、规则优先级与解释器。- 申请者、文件、规则和跨日后果数据驱动。- 玩家可拖动文件、查看规则、使用检查工具并盖章。- 先制作 1 个工作日、5 名申请者的纵向切片。- 每个申请者由 RuleEvaluator 自动计算合法裁决，测试中验证。- 不使用难以看清的像素级差异作为核心谜题。
+先实现规则层和测试，再实现工作台 UI。完成后运行测试和导出检查。
+8.2 分阶段开发提示词
+阶段 1：规则内核
+实现规则 schema、优先级、条件、例外、解释文本与单元测试。
+阶段 2：工作台纵向切片
+实现晨报、规则书、文件拖拽、三种裁决和 5 个申请者。
+阶段 3：日结与剧情
+加入工资、罚款、故事标签、延迟消息与存档。
+阶段 4：内容与打磨
+制作 7 个工作日、30 名申请者、教程、音效和可访问性。
+8.3 内容批量生成提示词
+设计一个工作日的规则和 6 名申请者。规则最多新增两条，并包含一个明确例外。每名申请者输出真实状态、文件字段、不一致点、合法裁决、道德冲突和后续结果。禁止依赖玩家无法看清的小字或颜色差异。输出后标明需要由规则引擎验证。
+8.4 测试与代码审查提示词
+审查审查游戏：验证规则文本和结构化逻辑一致、优先级无歧义、申请者预期裁决由引擎计算、文件字段可读、故事道德结果未混入合法性判断、存档保存当天规则快照。批量运行全部申请者并列出结果不唯一或无合法裁决的内容。
+9. 让 AI 更好理解项目的文本
+下面这段“理解文本”适合放入项目根目录的 AGENTS.md、CLAUDE.md、CODEWHALE.md 或开发约定文件。它的目标是让 AI 先理解产品，而不是一上来就堆代码。
+这是规则核对游戏。玩家必须能在界面中查到决定所需规则，难点来自规则组合、时间和信息管理，而不是隐藏像素。RuleEvaluator 决定“制度上是否正确”，NarrativeEngine 决定“故事上造成什么后果”，两者不可混为一体。
+9.1 更好的提问方式
+先告诉 AI 当前阶段、允许修改的目录和明确的验收标准。
+要求 AI 先读取现有代码并输出计划，确认后再进入修改阶段。
+每次只实现一个纵向切片，例如“从主菜单到完成一局”，不要按文件类型横向铺开。
+要求 AI 在修改后实际运行测试，并在总结中区分“已验证”和“未验证”。
+不要让 AI 在没有 schema 和校验器时批量生成上百条内容。
+要求代码注释解释设计原因，而不是逐行翻译代码。
+10. 开发里程碑与验收标准
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/></w:tblGrid><w:tr><w:trPr><w:tblHeader w:val="true"/></w:trPr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>阶段
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>交付物
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>通过标准
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>M0 规则表
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>3 天纸面规则与申请者
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>每例有确定合法裁决
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>M1 规则内核
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>DSL、优先级、解释与测试
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>冲突可确定解决
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>M2 一日切片
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>5 人、文件拖拽、盖章、日结
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>可完成完整工作日
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>M3 内容版
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>7 天、30 人、剧情标签
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>批量验证通过
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>M4 发布版
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>教程、设置、存档、多结局
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>无难辨字段与阻塞错误
+10.1 测试清单
+新建游戏、继续游戏、清空存档、异常退出后恢复均可正常工作。
+任何关卡都不会出现无可选项、无正确解、死循环或无法结算。
+随机种子可复现，测试失败时能够重放同一局。
+键盘、鼠标基础操作完整，按钮有悬停、按下和禁用状态。
+错误数据不会导致崩溃，而是给出清晰日志并跳过问题内容。
+AI 生成内容经过 schema 校验、逻辑校验和至少一次人工试玩。
+10.2 性能与兼容性目标
+普通办公电脑稳定运行，主界面无明显卡顿。
+进入关卡后不临时读取大量小文件，内容在加载阶段完成索引。
+存档写入采用临时文件或事务式更新，防止异常退出损坏存档。
+资源加载失败时使用占位资源，不让游戏直接崩溃。
+11. 风险、常见失败与改进方向
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/><w:gridCol w:w="3362"/></w:tblGrid><w:tr><w:trPr><w:tblHeader w:val="true"/></w:trPr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>风险
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>表现
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:shd w:fill="1F4E78"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="17"/></w:rPr><w:t>解决方案
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>规则记忆负担过高
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>玩家不断翻手册
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>规则书支持索引、高亮与新增标记
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>违规点过于隐蔽
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>变成视力测试
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>使用字段逻辑差异而非像素差异
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>规则冲突
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>玩家和程序都不知谁优先
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>所有规则有显式优先级和解释
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>道德选择没有意义
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>只影响一句结算文案
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>延迟后果影响人物与结局
+<w:tc><w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>重复劳动
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>每人只是查日期
+<w:tcPr><w:tcW w:type="dxa" w:w="3362"/><w:vAlign w:val="top"/><w:shd w:fill="F8FAFC"/></w:tcPr><w:p><w:pPr><w:spacing w:before="0" w:after="20" w:line="264" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:sz w:val="17"/></w:rPr><w:t>轮换字段、工具、故事和例外机制
+11.1 后续扩展方向
+每日固定挑战。
+自定义规则与申请者编辑器。
+不同部门和主题皮肤。
+观察者模式与无时间压力模式。
+多语言与本地化规则模板。
+12. 最终建议
+先用纸和表格设计一天、五名申请者，手工证明每个裁决。确认核对过程有趣，再制作文件拖拽 UI。规则引擎必须先于大量内容，否则后期很难排查矛盾。
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:type="auto" w:w="0"/><w:jc w:val="center"/><w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/></w:tblPr><w:tblGrid><w:gridCol w:w="10086"/></w:tblGrid><w:tr><w:tc><w:tcPr><w:tcW w:type="dxa" w:w="10086"/><w:shd w:fill="FFF2CC"/></w:tcPr><w:p><w:r><w:rPr><w:rFonts w:ascii="Noto Sans CJK SC" w:hAnsi="Noto Sans CJK SC" w:eastAsia="Noto Sans CJK SC"/><w:b/><w:color w:val="1F4E78"/><w:sz w:val="21"/></w:rPr><w:t>推荐实施原则
+先完成能玩的 10 分钟版本，再做内容和美术；先保证每个选择、规则或谜题都有可解释的反馈，再增加随机性；任何由 AI 生成的关卡都必须经过程序校验和人工试玩。

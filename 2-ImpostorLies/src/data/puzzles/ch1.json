@@ -1,0 +1,305 @@
+[
+  {
+    "id": "ch1_01",
+    "title": "第一章 · 机房疑云 · 第 1 关",
+    "scene": "三台服务器在争：到底谁半夜偷偷重启了集群。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "老实人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "服务器α",
+        "blurb": "自称从不掉线"
+      },
+      {
+        "id": "B",
+        "name": "服务器β",
+        "blurb": "喜欢甩锅"
+      },
+      {
+        "id": "C",
+        "name": "服务器γ",
+        "blurb": "默默背锅"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "服务器γ 是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "服务器α 是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "服务器α 是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "impostor"
+        }
+      }
+    ],
+    "mechanic": "基础：恰好 1 个伪装者，且只有若干句话为真。先看谁在说谎。"
+  },
+  {
+    "id": "ch1_02",
+    "title": "第一章 · 机房疑云 · 第 2 关",
+    "scene": "机房巡检机器人围成一团，互相甩锅。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "老实人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 2
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "服务器α",
+        "blurb": "自称从不掉线"
+      },
+      {
+        "id": "B",
+        "name": "服务器β",
+        "blurb": "喜欢甩锅"
+      },
+      {
+        "id": "C",
+        "name": "服务器γ",
+        "blurb": "默默背锅"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "服务器γ 是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "服务器α 说的是真话。",
+        "expr": {
+          "op": "stmtTruth",
+          "statement": "stmt_A"
+        }
+      }
+    ],
+    "mechanic": "基础：恰好 1 个伪装者，且只有若干句话为真。先看谁在说谎。"
+  },
+  {
+    "id": "ch1_03",
+    "title": "第一章 · 机房疑云 · 第 3 关",
+    "scene": "新员工搞混了账号，三个系统里藏着一个冒名顶替的。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "老实人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 2
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "服务器α",
+        "blurb": "自称从不掉线"
+      },
+      {
+        "id": "B",
+        "name": "服务器β",
+        "blurb": "喜欢甩锅"
+      },
+      {
+        "id": "C",
+        "name": "服务器γ",
+        "blurb": "默默背锅"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我不是老实人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "normal"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "服务器α 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "impostor"
+          }
+        }
+      }
+    ],
+    "mechanic": "基础：恰好 1 个伪装者，且只有若干句话为真。先看谁在说谎。"
+  },
+  {
+    "id": "ch1_04",
+    "title": "第一章 · 机房疑云 · 第 4 关",
+    "scene": "值班室里三杯咖啡，只有一杯被人动过手脚。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "老实人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "服务器α",
+        "blurb": "自称从不掉线"
+      },
+      {
+        "id": "B",
+        "name": "服务器β",
+        "blurb": "喜欢甩锅"
+      },
+      {
+        "id": "C",
+        "name": "服务器γ",
+        "blurb": "默默背锅"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "服务器β 是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "服务器α 说的是真话。",
+        "expr": {
+          "op": "stmtTruth",
+          "statement": "stmt_A"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      }
+    ],
+    "mechanic": "基础：恰好 1 个伪装者，且只有若干句话为真。先看谁在说谎。"
+  }
+]

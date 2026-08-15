@@ -1,0 +1,441 @@
+[
+  {
+    "id": "ch6_01",
+    "title": "第六章 · 密室逃脱 · 第 1 关",
+    "scene": "密室门砰地锁上，五名玩家里藏着冒名顶替的 NPC。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "真人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 3
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "红衣玩家",
+        "blurb": "紧张冒汗"
+      },
+      {
+        "id": "B",
+        "name": "蓝衣玩家",
+        "blurb": "故作冷静"
+      },
+      {
+        "id": "C",
+        "name": "绿衣玩家",
+        "blurb": "话痨"
+      },
+      {
+        "id": "D",
+        "name": "黄衣玩家",
+        "blurb": "沉默寡言"
+      },
+      {
+        "id": "E",
+        "name": "紫衣玩家",
+        "blurb": "神神秘秘"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我不是真人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "normal"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "红衣玩家 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_A"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "黄衣玩家 是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "D",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "绿衣玩家 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_C"
+          }
+        }
+      },
+      {
+        "id": "stmt_E",
+        "speaker": "E",
+        "text": "绿衣玩家 说的是真话。",
+        "expr": {
+          "op": "stmtTruth",
+          "statement": "stmt_C"
+        }
+      }
+    ],
+    "mechanic": "五人剧本杀：恰好 1 个伪装者，且「恰好 N 人说真话」。人多了，先把话分成真假两堆。"
+  },
+  {
+    "id": "ch6_02",
+    "title": "第六章 · 密室逃脱 · 第 2 关",
+    "scene": "剧本杀终局，五名角色中只有一个是内鬼。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "真人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 3
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "红衣玩家",
+        "blurb": "紧张冒汗"
+      },
+      {
+        "id": "B",
+        "name": "蓝衣玩家",
+        "blurb": "故作冷静"
+      },
+      {
+        "id": "C",
+        "name": "绿衣玩家",
+        "blurb": "话痨"
+      },
+      {
+        "id": "D",
+        "name": "黄衣玩家",
+        "blurb": "沉默寡言"
+      },
+      {
+        "id": "E",
+        "name": "紫衣玩家",
+        "blurb": "神神秘秘"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "黄衣玩家 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "蓝衣玩家 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_B"
+          }
+        }
+      },
+      {
+        "id": "stmt_E",
+        "speaker": "E",
+        "text": "红衣玩家 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "impostor"
+          }
+        }
+      }
+    ],
+    "mechanic": "五人剧本杀：恰好 1 个伪装者，且「恰好 N 人说真话」。人多了，先把话分成真假两堆。"
+  },
+  {
+    "id": "ch6_03",
+    "title": "第六章 · 密室逃脱 · 第 3 关",
+    "scene": "逃生舱只剩五个座位，其中一人身份有诈。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "真人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 4
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "红衣玩家",
+        "blurb": "紧张冒汗"
+      },
+      {
+        "id": "B",
+        "name": "蓝衣玩家",
+        "blurb": "故作冷静"
+      },
+      {
+        "id": "C",
+        "name": "绿衣玩家",
+        "blurb": "话痨"
+      },
+      {
+        "id": "D",
+        "name": "黄衣玩家",
+        "blurb": "沉默寡言"
+      },
+      {
+        "id": "E",
+        "name": "紫衣玩家",
+        "blurb": "神神秘秘"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "红衣玩家 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_A"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是真人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "normal"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "红衣玩家 说的是真话。",
+        "expr": {
+          "op": "stmtTruth",
+          "statement": "stmt_A"
+        }
+      },
+      {
+        "id": "stmt_E",
+        "speaker": "E",
+        "text": "我是真人。",
+        "expr": {
+          "op": "roleIs",
+          "character": "E",
+          "role": "normal"
+        }
+      }
+    ],
+    "mechanic": "五人剧本杀：恰好 1 个伪装者，且「恰好 N 人说真话」。人多了，先把话分成真假两堆。"
+  },
+  {
+    "id": "ch6_04",
+    "title": "第六章 · 密室逃脱 · 第 4 关",
+    "scene": "狼人杀散场，五个朋友里混进一个伪装者。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "真人",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 3
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "红衣玩家",
+        "blurb": "紧张冒汗"
+      },
+      {
+        "id": "B",
+        "name": "蓝衣玩家",
+        "blurb": "故作冷静"
+      },
+      {
+        "id": "C",
+        "name": "绿衣玩家",
+        "blurb": "话痨"
+      },
+      {
+        "id": "D",
+        "name": "黄衣玩家",
+        "blurb": "沉默寡言"
+      },
+      {
+        "id": "E",
+        "name": "紫衣玩家",
+        "blurb": "神神秘秘"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "绿衣玩家 是伪装者。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "红衣玩家 和 红衣玩家 说的真假不一样。",
+        "expr": {
+          "op": "xorTruth",
+          "left": "stmt_A",
+          "right": "stmt_A"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "蓝衣玩家 和 红衣玩家 说的真假不一样。",
+        "expr": {
+          "op": "xorTruth",
+          "left": "stmt_B",
+          "right": "stmt_A"
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "红衣玩家 和 蓝衣玩家 说的真假不一样。",
+        "expr": {
+          "op": "xorTruth",
+          "left": "stmt_A",
+          "right": "stmt_B"
+        }
+      },
+      {
+        "id": "stmt_E",
+        "speaker": "E",
+        "text": "绿衣玩家 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_C"
+          }
+        }
+      }
+    ],
+    "mechanic": "五人剧本杀：恰好 1 个伪装者，且「恰好 N 人说真话」。人多了，先把话分成真假两堆。"
+  }
+]

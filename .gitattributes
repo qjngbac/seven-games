@@ -1,0 +1,43 @@
+* text=auto
+
+# Windows 启动与打包脚本
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# 源码与文档
+*.sh text eol=lf
+*.js text eol=lf
+*.cjs text eol=lf
+*.mjs text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.vue text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# 压缩包、办公文档、字体与媒体文件
+*.zip binary
+*.doc binary
+*.docx binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.mp4 binary
+*.webm binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary

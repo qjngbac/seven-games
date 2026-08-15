@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>七款小游戏 · Windows 便携版</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0e1116;
+      --surface: #161b22;
+      --card: #1c2330;
+      --card-hover: #243043;
+      --line: #2b3441;
+      --text: #e6edf3;
+      --muted: #97a3b4;
+      --accent: #58a6ff;
+      --click: #56d364;
+      --keyboard: #e3b341;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(1000px 560px at 50% -10%, #202a3a 0%, var(--bg) 62%);
+      color: var(--text);
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    .wrap { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 38px 0 54px; }
+    header { text-align: center; margin-bottom: 26px; }
+    h1 { margin: 0 0 10px; font-size: clamp(25px, 5vw, 36px); }
+    header p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      display: flex;
+      min-height: 178px;
+      flex-direction: column;
+      padding: 19px;
+      color: inherit;
+      text-decoration: none;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .card:hover, .card:focus-visible {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      background: var(--card-hover);
+      outline: none;
+    }
+    .number { color: var(--muted); font-size: 12px; }
+    h2 { margin: 10px 0 7px; font-size: 18px; }
+    .description { margin: 0 0 15px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .tags { display: flex; gap: 7px; flex-wrap: wrap; margin-top: auto; }
+    .tag { padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; font-size: 11px; }
+    .click { color: var(--click); }
+    .keyboard { color: var(--keyboard); }
+    .note {
+      margin-top: 26px;
+      padding: 17px 19px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .note strong { color: var(--text); }
+    footer { margin-top: 26px; color: #697586; text-align: center; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>🎮 七款小游戏 · 统一大厅</h1>
+      <p>荒诞职场、逻辑推理与事故模拟合集<br>选择一款游戏，立即开始。</p>
+    </header>
+
+    <section class="grid" aria-label="游戏列表">
+      <a class="card" href="games/absurd-decision/index.html">
+        <span class="number">第 1 款</span>
+        <h2>今天也要做决定</h2>
+        <p class="description">在荒诞事件中权衡金钱、声誉、精神和技术债。</p>
+        <div class="tags"><span class="tag keyboard">决策叙事</span><span class="tag">短局</span></div>
+      </a>
+      <a class="card" href="games/impostor-lies/index.html">
+        <span class="number">第 2 款</span>
+        <h2>这里有人在说谎</h2>
+        <p class="description">根据公开规则与陈述，找出每个人的真实身份。</p>
+        <div class="tags"><span class="tag click">纯点击</span><span class="tag">逻辑推理</span></div>
+      </a>
+      <a class="card" href="games/no-server-boom/index.html">
+        <span class="number">第 3 款</span>
+        <h2>今天别把机房炸了</h2>
+        <p class="description">观察症状、排查设备，在误操作前修好机房。</p>
+        <div class="tags"><span class="tag click">纯点击</span><span class="tag">故障诊断</span></div>
+      </a>
+      <a class="card" href="games/absurd-censor/index.html">
+        <span class="number">第 4 款</span>
+        <h2>荒诞审查局</h2>
+        <p class="description">核验文件与当日规则，在制度和良心之间盖章。</p>
+        <div class="tags"><span class="tag click">屏幕按钮</span><span class="tag keyboard">支持快捷键</span></div>
+      </a>
+      <a class="card" href="games/who-broke-prod/index.html">
+        <span class="number">第 5 款</span>
+        <h2>谁动了生产环境</h2>
+        <p class="description">问话、取证、连接矛盾，还原生产事故真相。</p>
+        <div class="tags"><span class="tag click">纯点击</span><span class="tag">对话侦探</span></div>
+      </a>
+      <a class="card" href="games/shifting-rules/index.html">
+        <span class="number">第 6 款</span>
+        <h2>规则正在跑路</h2>
+        <p class="description">规则不断变化，在时间压力下做出唯一正确动作。</p>
+        <div class="tags"><span class="tag keyboard">键盘操作</span><span class="tag">反应判断</span></div>
+      </a>
+      <a class="card" href="games/ridiculous-toolbox/index.html">
+        <span class="number">第 7 款</span>
+        <h2>离谱工具箱</h2>
+        <p class="description">组合物品解决场景难题，允许专业、临时和离谱解法。</p>
+        <div class="tags"><span class="tag click">纯点击</span><span class="tag">组合解谜</span></div>
+      </a>
+    </section>
+
+    <section class="note">
+      <strong>Windows 便携版：</strong>
+      所有游戏均在本机离线运行，不会上传游戏数据。关闭启动窗口即可停止游戏服务；
+      通关记录保存在当前浏览器本地。请保留完整文件夹，不要单独移动游戏文件。
+    </section>
+    <footer>无需登录 · 无广告 · 无需 Node.js 或 Python · 完全离线</footer>
+  </main>
+</body>
+</html>

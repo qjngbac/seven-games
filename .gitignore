@@ -1,0 +1,54 @@
+launcher/games/*/assets/
+/docs/superpowers/plans/_english_backup/
+
+
+# 依赖目录
+**/node_modules/
+
+# 构建产物和测试输出
+**/dist/
+**/coverage/
+**/.nyc_output/
+**/.vite/
+**/*.tsbuildinfo
+
+# 发布附件通过 GitHub Releases 上传
+/release/
+
+# Codex 审查目录和可选工作树
+/.codex-audit/
+/.worktrees/
+/worktrees/
+
+# 本地环境与缓存
+**/.env
+**/.env.*
+!**/.env.example
+**/*.local
+**/*.log
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
+# 编辑器与操作系统文件
+**/.idea/
+**/.vscode/
+**/.DS_Store
+**/Thumbs.db
+**/Desktop.ini
+
+# 工作区探测输出
+/copy_report.txt
+/probe*.txt
+
+# 第五款游戏的历史验证命令输出
+/5-WhoBrokeProd/build_out.txt
+/5-WhoBrokeProd/final.json
+/5-WhoBrokeProd/final.txt
+/5-WhoBrokeProd/result.json
+/5-WhoBrokeProd/size.txt
+/5-WhoBrokeProd/summary.txt
+/5-WhoBrokeProd/tsc_out.txt
+/5-WhoBrokeProd/verify.txt
+/5-WhoBrokeProd/vitest_out.txt

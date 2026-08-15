@@ -1,0 +1,13 @@
+{
+  "id": "pack-base",
+  "name": "基础颜色",
+  "difficulty": 1,
+  "conflictPolicy": "block",
+  "initialActive": 2,
+  "revealEvery": 8,
+  "rules": [
+    { "id": "red_left", "predicate": { "color": "red" }, "action": "LEFT", "priority": 10, "text": "红色按左", "example": "红方块 → 左" },
+    { "id": "blue_right", "predicate": { "color": "blue" }, "action": "RIGHT", "priority": 10, "text": "蓝色按右", "example": "蓝圆 → 右" },
+    { "id": "green_skip", "predicate": { "color": "green" }, "action": "SKIP", "priority": 10, "text": "绿色跳过", "example": "绿三角 → 跳过" }
+  ]
+}

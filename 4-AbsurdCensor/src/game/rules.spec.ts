@@ -1,0 +1,132 @@
+import { describe, it, expect } from 'vitest'
+import { SCENES, sceneById, dayByScene } from '../data/scenes'
+import { CASES, casesForSceneDay, CaseWithScene } from '../data/cases'
+import { evaluate } from './rules'
+
+function sceneDay(scene: string, day: number) {
+  const s = sceneById(scene)!
+  return s.days.find((d) => d.date === day)!
+}
+function one(scene: string, day: number, id: string): CaseWithScene {
+  return casesForSceneDay(scene, day).find((c) => c.id === id)!
+}
+
+describe('规则引擎：默认放行模型', () => {
+  it('证件齐全的普通人应放行（不再误拒）', () => {
+    const r = evaluate(sceneDay('censor', 1).rules, one('censor', 1, 'd1_01'), sceneDay('censor', 1).today)
+    expect(r.allowLegal).toBe(true)
+    expect(r.denyLegal).toBe(false)
+  })
+  it('缺少通行证应拒绝', () => {
+    const r = evaluate(sceneDay('censor', 1).rules, one('censor', 1, 'd1_02'), sceneDay('censor', 1).today)
+    expect(r.allowLegal).toBe(false)
+  })
+})
+
+describe('规则引擎：优先级与例外（各场景签名例外）', () => {
+  it('猫例外覆盖所有违规（带猫+假机构仍放行）', () => {
+    const r = evaluate(sceneDay('censor', 4).rules, one('censor', 4, 'd4_04'), sceneDay('censor', 4).today)
+    expect(r.allowLegal).toBe(true)
+  })
+  it('灰区禁令被猫例外覆盖（灰区+带猫仍可进）', () => {
+    const r = evaluate(sceneDay('censor', 5).rules, one('censor', 5, 'd5_04'), sceneDay('censor', 5).today)
+    expect(r.allowLegal).toBe(true)
+  })
+  it('外交豁免覆盖灰区禁令', () => {
+    const r = evaluate(sceneDay('censor', 7).rules, one('censor', 7, 'd7_05'), sceneDay('censor', 7).today)
+    expect(r.allowLegal).toBe(true)
+  })
+  it('边境：急救车例外覆盖宵禁与健康', () => {
+    const r = evaluate(sceneDay('border', 3).rules, one('border', 3, 'b3_05'), sceneDay('border', 3).today)
+    expect(r.allowLegal).toBe(true)
+  })
+  it('边境：宵禁禁止普通夜归人', () => {
+    const r = evaluate(sceneDay('border', 2).rules, one('border', 2, 'b2_02'), sceneDay('border', 2).today)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('机场：机组例外免检', () => {
+    const r = evaluate(sceneDay('airport', 1).rules, one('airport', 1, 'a1_05'), sceneDay('airport', 1).today)
+    expect(r.allowLegal).toBe(true)
+  })
+  it('机场：液体超 100ml 拒绝', () => {
+    const r = evaluate(sceneDay('airport', 2).rules, one('airport', 2, 'a2_03'), sceneDay('airport', 2).today)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('未来：市长例外免检', () => {
+    const r = evaluate(sceneDay('future', 1).rules, one('future', 1, 'f1_04'), sceneDay('future', 1).today)
+    expect(r.allowLegal).toBe(true)
+  })
+  it('未来：信用分不足拒绝', () => {
+    const r = evaluate(sceneDay('future', 2).rules, one('future', 2, 'f2_02'), sceneDay('future', 2).today)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('未来：基因不符拒绝', () => {
+    const r = evaluate(sceneDay('future', 3).rules, one('future', 3, 'f3_03'), sceneDay('future', 3).today)
+    expect(r.allowLegal).toBe(false)
+  })
+})
+
+describe('规则引擎：字段逻辑差异（非像素刁难）', () => {
+  it('姓名不一致 → 不放行', () => {
+    const r = evaluate(sceneDay('censor', 2).rules, one('censor', 2, 'd2_03'), sceneDay('censor', 2).today)
+    expect(r.allowLegal).toBe(false)
+    expect(r.reasons.some((x) => x.kind === 'violation' && x.text.includes('姓名'))).toBe(true)
+  })
+  it('过期证件 → 不放行', () => {
+    const r = evaluate(sceneDay('censor', 2).rules, one('censor', 2, 'd2_02'), sceneDay('censor', 2).today)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('机器人电量不足 → 不放行', () => {
+    const r = evaluate(sceneDay('censor', 3).rules, one('censor', 3, 'd3_01'), sceneDay('censor', 3).today)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('签发机构不合规 → 不放行', () => {
+    const r = evaluate(sceneDay('censor', 4).rules, one('censor', 4, 'd4_01'), sceneDay('censor', 4).today)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('携带违禁品 → 拒绝', () => {
+    const r = evaluate(sceneDay('censor', 3).rules, one('censor', 3, 'd3_03'), sceneDay('censor', 3).today)
+    expect(r.denyLegal).toBe(true)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('灰区来源 → 禁止（即便证件齐全）', () => {
+    const r = evaluate(sceneDay('censor', 5).rules, one('censor', 5, 'd5_01'), sceneDay('censor', 5).today)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('无预约游客 → 禁止（第七天）', () => {
+    const r = evaluate(sceneDay('censor', 7).rules, one('censor', 7, 'd7_02'), sceneDay('censor', 7).today)
+    expect(r.allowLegal).toBe(false)
+  })
+  it('外交官免检 → 放行（无证件）', () => {
+    const r = evaluate(sceneDay('censor', 7).rules, one('censor', 7, 'd7_01'), sceneDay('censor', 7).today)
+    expect(r.allowLegal).toBe(true)
+  })
+})
+
+describe('内容可解性批量校验（设计文档 5.2）', () => {
+  it('每个申请者至少一个合法裁决，且 expected 与引擎一致', () => {
+    expect(CASES.length).toBeGreaterThanOrEqual(100)
+    for (const c of CASES) {
+      const s = sceneById(c.scene)!
+      const d = s.days.find((x) => x.date === c.day)!
+      const r = evaluate(d.rules, c, d.today)
+      const hasLegal = r.allowLegal || r.denyLegal
+      expect(hasLegal, `case ${c.id} 无合法裁决`).toBe(true)
+      const engineExpected = r.allowLegal ? 'allow' : 'deny'
+      expect(c.expected, `case ${c.id} expected(${c.expected}) 与引擎(${engineExpected}) 不一致`).toBe(engineExpected)
+    }
+  })
+  it('每天案件数满足配额', () => {
+    for (const s of SCENES) {
+      for (const d of s.days) {
+        expect(casesForSceneDay(s.id, d.date).length, `scene ${s.id} day ${d.date} 案件不足配额`).toBeGreaterThanOrEqual(d.quota)
+      }
+    }
+  })
+  it('暂扣永远合法', () => {
+    const d = sceneDay('censor', 6)
+    const c = one('censor', 6, 'd6_01')
+    const r = evaluate(d.rules, c, d.today)
+    expect(r.detainLegal).toBe(true)
+  })
+})

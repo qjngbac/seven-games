@@ -1,0 +1,20 @@
+{
+  "id": "pack-extreme",
+  "name": "极限混战",
+  "difficulty": 5,
+  "conflictPolicy": "block",
+  "initialActive": 3,
+  "revealEvery": 6,
+  "rules": [
+    { "id": "red_left", "predicate": { "color": "red" }, "action": "LEFT", "priority": 10, "text": "红色按左", "example": "红 → 左" },
+    { "id": "blue_right", "predicate": { "color": "blue" }, "action": "RIGHT", "priority": 10, "text": "蓝色按右", "example": "蓝 → 右" },
+    { "id": "star_left", "predicate": { "shape": "star" }, "action": "LEFT", "priority": 15, "text": "星形按左", "example": "星 → 左" },
+    { "id": "triangle_skip", "predicate": { "shape": "triangle" }, "action": "SKIP", "priority": 15, "text": "三角跳过", "example": "三角 → 跳过" },
+    { "id": "even_right", "predicate": { "numberIsEven": true }, "action": "RIGHT", "priority": 20, "text": "偶数按右", "example": "8 → 右" },
+    { "id": "odd_left", "predicate": { "numberIsOdd": true }, "action": "LEFT", "priority": 20, "text": "奇数按左", "example": "7 → 左" },
+    { "id": "dog_right", "predicate": { "character": "dog" }, "action": "RIGHT", "priority": 30, "text": "狗按右", "example": "狗 → 右" },
+    { "id": "word_red_left", "predicate": { "word": "红" }, "action": "LEFT", "priority": 60, "text": "文字写「红」按左", "example": "写「红」→ 左" },
+    { "id": "word_blue_right", "predicate": { "word": "蓝" }, "action": "RIGHT", "priority": 60, "text": "文字写「蓝」按右", "example": "写「蓝」→ 右" },
+    { "id": "cat_invert", "predicate": { "character": "cat" }, "action": "INVERT_BASE", "priority": 100, "text": "出现猫，规则反转", "example": "红猫 → 因反转变右" }
+  ]
+}

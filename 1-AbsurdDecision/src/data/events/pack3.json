@@ -1,0 +1,415 @@
+[
+  {
+    "id": "legacy_doc_001",
+    "category": "absurd",
+    "weight": 8,
+    "title": "祖传的「别动」便利贴",
+    "body": "你接手了个十年前的老系统，交接材料只有一张拍糊的便利贴照片，上面写着：别动，动了就没人能救。",
+    "clues": ["照片糊到看不清字", "系统还在跑核心业务", "你手很痒"],
+    "choices": [
+      {
+        "id": "study",
+        "text": "逐字研究那张便利贴",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -1 },
+          { "type": "resource", "target": "techDebt", "value": -1 }
+        ],
+        "resultText": "你认出三个字：别、动、了。技术债 -1，精神 -1（研究模糊学使人疲惫）。",
+        "hidden": "谨慎但慢"
+      },
+      {
+        "id": "leave",
+        "text": "既然说别动，那就别动",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": 1 },
+          { "type": "resource", "target": "reputation", "value": 1 }
+        ],
+        "resultText": "你守住了祖训。技术债 +1，声誉 +1（老板觉得你靠谱）。",
+        "hidden": "保守"
+      },
+      {
+        "id": "rewrite",
+        "text": "凭记忆重写一份正经文档",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": -2 },
+          { "type": "resource", "target": "money", "value": -1 },
+          { "type": "resource", "target": "spirit", "value": -1 }
+        ],
+        "resultText": "你熬夜写了新文档。技术债 -2，金钱 -1（咖啡钱），精神 -1。",
+        "hidden": "长期主义"
+      }
+    ],
+    "meta": { "funny": "便利贴考古学", "testsJudgment": true }
+  },
+  {
+    "id": "pager_001",
+    "category": "ops",
+    "weight": 7,
+    "title": "停用的呼叫机又响了",
+    "body": "一台三年前就该退役的呼叫机突然在你抽屉里震个不停，屏幕闪着一串没人认识的编号。",
+    "clues": ["呼叫机早已停用", "编号查不到对应系统", "它在颤抖"],
+    "choices": [
+      {
+        "id": "trace",
+        "text": "顺藤摸瓜查来源",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -2 },
+          { "type": "resource", "target": "reputation", "value": 1 }
+        ],
+        "resultText": "你查了半天，发现是有人拿它当闹钟。声誉 +1，精神 -2。",
+        "hidden": "较真"
+      },
+      {
+        "id": "mute",
+        "text": "拔掉电池眼不见为净",
+        "effects": [{ "type": "resource", "target": "techDebt", "value": 1 }],
+        "resultText": "你拔了电池。技术债 +1（隐患没根除）。",
+        "hidden": "掩耳盗铃"
+      },
+      {
+        "id": "keep",
+        "text": "留着当复古纪念",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 2 },
+          { "type": "resource", "target": "techDebt", "value": 1 }
+        ],
+        "resultText": "你把它供在工位上。精神 +2，技术债 +1。",
+        "hidden": "情怀"
+      }
+    ],
+    "meta": { "funny": "电子古董复活" }
+  },
+  {
+    "id": "meeting_invite_001",
+    "category": "meeting",
+    "weight": 8,
+    "title": "周五 18:00 的「五分钟」同步会",
+    "body": "老板在群里 @ 你：有个事，就五分钟，大家留一下。现在是周五 17:58。",
+    "clues": ["现在是周五傍晚", "「五分钟」从不超过一小时", "同事们已开始装东西"],
+    "choices": [
+      {
+        "id": "stay",
+        "text": "留下听那「五分钟」",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -2 },
+          { "type": "resource", "target": "reputation", "value": 1 }
+        ],
+        "resultText": "两小时后你出来了。精神 -2，声誉 +1。",
+        "hidden": "懂事"
+      },
+      {
+        "id": "leave",
+        "text": "说已有安排，先走了",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -1 },
+          { "type": "resource", "target": "spirit", "value": 1 }
+        ],
+        "resultText": "你溜了。声誉 -1，精神 +1（保住了周末）。",
+        "hidden": "边界感"
+      },
+      {
+        "id": "async",
+        "text": "提议改成周一文字同步",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 1 },
+          { "type": "resource", "target": "spirit", "value": 1 },
+          { "type": "relation", "target": "boss", "value": 1 }
+        ],
+        "resultText": "老板想了想同意了。声誉 +1，精神 +1，老板好感 +1。",
+        "hidden": "高效"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "prod_data_copy_001",
+    "category": "security",
+    "weight": 8,
+    "title": "实习生想把生产库拷到笔记本",
+    "body": "新来的实习生卡在一个 bug，说「把生产数据拉到本地就能复现」。他眼巴巴举着 U 盘。",
+    "clues": ["他在等数据", "U 盘是新的", "生产库里有真实用户信息"],
+    "choices": [
+      {
+        "id": "refuse",
+        "text": "拒绝并给他脱敏样本",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 1 },
+          { "type": "resource", "target": "techDebt", "value": -1 }
+        ],
+        "resultText": "你发了脱敏数据。声誉 +1，技术债 -1。",
+        "hidden": "合规"
+      },
+      {
+        "id": "anonymize",
+        "text": "帮他做份假数据",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -1 },
+          { "type": "resource", "target": "reputation", "value": 1 }
+        ],
+        "resultText": "你花时间造了假数据。金钱 -1，声誉 +1。",
+        "hidden": "折中"
+      },
+      {
+        "id": "allow",
+        "text": "算了直接给只读权限",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -2 },
+          { "type": "resource", "target": "techDebt", "value": 2 },
+          { "type": "tag", "target": "insecure_data", "value": true }
+        ],
+        "resultText": "你图省事给了权限。声誉 -2，技术债 +2，并在审计名单上留了名。",
+        "hidden": "insecure_data 会触发脱敏审计"
+      }
+    ],
+    "meta": { "testsJudgment": true, "hook": "insecure_data 触发数据脱敏审计" }
+  },
+  {
+    "id": "data_leak_audit_002",
+    "category": "security",
+    "weight": 8,
+    "priority": 1.5,
+    "conditions": { "requiredTags": ["insecure_data"] },
+    "title": "数据安全审计盯上了那次拷贝",
+    "body": "审计系统报警：有生产表在过去 24 小时被外部 IP 读取。它记得你给过的权限。",
+    "clues": ["外部 IP 读取告警", "权限是你开的", "实习生很慌"],
+    "choices": [
+      {
+        "id": "revoke",
+        "text": "立刻回收权限并上报",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -1 },
+          { "type": "resource", "target": "techDebt", "value": -3 },
+          { "type": "tag", "target": "insecure_data", "value": false }
+        ],
+        "resultText": "你秒级回收并写报告。声誉 -1，技术债 -3，警报解除。",
+        "hidden": "止损"
+      },
+      {
+        "id": "cover",
+        "text": "说那是例行备份",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -4 },
+          { "type": "resource", "target": "techDebt", "value": 2 }
+        ],
+        "resultText": "日志戳穿了说法。声誉 -4，技术债 +2。",
+        "hidden": "欲盖弥彰"
+      },
+      {
+        "id": "train",
+        "text": "借机给全员做脱敏培训",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 2 },
+          { "type": "resource", "target": "techDebt", "value": -1 },
+          { "type": "tag", "target": "insecure_data", "value": false }
+        ],
+        "resultText": "你把事故变成公开课。声誉 +2，技术债 -1。",
+        "hidden": "化危为机"
+      }
+    ],
+    "meta": { "testsJudgment": true, "hook": "承接 prod_data_copy_001 的标签" }
+  },
+  {
+    "id": "coffee_machine_001",
+    "category": "absurd",
+    "weight": 7,
+    "title": "办公室咖啡机连上了内网",
+    "body": "运维扫描发现咖啡机有一个 IP，而且……它居然开放了 SSH。版本号是 2014 年的。",
+    "clues": ["咖啡机有 IP", "SSH 端口开着", "默认口令没改"],
+    "choices": [
+      {
+        "id": "secure",
+        "text": "改掉默认口令",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": -1 },
+          { "type": "resource", "target": "spirit", "value": 1 }
+        ],
+        "resultText": "你给咖啡机设了强密码。技术债 -1，精神 +1（安心喝咖啡）。",
+        "hidden": "基础安全"
+      },
+      {
+        "id": "ignore",
+        "text": "反正只是咖啡机",
+        "effects": [{ "type": "resource", "target": "techDebt", "value": 1 }],
+        "resultText": "你放了它一马。技术债 +1。",
+        "hidden": "侥幸"
+      },
+      {
+        "id": "script",
+        "text": "用咖啡机跑点脚本",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": 2 },
+          { "type": "resource", "target": "spirit", "value": 2 }
+        ],
+        "resultText": "你拿它当闲时计算节点。技术债 +2，精神 +2（真香）。",
+        "hidden": "脑洞"
+      }
+    ],
+    "meta": { "funny": "物联网咖啡机" }
+  },
+  {
+    "id": "travel_expense_001",
+    "category": "finance",
+    "weight": 8,
+    "title": "差旅报销被财务打回",
+    "body": "你上个月出差垫了三千块，财务回复：发票不齐，请重报。可小票早已糊在出租车里。",
+    "clues": ["发票不齐", "钱是你垫的", "财务很严格"],
+    "choices": [
+      {
+        "id": "resubmit",
+        "text": "补开证明重新报",
+        "effects": [
+          { "type": "resource", "target": "money", "value": 2 },
+          { "type": "resource", "target": "spirit", "value": -1 }
+        ],
+        "resultText": "你跑了一圈补齐。金钱 +2，精神 -1。",
+        "hidden": "耐心"
+      },
+      {
+        "id": "argue",
+        "text": "据理力争",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 1 },
+          { "type": "resource", "target": "spirit", "value": -1 }
+        ],
+        "resultText": "你搬出制度。声誉 +1，精神 -1（吵累了）。",
+        "hidden": "维权"
+      },
+      {
+        "id": "eat",
+        "text": "算了自认倒霉",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -2 },
+          { "type": "resource", "target": "spirit", "value": -1 }
+        ],
+        "resultText": "你默默承担了。金钱 -2，精神 -1。",
+        "hidden": "委屈"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "oncall_rotation_001",
+    "category": "ops",
+    "weight": 8,
+    "title": "轮到你 7×24 值班",
+    "body": "排班表更新，这周轮到你看告警。意味着随时可能被叫醒，意味着周末可能不属于你。",
+    "clues": ["排班表已出", "本周是你", "手机开始焦虑"],
+    "choices": [
+      {
+        "id": "accept",
+        "text": "硬扛这一周",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -2 },
+          { "type": "resource", "target": "reputation", "value": 1 },
+          { "type": "relation", "target": "team", "value": 1 }
+        ],
+        "resultText": "你接下了。精神 -2，声誉 +1，同事好感 +1。",
+        "hidden": "担当"
+      },
+      {
+        "id": "trade",
+        "text": "找人换班请喝奶茶",
+        "effects": [
+          { "type": "resource", "target": "money", "value": -1 },
+          { "type": "relation", "target": "team", "value": 2 }
+        ],
+        "resultText": "你用奶茶换来了自由。金钱 -1，同事好感 +2。",
+        "hidden": "人情"
+      },
+      {
+        "id": "refuse",
+        "text": "直接拒绝排班",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -2 },
+          { "type": "relation", "target": "boss", "value": -2 }
+        ],
+        "resultText": "你掀了桌子。声誉 -2，老板好感 -2。",
+        "hidden": "冒险"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "green_ci_001",
+    "category": "ops",
+    "weight": 8,
+    "title": "CI 全绿，但测试被跳过了",
+    "body": "流水线一片绿，你却记得刚才为了赶发布，把两个测试用 // skip 注释掉了。",
+    "clues": ["流水线全绿", "你跳过了测试", "发布在即"],
+    "choices": [
+      {
+        "id": "fix",
+        "text": "补回测试再发",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": -2 },
+          { "type": "resource", "target": "spirit", "value": -1 }
+        ],
+        "resultText": "你补回了测试。技术债 -2，精神 -1（加班）。",
+        "hidden": "正确"
+      },
+      {
+        "id": "ship",
+        "text": "绿了就发，别多想",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": 2 },
+          { "type": "resource", "target": "reputation", "value": 1 }
+        ],
+        "resultText": "你发布了。技术债 +2，声誉 +1（暂时没人发现）。",
+        "hidden": "侥幸"
+      },
+      {
+        "id": "expose",
+        "text": "主动在群里说明",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 1 },
+          { "type": "relation", "target": "team", "value": 1 },
+          { "type": "resource", "target": "spirit", "value": -1 }
+        ],
+        "resultText": "你坦白并约了补测。声誉 +1，同事好感 +1，精神 -1。",
+        "hidden": "坦诚"
+      }
+    ],
+    "meta": { "testsJudgment": true }
+  },
+  {
+    "id": "cat_fact_001",
+    "category": "absurd",
+    "weight": 6,
+    "title": "运维的猫又睡在服务器上",
+    "body": "机房里，运维养的橘猫第 N 次趴在机柜顶上晒太阳。温度曲线出现了规律的猫形凸起。",
+    "clues": ["猫在机柜上", "温度有规律凸起", "运维很得意"],
+    "choices": [
+      {
+        "id": "move",
+        "text": "轻轻把它挪开",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 1 },
+          { "type": "relation", "target": "ops", "value": 1 }
+        ],
+        "resultText": "你温柔请走了猫。精神 +1，运维好感 +1。",
+        "hidden": "体贴"
+      },
+      {
+        "id": "leave",
+        "text": "别吵醒它，暖着挺好",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 2 },
+          { "type": "resource", "target": "techDebt", "value": 1 }
+        ],
+        "resultText": "你由它睡着。精神 +2，技术债 +1（散热略差）。",
+        "hidden": "佛系"
+      },
+      {
+        "id": "photo",
+        "text": "拍照发群里",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 1 },
+          { "type": "resource", "target": "reputation", "value": -1 }
+        ],
+        "resultText": "群里笑疯了，但老板皱了眉。精神 +1，声誉 -1。",
+        "hidden": "摸鱼"
+      }
+    ],
+    "meta": { "funny": "机房猫主子" }
+  }
+]

@@ -1,0 +1,447 @@
+[
+  {
+    "id": "ch7_01",
+    "title": "第七章 · 双重间谍 · 第 1 关",
+    "scene": "情报站五名干员，档案里至少有两个是双重间谍。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "忠诚干员",
+      "impostor": "双重间谍"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 2
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "特工K",
+        "blurb": "代号老练"
+      },
+      {
+        "id": "B",
+        "name": "特工R",
+        "blurb": "新人紧张"
+      },
+      {
+        "id": "C",
+        "name": "特工S",
+        "blurb": "笑里藏刀"
+      },
+      {
+        "id": "D",
+        "name": "特工T",
+        "blurb": "沉默观察"
+      },
+      {
+        "id": "E",
+        "name": "特工V",
+        "blurb": "过度热情"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我是双重间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我和 特工T 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "B",
+            "b": "D"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我是双重间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我是双重间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "D",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_E",
+        "speaker": "E",
+        "text": "我是双重间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "E",
+          "role": "impostor"
+        }
+      }
+    ],
+    "mechanic": "人海战术：可能有 2 个伪装者，且「恰好 N 人说真话」。先数清内鬼再排查。"
+  },
+  {
+    "id": "ch7_02",
+    "title": "第七章 · 双重间谍 · 第 2 关",
+    "scene": "五人行动组执行卧底任务，内鬼不止一个。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "忠诚干员",
+      "impostor": "双重间谍"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 2
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 2
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "特工K",
+        "blurb": "代号老练"
+      },
+      {
+        "id": "B",
+        "name": "特工R",
+        "blurb": "新人紧张"
+      },
+      {
+        "id": "C",
+        "name": "特工S",
+        "blurb": "笑里藏刀"
+      },
+      {
+        "id": "D",
+        "name": "特工T",
+        "blurb": "沉默观察"
+      },
+      {
+        "id": "E",
+        "name": "特工V",
+        "blurb": "过度热情"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "特工V 是双重间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "E",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我不是双重间谍。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "B",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "特工V 不是双重间谍。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "E",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "特工R 不是双重间谍。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "B",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_E",
+        "speaker": "E",
+        "text": "我和 特工R 是同一类人。",
+        "expr": {
+          "op": "sameRole",
+          "a": "E",
+          "b": "B"
+        }
+      }
+    ],
+    "mechanic": "人海战术：可能有 2 个伪装者，且「恰好 N 人说真话」。先数清内鬼再排查。"
+  },
+  {
+    "id": "ch7_03",
+    "title": "第七章 · 双重间谍 · 第 3 关",
+    "scene": "峰会安保五人，眼线混进了两个。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "忠诚干员",
+      "impostor": "双重间谍"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 2
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "特工K",
+        "blurb": "代号老练"
+      },
+      {
+        "id": "B",
+        "name": "特工R",
+        "blurb": "新人紧张"
+      },
+      {
+        "id": "C",
+        "name": "特工S",
+        "blurb": "笑里藏刀"
+      },
+      {
+        "id": "D",
+        "name": "特工T",
+        "blurb": "沉默观察"
+      },
+      {
+        "id": "E",
+        "name": "特工V",
+        "blurb": "过度热情"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我和 特工V 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "A",
+            "b": "E"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我是忠诚干员。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "normal"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "特工K 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_A"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我和 特工R 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "D",
+            "b": "B"
+          }
+        }
+      },
+      {
+        "id": "stmt_E",
+        "speaker": "E",
+        "text": "特工S 是双重间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "impostor"
+        }
+      }
+    ],
+    "mechanic": "人海战术：可能有 2 个伪装者，且「恰好 N 人说真话」。先数清内鬼再排查。"
+  },
+  {
+    "id": "ch7_04",
+    "title": "第七章 · 双重间谍 · 第 4 关",
+    "scene": "秘密实验室五名研究员，其中两位身份有假。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "忠诚干员",
+      "impostor": "双重间谍"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 2
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "特工K",
+        "blurb": "代号老练"
+      },
+      {
+        "id": "B",
+        "name": "特工R",
+        "blurb": "新人紧张"
+      },
+      {
+        "id": "C",
+        "name": "特工S",
+        "blurb": "笑里藏刀"
+      },
+      {
+        "id": "D",
+        "name": "特工T",
+        "blurb": "沉默观察"
+      },
+      {
+        "id": "E",
+        "name": "特工V",
+        "blurb": "过度热情"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我和 特工T 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "A",
+            "b": "D"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "特工T 不是双重间谍。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "特工V 是双重间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "E",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "特工V 是双重间谍。",
+        "expr": {
+          "op": "roleIs",
+          "character": "E",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_E",
+        "speaker": "E",
+        "text": "我和 特工R 不是同一类人。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "sameRole",
+            "a": "E",
+            "b": "B"
+          }
+        }
+      }
+    ],
+    "mechanic": "人海战术：可能有 2 个伪装者，且「恰好 N 人说真话」。先数清内鬼再排查。"
+  }
+]

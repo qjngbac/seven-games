@@ -1,0 +1,335 @@
+[
+  {
+    "id": "ch3_01",
+    "title": "第三章 · 办公室政治 · 第 1 关",
+    "scene": "周报会上，三位同事，其中一个是冒名顶替的实习生。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "真同事",
+      "impostor": "冒牌货"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "roleStatementTruth",
+        "role": "impostor",
+        "truth": false
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "同事阿强",
+        "blurb": "爱表现"
+      },
+      {
+        "id": "B",
+        "name": "同事小美",
+        "blurb": "爱摸鱼"
+      },
+      {
+        "id": "C",
+        "name": "同事老王",
+        "blurb": "爱背锅"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "同事老王 不是冒牌货。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "同事老王 是冒牌货。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "impostor"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "同事阿强 说的是真话。",
+        "expr": {
+          "op": "stmtTruth",
+          "statement": "stmt_A"
+        }
+      }
+    ],
+    "mechanic": "规则：伪装者永远说假话（身份决定说话规则）。利用这条铁律。"
+  },
+  {
+    "id": "ch3_02",
+    "title": "第三章 · 办公室政治 · 第 2 关",
+    "scene": "报销群里三人在互相揭短，伪装者从不说真话。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "真同事",
+      "impostor": "冒牌货"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "roleStatementTruth",
+        "role": "impostor",
+        "truth": false
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 2
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "同事阿强",
+        "blurb": "爱表现"
+      },
+      {
+        "id": "B",
+        "name": "同事小美",
+        "blurb": "爱摸鱼"
+      },
+      {
+        "id": "C",
+        "name": "同事老王",
+        "blurb": "爱背锅"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我是真同事。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "normal"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "同事老王 不是冒牌货。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "同事阿强 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_A"
+          }
+        }
+      }
+    ],
+    "mechanic": "规则：伪装者永远说假话（身份决定说话规则）。利用这条铁律。"
+  },
+  {
+    "id": "ch3_03",
+    "title": "第三章 · 办公室政治 · 第 3 关",
+    "scene": "工位三人组，内鬼只撒谎。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "真同事",
+      "impostor": "冒牌货"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "roleStatementTruth",
+        "role": "impostor",
+        "truth": false
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "同事阿强",
+        "blurb": "爱表现"
+      },
+      {
+        "id": "B",
+        "name": "同事小美",
+        "blurb": "爱摸鱼"
+      },
+      {
+        "id": "C",
+        "name": "同事老王",
+        "blurb": "爱背锅"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我不是真同事。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "normal"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "同事阿强 不是冒牌货。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "A",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是冒牌货。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      }
+    ],
+    "mechanic": "规则：伪装者永远说假话（身份决定说话规则）。利用这条铁律。"
+  },
+  {
+    "id": "ch3_04",
+    "title": "第三章 · 办公室政治 · 第 4 关",
+    "scene": "晋升答辩前夜，三人里藏着冒牌货。",
+    "roles": [
+      "normal",
+      "impostor"
+    ],
+    "roleLabels": {
+      "normal": "真同事",
+      "impostor": "冒牌货"
+    },
+    "constraints": [
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "roleStatementTruth",
+        "role": "impostor",
+        "truth": false
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 2
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "同事阿强",
+        "blurb": "爱表现"
+      },
+      {
+        "id": "B",
+        "name": "同事小美",
+        "blurb": "爱摸鱼"
+      },
+      {
+        "id": "C",
+        "name": "同事老王",
+        "blurb": "爱背锅"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "我是真同事。",
+        "expr": {
+          "op": "roleIs",
+          "character": "A",
+          "role": "normal"
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "同事阿强 说的是真话。",
+        "expr": {
+          "op": "stmtTruth",
+          "statement": "stmt_A"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "同事阿强 在说谎。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "stmtTruth",
+            "statement": "stmt_A"
+          }
+        }
+      }
+    ],
+    "mechanic": "规则：伪装者永远说假话（身份决定说话规则）。利用这条铁律。"
+  }
+]
