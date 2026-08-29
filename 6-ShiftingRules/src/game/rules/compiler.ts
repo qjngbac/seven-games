@@ -58,7 +58,8 @@ export function compilePredicate(sh: ShorthandPredicate): Predicate {
   if (o?.shape) return { kind: "match", field: "shape", op: "eq", value: o.shape };
   if (o?.character) return { kind: "match", field: "character", op: "eq", value: o.character };
   if (o?.flagsInclude) return { kind: "match", field: "flags", op: "includes", value: o.flagsInclude };
-  return { kind: "always" };
+  // 未知简写（字段名拼错等）直接报错，而不是静默降级为「永远命中」的规则
+  throw new Error(`无法识别的谓词简写：${JSON.stringify(sh)}`);
 }
 
 function compileRule(raw: RawRule, errors: string[]): Rule | null {

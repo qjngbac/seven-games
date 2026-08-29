@@ -115,14 +115,24 @@ export class ReasoningBoard {
         if (unknown === remaining && unknown > 0) {
           // 剩余未知者必为 c.role
           for (const ch of this.puzzle.characters) {
-            if (this.characters[ch.id] === null) this.characters[ch.id] = c.role;
+            if (this.characters[ch.id] !== null) continue;
+            const candidates = ch.candidateRoles;
+            if (candidates && !candidates.includes(c.role)) continue;
+            this.characters[ch.id] = c.role;
           }
         } else if (unknown === total - c.count - (known - knownTarget) && unknown > 0) {
-          // 剩余未知者必非 c.role（取第一个非 c.role 的候选身份）
-          const alt = this.puzzle.roles.find((r) => r !== c.role);
-          if (alt) {
-            for (const ch of this.puzzle.characters) {
-              if (this.characters[ch.id] === null) this.characters[ch.id] = alt;
+          // 剩余未知者必非 c.role。只有当谜题恰好只有两种身份时才能确定地填 alt；
+          // 身份多于两种时无法用单一标记表达「非 c.role」，交给玩家自行判断，
+          // 否则会把所有未知槽错误填成同一个身份（并违反 allRolesDistinct）。
+          if (this.puzzle.roles.length === 2) {
+            const alt = this.puzzle.roles.find((r) => r !== c.role);
+            if (alt) {
+              for (const ch of this.puzzle.characters) {
+                if (this.characters[ch.id] !== null) continue;
+                const candidates = ch.candidateRoles;
+                if (candidates && !candidates.includes(alt)) continue;
+                this.characters[ch.id] = alt;
+              }
             }
           }
         }

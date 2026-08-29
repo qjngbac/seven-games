@@ -112,7 +112,7 @@ powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass `
 launcher/                                 开发环境统一启动大厅
 packaging/windows-portable/               Windows 打包与验证工具
 docs/                                     设计、计划和发布指南
-七款小游戏完整开发文档/                    七款游戏的详细开发文档
+七款小游戏开发文档/                    七款游戏的详细开发文档
 ```
 
 首次发布及后续版本的完整命令请参阅

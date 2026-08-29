@@ -19,7 +19,18 @@ const types = {
 const server = http.createServer((req, res) => {
   let urlPath = decodeURIComponent((req.url || '/').split('?')[0]);
   if (urlPath === '/') urlPath = '/index.html';
-  let filePath = path.join(root, urlPath);
+  if (urlPath.includes('\0')) {
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Bad request');
+    return;
+  }
+  // 防目录穿越：resolve 后必须仍位于 dist 内（覆盖 ../、..\ 及编码变体）
+  let filePath = path.resolve(root, '.' + urlPath);
+  if (filePath !== root && !filePath.startsWith(root + path.sep)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Forbidden');
+    return;
+  }
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
     filePath = path.join(root, 'index.html');
   }

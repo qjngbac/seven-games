@@ -19,7 +19,7 @@ const fmtTime = (ms: number) => {
     </div>
 
     <div class="card center">
-      <div class="stars">★{{ "★".repeat(res.stars) }}{{ "☆".repeat(3 - res.stars) }}</div>
+      <div class="stars">{{ "★".repeat(res.stars) }}{{ "☆".repeat(3 - res.stars) }}</div>
       <div style="font-size: 2rem; font-weight: 800; margin: 6px 0">{{ res.score }} 分</div>
       <div class="muted">
         用时 {{ fmtTime(res.timeMs) }} · 提示 {{ res.hintsUsed }} 次 · 错误 {{ res.errors }} 次

@@ -12,7 +12,7 @@ export const CHARS: CharKey[] = ["cat", "dog", "robot", "ghost", "alien"];
 /** 作为「文字」出现、且本身是颜色名的词（用于文字优先/Stroop 规则） */
 export const COLOR_WORDS = ["红", "蓝", "绿", "黄", "紫"];
 /** 与判断无关的干扰词 */
-export const NOISE_WORDS = ["香蕉", "宇宙", "加班", "摸鱼", "咖啡", "Bug", "需求", "开会", "奶茶", " deadline"];
+export const NOISE_WORDS = ["香蕉", "宇宙", "加班", "摸鱼", "咖啡", "Bug", "需求", "开会", "奶茶", "deadline"];
 export const ALL_WORDS = [...COLOR_WORDS, ...NOISE_WORDS];
 
 export const NUMBER_MIN = 0;
@@ -40,6 +40,7 @@ export const SHAPE_LABEL: Record<ShapeKey, string> = {
   square: "方",
   triangle: "三角",
   star: "星",
+  cross: "十字",
 };
 
 /** 随机一个「无关词」 */

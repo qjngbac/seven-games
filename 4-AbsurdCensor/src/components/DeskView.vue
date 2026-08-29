@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useGame } from '../store'
 import DocumentCard from './DocumentCard.vue'
 import { Decision } from '../game/types'
@@ -23,6 +23,19 @@ function next() {
   game.afterFeedback()
 }
 
+// 换申请者时重置选中文件，避免旧 id 残留
+watch(case_, () => {
+  selectedDoc.value = null
+})
+
+function cycleDoc(dir: 1 | -1) {
+  const docs = case_.value?.documents ?? []
+  if (docs.length === 0) return
+  const idx = docs.findIndex((d) => d.id === selectedDoc.value)
+  const next = idx < 0 ? 0 : (idx + dir + docs.length) % docs.length
+  selectedDoc.value = docs[next].id
+}
+
 function onKey(e: KeyboardEvent) {
   if (game.phase !== 'desk' && game.phase !== 'feedback') return
   if (game.phase === 'feedback') {
@@ -32,6 +45,18 @@ function onKey(e: KeyboardEvent) {
     }
     return
   }
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault()
+    cycleDoc(-1)
+    return
+  }
+  if (e.key === 'ArrowRight') {
+    e.preventDefault()
+    cycleDoc(1)
+    return
+  }
+  // 带 Ctrl/Alt/Meta 的组合键（如 Ctrl+S 保存网页）不触发盖章
+  if (e.ctrlKey || e.metaKey || e.altKey) return
   if (e.key === 'a' || e.key === 'A') stamp('allow')
   else if (e.key === 'd' || e.key === 'D') stamp('deny')
   else if (e.key === 's' || e.key === 'S') stamp('detain')

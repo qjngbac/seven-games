@@ -41,7 +41,7 @@ export const COLOR_SHAPE: Record<ColorKey, ShapeKey> = {
   blue: "circle",
   green: "square",
   yellow: "star",
-  purple: "star",
+  purple: "cross",
 };
 
 export const SHAPE_LABEL: Record<ShapeKey, string> = {
@@ -49,6 +49,7 @@ export const SHAPE_LABEL: Record<ShapeKey, string> = {
   square: "方",
   triangle: "三角",
   star: "星",
+  cross: "十字",
 };
 
 export const SHAPE_GLYPH: Record<ShapeKey, string> = {
@@ -56,6 +57,7 @@ export const SHAPE_GLYPH: Record<ShapeKey, string> = {
   square: "■",
   triangle: "▲",
   star: "★",
+  cross: "✚",
 };
 
 export const CHAR_LABEL: Record<CharKey, string> = {

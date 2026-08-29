@@ -37,6 +37,8 @@ for (const raw of SOURCES) {
     LOAD_ERRORS.push(
       `规则包 ${raw.id} 校验异常：冲突 ${report.conflicts.map((c) => c.join("×")).join(",")}；不可达 ${report.unreachable.join(",")}`,
     );
+    // 校验异常的包不进入游戏（文档 §5.2）
+    continue;
   }
   PACKS.push({ id: res.ruleset.id, name: res.ruleset.name, ruleset: res.ruleset, errors: res.errors, report });
 }

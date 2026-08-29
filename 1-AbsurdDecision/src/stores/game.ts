@@ -64,7 +64,9 @@ export const useGame = defineStore("game", () => {
     for (const d of CONTENT.resources) out[d.key] = bandOf(d, game.value.resources[d.key]);
     return out;
   });
-  const canContinue = computed(() => hasSave());
+  // 存档存在性需要响应式跟踪：hasSave() 不是响应式源，直接包在 computed 里只会被永久缓存
+  const savePresent = ref(false);
+  const canContinue = computed(() => savePresent.value);
   const endingInfo = computed(() =>
     game.value && game.value.ending ? ENDINGS[game.value.ending] ?? null : null
   );
@@ -77,6 +79,7 @@ export const useGame = defineStore("game", () => {
     syncRng();
     const r = saveGame(game.value);
     if (!r.ok) lastError.value = r.error ?? "存档失败";
+    else savePresent.value = true;
   }
 
   // ---- 启动 ----
@@ -87,6 +90,7 @@ export const useGame = defineStore("game", () => {
       sound.toggle(false);
     }
     if (CONTENT_ERRORS.length) lastError.value = contentReport.value;
+    savePresent.value = hasSave();
     screen.value = "MAIN_MENU";
   }
 
@@ -116,7 +120,7 @@ export const useGame = defineStore("game", () => {
       return;
     }
     game.value = st;
-    rng = new Rng(st.rngState || st.seed);
+    rng = new Rng(st.rngState ?? st.seed);
     // 恢复界面
     if (st.ending) {
       screen.value = "ENDING";
@@ -255,6 +259,7 @@ export const useGame = defineStore("game", () => {
   }
   function restart() {
     clearSave();
+    savePresent.value = false;
     game.value = null;
     event.value = null;
     result.value = null;

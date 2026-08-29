@@ -32,10 +32,22 @@ export const useGameStore = defineStore('game', () => {
     version.value
     return controller.value?.deviceList() ?? []
   })
-  const timeUsed = computed(() => controller.value?.timeUsed ?? 0)
-  const timeBudget = computed(() => controller.value?.wo.constraints.timeBudget ?? 0)
-  const timeline = computed(() => controller.value?.timeline ?? [])
-  const logLines = computed(() => controller.value?.log ?? [])
+  const timeUsed = computed(() => {
+    version.value
+    return controller.value?.timeUsed ?? 0
+  })
+  const timeBudget = computed(() => {
+    version.value
+    return controller.value?.wo.constraints.timeBudget ?? 0
+  })
+  const timeline = computed(() => {
+    version.value
+    return controller.value?.timeline ?? []
+  })
+  const logLines = computed(() => {
+    version.value
+    return controller.value?.log ?? []
+  })
 
   function bump() {
     version.value++

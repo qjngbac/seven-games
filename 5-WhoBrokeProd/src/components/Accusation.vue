@@ -20,12 +20,6 @@ const actionOptions = computed(() => {
   return [...new Set(correct), ...decoyUnique]
 })
 
-const canonicalTime = computed(() => {
-  const acc = c.value.acceptance
-  const ev = c.value.truthEvents.find((e) => norm(e.action) === norm(acc.action))
-  return ev?.time ?? ''
-})
-
 function setAction(a: string) {
   game.setAccusationField('action', a)
 }
@@ -97,7 +91,7 @@ const canSubmit = computed(
           placeholder="HH:MM，如 03:02"
           style="width: 100%; background: var(--bg-soft); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 9px; font-family: inherit"
         />
-        <p class="fact" style="margin-top: 6px">提示：真实发生时间约为 {{ canonicalTime }}（容差内均算对）。</p>
+        <p class="fact" style="margin-top: 6px">根据证据里的时间戳推断案发时间，容差内均算对。</p>
       </div>
       <div class="card">
         <h3 style="margin: 0 0 8px">💡 动机</h3>

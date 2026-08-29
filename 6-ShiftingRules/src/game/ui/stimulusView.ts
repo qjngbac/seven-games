@@ -1,7 +1,7 @@
 /**
  * 刺激渲染 (文档 §7.1 视觉方向 + §5.2 可访问性)。
  * 把 Stimulus 画成一张「事实卡」：颜色、文字、数字、形状、角色、标记全部文字化列出，
- * 保证「颜色不是唯一判据」。色弱模式下额外用车标形状描边提示。
+ * 保证「颜色不是唯一判据」。色弱模式下额外用形状描边提示。
  * 仅依赖 Phaser，UI 层使用，不被规则层/测试引用。
  */
 import Phaser from "phaser";
@@ -47,15 +47,19 @@ export function buildStimulusContainer(scene: Phaser.Scene, stimulus: Stimulus, 
       sg.lineTo(cx + 11, cy + 9);
       sg.closePath();
       sg.strokePath();
-    } else if (shape === "star") {
-      sg.strokeCircle(cx, cy, 10);
+    } else if (shape === "cross") {
+      sg.moveTo(cx - 10, cy);
+      sg.lineTo(cx + 10, cy);
+      sg.moveTo(cx, cy - 10);
+      sg.lineTo(cx, cy + 10);
+      sg.strokePath();
     } else {
       sg.strokeCircle(cx, cy, 10);
     }
     c.add(sg);
   }
 
-  const dark = stimulus.color === "yellow" || (!stimulus.color && false);
+  const dark = stimulus.color === "yellow";
   const textColor = dark ? "#1a1a1a" : "#ffffff";
 
   const lines: { text: string; kind: "big" | "mid" | "small" }[] = [];

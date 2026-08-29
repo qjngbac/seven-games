@@ -94,11 +94,12 @@ export function satisfy(p: Predicate, rng: Rng): Stimulus {
 }
 
 function addRandomFeature(s: Stimulus, rng: Rng): void {
-  const candidates: StimField[] = ["word", "number", "shape", "character"];
+  const candidates: StimField[] = ["color", "word", "number", "shape", "character"];
   const open = candidates.filter((f) => s[f] === undefined);
   if (open.length === 0) return;
   const f = rng.pick(open);
-  if (f === "word") s.word = rng.pick(ALL_WORDS);
+  if (f === "color") s.color = rng.pick(COLORS);
+  else if (f === "word") s.word = rng.pick(ALL_WORDS);
   else if (f === "number") s.number = rng.range(NUMBER_MIN, NUMBER_MAX);
   else if (f === "shape") s.shape = rng.pick(SHAPES);
   else if (f === "character") s.character = rng.pick(CHARS);

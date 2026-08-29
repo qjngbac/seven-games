@@ -67,6 +67,7 @@ export class GameSession {
   readonly mode: ModeConfig;
   readonly ruleset: RuleSet;
   private rng: Rng;
+  private initialSeed: number;
   private scoreCfg: ScoreConfig;
   private recorder?: RunRecorder;
 
@@ -91,6 +92,7 @@ export class GameSession {
     this.mode = typeof cfg.mode === "string" ? MODES[cfg.mode] : cfg.mode;
     this.ruleset = cfg.ruleset;
     this.rng = new Rng(cfg.seed);
+    this.initialSeed = cfg.seed;
     this.scoreCfg = cfg.score ?? DEFAULT_SCORE;
     this.recorder = cfg.recorder;
     this.fullRules = cfg.ruleset.rules;
@@ -264,7 +266,7 @@ export class GameSession {
       mistakesByRule: { ...this.mistakesByRule },
       finished: this.finished,
       reason: this.finishReason,
-      seed: this.rng.getState(),
+      seed: this.initialSeed,
     };
   }
 }

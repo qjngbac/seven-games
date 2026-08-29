@@ -69,7 +69,7 @@ export function applyOperation(
       .map((id) => state.inventory.find((i) => i.instanceId === id))
       .filter((x): x is ItemInstance => !!x);
     if (selected.length !== op.instanceIds.length) {
-      return noRecipe('你手里没有这些道具。');
+      return noRecipe('你手里没有这些道具。', next);
     }
     const recipe = findRecipe(defs, level.recipes, { kind: 'combine', instances: selected }, state);
     if (!recipe) {
@@ -83,7 +83,7 @@ export function applyOperation(
   // use
   const item = state.inventory.find((i) => i.instanceId === op.instanceId);
   const targetDef = resolveTarget(level, op.targetId);
-  if (!item || !targetDef) return noRecipe('目标或道具不存在。');
+  if (!item || !targetDef) return noRecipe('目标或道具不存在。', next);
   const recipe = findRecipe(defs, level.recipes, { kind: 'use', item, targetDef, verb: op.verb }, state);
   if (!recipe) {
     const msg = genericUseFeedback(defs, item, targetDef);
@@ -93,10 +93,10 @@ export function applyOperation(
   return commit(defs, level, next, recipe, [item], consumed);
 }
 
-function noRecipe(feedback: string): { result: OperationResult; next: GameState } {
+function noRecipe(feedback: string, current: GameState): { result: OperationResult; next: GameState } {
   return {
     result: { ok: false, kind: 'no-recipe', feedback, produced: [], consumed: [], sceneChanges: [], flagChanges: [] },
-    next: cloneState({} as GameState),
+    next: current,
   };
 }
 

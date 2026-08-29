@@ -55,7 +55,7 @@ function closeFeedback(): void {
     </div>
     <div class="row" style="gap: 8px">
       <span class="chip">尝试 {{ g.records.length }}</span>
-      <span class="chip" style="color: var(--danger)">失败 {{ g.resultSummary?.errors ?? 0 }}</span>
+      <span class="chip" style="color: var(--danger)">失败 {{ g.records.filter((r) => r.result.kind === 'failure').length }}</span>
       <button :disabled="!g.canUndo" @click="g.undo()">↶ 撤销</button>
       <button :disabled="!g.canRedo" @click="g.redo()">↷ 重做</button>
       <button @click="g.resetLevel()">⟲ 重置</button>

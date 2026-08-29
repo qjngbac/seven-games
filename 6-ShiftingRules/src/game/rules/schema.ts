@@ -6,7 +6,7 @@
 
 // ---- 刺激 (Stimulus) ----
 export type ColorKey = "red" | "blue" | "green" | "yellow" | "purple";
-export type ShapeKey = "circle" | "square" | "triangle" | "star";
+export type ShapeKey = "circle" | "square" | "triangle" | "star" | "cross";
 export type CharKey = "cat" | "dog" | "robot" | "ghost" | "alien";
 
 export interface Stimulus {

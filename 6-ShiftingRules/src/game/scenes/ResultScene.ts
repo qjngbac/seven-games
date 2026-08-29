@@ -27,13 +27,21 @@ export class ResultScene extends Phaser.Scene {
     const r = this.result;
     const meta = this.meta;
 
-    // 记录成绩
+    // 记录成绩（手动退出的局不计入纪录/每日完成）
+    const manual = r.reason === "manual";
     const date = new Date().toISOString().slice(0, 10);
-    const isNewBest = recordBest(meta.modeId, meta.packId, { score: r.score, accuracy: r.accuracy, date });
-    if (meta.daily) markDailyDone(meta.seedKey);
+    const isNewBest = !manual && recordBest(meta.modeId, meta.packId, { score: r.score, accuracy: r.accuracy, date });
+    if (meta.daily && !manual) markDailyDone(meta.seedKey);
     const best = getBest(meta.modeId, meta.packId);
 
-    makeTitle(this, WIDTH / 2, 56, r.reason === "lives" ? "生命耗尽" : "挑战完成", 38, r.reason === "lives" ? "#ff7875" : "#95de64");
+    makeTitle(
+      this,
+      WIDTH / 2,
+      56,
+      manual ? "已退出" : r.reason === "lives" ? "生命耗尽" : "挑战完成",
+      38,
+      manual ? "#ffd666" : r.reason === "lives" ? "#ff7875" : "#95de64",
+    );
 
     const modeName = MODES[meta.modeId as keyof typeof MODES]?.name ?? meta.modeId;
     const lines = [

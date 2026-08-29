@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useGameStore } from '../store'
 
 const store = useGameStore()
 
-const chapters = [1, 2, 3, 4]
+// 章节从工单数据推导，避免新增章节后遗漏 UI 入口
+const chapters = computed(() =>
+  [...new Set(store.workOrders.map((w) => w.chapter))].sort((a, b) => a - b)
+)
 function byChapter(ch: number) {
   return store.workOrders.filter((w) => w.chapter === ch)
 }

@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { CaseDocument } from '../game/types'
 
 const props = defineProps<{ doc: CaseDocument; selected: boolean }>()
 const emit = defineEmits<{ (e: 'select'): void }>()
 
 const verified = ref(false)
+// 文档 id 跨申请者复用（如两人都交「通行证」），换文档时必须重置核验状态，
+// 否则上一位申请者的核验结论会残留下一位的证件上
+watch(
+  () => props.doc,
+  () => {
+    verified.value = false
+  }
+)
 </script>
 
 <template>

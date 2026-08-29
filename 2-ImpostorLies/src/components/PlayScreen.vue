@@ -5,7 +5,7 @@ import type { RoleId } from "../logic/ast";
 
 const game = useGame();
 const puzzle = computed(() => game.puzzle!);
-const noteText = ref("");
+const noteText = ref(game.board?.getNote("__notes__") ?? "");
 
 const fmtTime = (ms: number) => {
   const s = Math.floor(ms / 1000);
@@ -35,6 +35,10 @@ function hint3(): string | null {
   const h = game.hints;
   if (h.texts && h.level >= 3) return h.texts[2];
   return null;
+}
+function clearAll(): void {
+  game.clearBoard();
+  noteText.value = "";
 }
 function saveNote(): void {
   game.setNote("__notes__", noteText.value);
@@ -141,7 +145,7 @@ function dismiss(): void {
         </div>
       </div>
       <div class="row" style="margin-top: 8px">
-        <button class="btn small ghost" @click="game.clearBoard()">清空标记</button>
+        <button class="btn small ghost" @click="clearAll">清空标记</button>
       </div>
     </div>
 

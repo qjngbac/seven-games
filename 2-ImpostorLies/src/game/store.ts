@@ -102,6 +102,7 @@ export const useGame = defineStore("game", () => {
     screen.value = "MAIN_MENU";
   }
   function openChapters(): void {
+    stopTimer();
     screen.value = "CHAPTER_SELECT";
   }
   function selectChapter(id: string): void {

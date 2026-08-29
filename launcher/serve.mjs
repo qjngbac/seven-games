@@ -4,7 +4,7 @@
 // 不需要 npm install，也不需要原项目的 node_modules。
 import http from 'node:http'
 import { readFile, stat } from 'node:fs/promises'
-import { join, extname, normalize } from 'node:path'
+import { extname, resolve, sep } from 'node:path'
 import os from 'node:os'
 
 const PORT = Number(process.env.PORT || 5200)
@@ -29,9 +29,11 @@ const MIME = {
 }
 
 async function tryFile(urlPath) {
-  // 防目录穿越
-  const safe = normalize(urlPath).replace(/^(\.\.[/\\])+/, '')
-  let filePath = join(ROOT, safe)
+  // 防目录穿越：resolve 后必须仍位于 ROOT 内（兼容 %2e%2e%2f、..%5C 等编码变体）。
+  // 不能用「剥掉开头的 ../」的方式，正则处理不了反斜杠与嵌套编码。
+  if (urlPath.includes('\0')) return null
+  const filePath = resolve(ROOT, '.' + urlPath)
+  if (filePath !== ROOT && !filePath.startsWith(ROOT + sep)) return null
   let s
   try {
     s = await stat(filePath)
@@ -39,7 +41,7 @@ async function tryFile(urlPath) {
     return null
   }
   if (s.isDirectory()) {
-    const idx = join(filePath, 'index.html')
+    const idx = resolve(filePath, 'index.html')
     try {
       await stat(idx)
       return idx

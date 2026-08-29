@@ -196,7 +196,7 @@ export const case4: CaseDef = {
   acceptance: {
     responsible: ['oncall_feng', 'pay_lead_zhen'],
     contributory: [],
-    action: 'tighten_timeout_and_retry',
+    action: 'tighten_timeout',
     actionAliases: ['调短超时并叠加重试', '超时过短加重试风暴', '缩短超时', '超短超时叠加重试', '两份变更叠加'],
     requiredEvidence: ['gateway_cfg', 'pay_deploy'],
     minEvidence: 2,

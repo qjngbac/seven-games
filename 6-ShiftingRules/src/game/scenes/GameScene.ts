@@ -72,7 +72,7 @@ export class GameScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(WIDTH / 2, HEIGHT - 22, ACTION_HINT, { fontFamily: fontStack(), fontSize: "15px", color: COLORS.sub })
+      .text(WIDTH / 2, HEIGHT - 22, `${ACTION_HINT}　·　ESC 退出本局`, { fontFamily: fontStack(), fontSize: "15px", color: COLORS.sub })
       .setOrigin(0.5);
 
     // 输入
@@ -151,6 +151,15 @@ export class GameScene extends Phaser.Scene {
   }
 
   private onKey(ev: KeyboardEvent): void {
+    // ESC：随时退出本局（禅/练习模式没有自然结束点）
+    if (ev.key === "Escape") {
+      ev.preventDefault();
+      if (this.phase !== "result") {
+        const result = this.session.quit();
+        this.scene.start("Result", { result, meta: this.meta });
+      }
+      return;
+    }
     if (this.phase !== "active" || this.locked) return;
     const action = keyToAction(ev.key);
     if (!action) return;
@@ -194,10 +203,16 @@ export class GameScene extends Phaser.Scene {
     panel.strokeRoundedRect(WIDTH / 2 - 380, HEIGHT / 2 - 150, 760, 300, 16);
     this.overlay.add(panel);
 
-    const mark = correct ? "✓ 正确" : playerAction === null ? "⏱ 超时" : "✗ 错误";
+    const mark =
+      correct
+        ? "✓ 正确"
+        : playerAction === null
+          ? "⏱ 超时"
+          : "✗ 错误";
+    const gainedText = res.gained >= 0 ? `+${res.gained}` : `${res.gained}`;
     this.overlay.add(
       this.add
-        .text(WIDTH / 2, HEIGHT / 2 - 116, mark + `  +${res.gained}`, { fontFamily: fontStack(), fontSize: "30px", color: correct ? "#95de64" : "#ff7875", fontStyle: "bold" })
+        .text(WIDTH / 2, HEIGHT / 2 - 116, mark + `  ${gainedText}`, { fontFamily: fontStack(), fontSize: "30px", color: correct ? "#95de64" : "#ff7875", fontStyle: "bold" })
         .setOrigin(0.5),
     );
     // 解释按行显示

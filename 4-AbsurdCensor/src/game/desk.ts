@@ -85,12 +85,14 @@ export class DeskController {
   /** 当天日结 */
   dayResult(): DayResult {
     const processed = this.outcomes.length
-    const correct = this.outcomes.filter((o) => o.legalCorrect).length
-    const wrongAllow = this.outcomes.filter((o) => o.isWrongAllow).length
-    const wrongDeny = this.outcomes.filter((o) => o.isWrongDeny).length
+    // 准确率只统计放行/拒绝两种实质裁定（暂扣是低效但安全的中性选项，不计入分母）
+    const stamped = this.outcomes.filter((o) => o.decision !== 'detain')
+    const correct = stamped.filter((o) => o.legalCorrect).length
+    const wrongAllow = stamped.filter((o) => o.isWrongAllow).length
+    const wrongDeny = stamped.filter((o) => o.isWrongDeny).length
     const detainCount = this.outcomes.filter((o) => o.decision === 'detain').length
     const judged = correct + wrongAllow + wrongDeny
-    const accuracy = judged === 0 ? 1 : correct / judged
+    const accuracy = judged === 0 ? 0 : correct / judged
     const salary = processed * 20 + (processed >= this.day.quota ? 50 : 0)
     const penalty = this.outcomes.reduce((s, o) => s + o.penalty, 0)
     const orgPressure = this.outcomes.reduce((s, o) => s + orgDeltaOf(o), 0)

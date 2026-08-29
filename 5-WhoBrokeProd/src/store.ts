@@ -377,7 +377,13 @@ export const useGame = defineStore('game', () => {
         dialogueChar.value = p.dialogueChar
         Object.assign(accusation, p.accusation)
         transcript.value = p.transcript.slice()
-        screen.value = p.board && data.screen === 'dialogue' ? 'investigation' : data.screen
+        // verdict 不入档，结算页刷新后无法恢复，回落到指控页（指控内容已保存在 progress 中）
+        screen.value =
+          p.board && data.screen === 'dialogue'
+            ? 'investigation'
+            : data.screen === 'result'
+              ? 'accusation'
+              : data.screen
       } else {
         screen.value = 'case_select'
       }
