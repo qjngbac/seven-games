@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { reportContent } from '../puzzle/repository';
 
-describe('内容批量校验（16 关全部唯一匹配 + 至少一解可达）', () => {
+describe('内容批量校验（20 关全部唯一匹配 + 至少一解可达）', () => {
   const report = reportContent();
-  it('共 16 关', () => {
-    expect(report.total).toBe(16);
+  it('共 20 关', () => {
+    expect(report.total).toBe(20);
   });
   it('无校验错误（引用完整性 / 优先级冲突）', () => {
     const errs = report.errors.filter((e) => e.severity === 'error');

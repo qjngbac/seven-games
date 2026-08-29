@@ -591,6 +591,33 @@ export const WORK_ORDERS: WorkOrder[] = [
     ],
     customerMessages: [{ atTime: 15, text: '服务器别静音了事啊，根因要除！' }]
   },
+  {
+    id: 'wo_cam_config',
+    title: '被"恢复出厂"的摄像头',
+    chapter: 5,
+    scene: '收银台+仓库',
+    customer: '我就按了一下摄像头后面那个小孔说是能修卡顿，现在 A 摄像头不录像了，B 摄像头也时有时无……',
+    customerAccurate: true,
+    constraints: { timeBudget: 30, noFactoryReset: true },
+    devices: ['nvr', 'cam1', 'cam2'],
+    faults: [
+      { fault: 'cam_config_lost', target: 'cam1' },
+      { fault: 'cam_ip_conflict', target: 'cam2' }
+    ],
+    availableActions: ['inspect_power', 'inspect_link', 'check_cam', 'restart_camera', 'reload_cam_config'],
+    acceptance: [
+      { device: 'cam1', comp: 'recording', equals: true },
+      { device: 'cam2', comp: 'recording', equals: true }
+    ],
+    funnyFeedback: '你重新下发配置，A 摄像头乖乖继续录像；客户发誓再也不乱按小孔了。',
+    referencePath: [
+      { action: 'check_cam', target: 'cam1' },
+      { action: 'reload_cam_config', target: 'cam1' },
+      { action: 'restart_camera', target: 'cam2' }
+    ],
+    customerMessages: [{ atTime: 12, text: '那个小孔我再按一下能复原吗？——别！' }],
+    tutorial: '"恢复出厂"会抹掉摄像头配置：链路正常但永远不录像。用"重新下发配置"找回参数；IP 冲突则重启摄像头刷新。'
+  },
   // ===== 第六章：一环扣一环（连环故障） =====
   {
     id: 'wo_chain_ac',
@@ -892,6 +919,46 @@ export const WORK_ORDERS: WorkOrder[] = [
     ],
     customerMessages: [{ atTime: 20, text: '你……还搞得定吧？' }],
     tutorial: '五条根因连环：光纤断→主干断、市电跳闸+UPS 电池耗尽→全断电、空调停机→服务器过热、网关配置丢→外网/WiFi 断。逐一复位对应设备即可。'
+  },
+  {
+    id: 'wo_chain_factory',
+    title: '客户"帮了倒忙"',
+    chapter: 6,
+    scene: '综合机房',
+    customer: '监控黑了我就把每个摄像头都恢复出厂、还把交换机拔下来吹了吹灰，结果全黑了，是不是设备坏了？',
+    customerAccurate: false,
+    constraints: { timeBudget: 45, noFactoryReset: true },
+    devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'nvr'],
+    faults: [{ fault: 'switch_plug_loose' }, { fault: 'cam_config_lost', target: 'cam1' }],
+    availableActions: [
+      'inspect_power',
+      'inspect_link',
+      'test_cable',
+      'check_cam',
+      'replug_cable',
+      'cab_replug',
+      'cab_swap',
+      'restart_camera',
+      'reload_cam_config',
+      'clean_lens'
+    ],
+    acceptance: [
+      { device: 'cam1', comp: 'recording', equals: true },
+      { device: 'cam2', comp: 'online', equals: true },
+      { device: 'nvr', comp: 'recording', equals: true }
+    ],
+    funnyFeedback: '你插回交换机、重新下发配置，一切复原；客户决定以后动手前先给你打电话。',
+    referencePath: [
+      { action: 'inspect_link', target: 'sw_core' },
+      { action: 'replug_cable', target: 'sw_core' },
+      { action: 'check_cam', target: 'cam1' },
+      { action: 'reload_cam_config', target: 'cam1' }
+    ],
+    customerMessages: [
+      { atTime: 10, text: '设备是不是该换了？我这就下单。' },
+      { atTime: 28, text: '哦对，我还按了摄像头的小孔……要紧吗？' }
+    ],
+    tutorial: '双重人为事故：交换机被拔松→全楼离线（共因）；恢复出厂→cam1 链路恢复后仍不录像。先复电，再"重新下发配置"。'
   }
 ]
 

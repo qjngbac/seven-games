@@ -1,0 +1,17 @@
+{
+  "id": "pack-combo",
+  "name": "逻辑组合",
+  "difficulty": 4,
+  "conflictPolicy": "block",
+  "initialActive": 2,
+  "revealEvery": 7,
+  "rules": [
+    { "id": "red_left", "predicate": { "color": "red" }, "action": "LEFT", "priority": 10, "text": "红色按左", "example": "红 → 左" },
+    { "id": "blue_right", "predicate": { "color": "blue" }, "action": "RIGHT", "priority": 10, "text": "蓝色按右", "example": "蓝 → 右" },
+    { "id": "star_tri_left", "predicate": { "any": [{ "shape": "star" }, { "shape": "triangle" }] }, "action": "LEFT", "priority": 20, "text": "星形或三角按左", "example": "星 → 左；三角 → 左" },
+    { "id": "odd_right", "predicate": { "numberIsOdd": true }, "action": "RIGHT", "priority": 22, "text": "奇数按右", "example": "7 → 右" },
+    { "id": "not_green_left", "predicate": { "not": { "color": "green" } }, "action": "LEFT", "priority": 50, "text": "只要不是绿色就按左", "example": "紫 → 左（绿除外）" },
+    { "id": "green_cat_skip", "predicate": { "all": [{ "color": "green" }, { "character": "cat" }] }, "action": "SKIP", "priority": 80, "text": "绿猫直接跳过", "example": "绿猫 → 跳过" },
+    { "id": "glow_invert", "predicate": { "flagsInclude": "glow" }, "action": "INVERT_BASE", "priority": 90, "text": "带发光标记，规则反转", "example": "发光的蓝 → 因反转变左" }
+  ]
+}

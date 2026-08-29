@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { levelsByChapter } from './repository';
 
-describe('章节分组（第一章到第四章，每章 4 关）', () => {
+describe('章节分组（第一章到第五章，每章 4 关）', () => {
   const groups = levelsByChapter();
-  it('共 4 章', () => {
-    expect(groups.length).toBe(4);
+  it('共 5 章', () => {
+    expect(groups.length).toBe(5);
   });
-  it('章号连续为 1-4', () => {
-    expect(groups.map((g) => g.chapter)).toEqual([1, 2, 3, 4]);
+  it('章号连续为 1-5', () => {
+    expect(groups.map((g) => g.chapter)).toEqual([1, 2, 3, 4, 5]);
   });
   it('每章标题为第N章且含 4 关', () => {
     for (const g of groups) {

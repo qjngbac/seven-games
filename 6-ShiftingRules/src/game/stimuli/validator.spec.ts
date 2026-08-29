@@ -4,8 +4,8 @@ import { validateRuleSet } from "./validator";
 import { PACKS, LOAD_ERRORS } from "../../data/packs";
 
 describe("规则包整体加载", () => {
-  it("5 个包全部编译且无加载错误", () => {
-    expect(PACKS.length).toBe(5);
+  it("6 个包全部编译且无加载错误", () => {
+    expect(PACKS.length).toBe(6);
     expect(LOAD_ERRORS).toHaveLength(0);
   });
 });

@@ -542,6 +542,35 @@ export const CHAPTER_SPECS: ChapterSpec[] = [
     },
     perChapter: 4,
   },
+  {
+    id: "ch9",
+    title: "第九章 · 深空法庭",
+    mechanic:
+      "身份谜·进阶：四人身份各不相同，且证词会引用彼此的真假（「我和他的话同真/同假」）。",
+    scenePool: [
+      "深空法庭开庭，四名证人身份各异，证词互相咬尾。",
+      "星际仲裁庭上四名船员起誓，有人引用了别人的誓言。",
+      "跃迁事故听证会，四人各司其职，证词真假成对出现。",
+      "末班星舰的名册核对现场，四人身份互不相同。",
+    ],
+    names: ["银徽证人", "金徽证人", "铁徽证人", "铜徽证人"],
+    blurbs: ["语速极快", "滴水不漏", "频繁眨眼", "不停擦汗"],
+    cfg: {
+      roles: ["captain", "pilot", "engineer", "impostor"],
+      roleLabels: { captain: "船长", pilot: "领航员", engineer: "工程师", impostor: "伪装者" },
+      allowKinds: ["accuse", "denyImpostor", "selfRole", "notSelfRole", "lieOf", "truthOf", "eqTruth", "xorTruth"],
+      buildConstraints: ({ trueCount }) => [
+        { type: "allRolesDistinct" },
+        { type: "exactRoleCount", role: "impostor", count: 1 },
+        { type: "exactTrueStatements", count: trueCount },
+      ],
+      impostorSlots: [[0], [1], [2], [3]],
+      trueCounts: [1, 2],
+      impostorCounts: [1],
+      distinct: true,
+    },
+    perChapter: 4,
+  },
 ];
 
 /** 生成全部章节谜题（每章 perChapter 个），写入 data/puzzles JSON。返回统计。 */

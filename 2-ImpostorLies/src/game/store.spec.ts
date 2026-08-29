@@ -76,6 +76,6 @@ describe("store 关卡总数", () => {
     const g = useGame();
     const chapterTotal = g.chapters.reduce((total, chapter) => total + chapter.puzzleIds.length, 0);
     expect(g.totalPuzzles).toBe(chapterTotal);
-    expect(g.totalPuzzles).toBe(32);
+    expect(g.totalPuzzles).toBe(36);
   });
 });

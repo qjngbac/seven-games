@@ -227,6 +227,21 @@ export const ACTION_DEFS: ActionDef[] = [
     log: '烘干摄像头并重新上电'
   },
   {
+    id: 'reload_cam_config',
+    name: '重新下发配置',
+    tool: '配置终端',
+    category: 'repair',
+    desc: '从 NVR 重新下发摄像头配置，找回被"恢复出厂"抹掉的参数。',
+    time: 2,
+    risk: 0,
+    reversible: true,
+    requiresTarget: true,
+    requirements: (w, t) => devType(t) === 'camera' && bv(w, t as string, 'configLost'),
+    reqHint: '仅当摄像头配置丢失时可用',
+    effects: [{ target: true, comp: 'configLost', set: false }],
+    log: '重新下发摄像头配置，参数找回'
+  },
+  {
     id: 'replace_ir',
     name: '更换红外灯板',
     tool: '红外灯板',

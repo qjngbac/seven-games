@@ -11,8 +11,9 @@ import packParity from "./rule-packs/pack-parity.json";
 import packCharacter from "./rule-packs/pack-character.json";
 import packText from "./rule-packs/pack-text.json";
 import packExtreme from "./rule-packs/pack-extreme.json";
+import packCombo from "./rule-packs/pack-combo.json";
 
-const SOURCES: RawRuleSet[] = [packBase, packParity, packCharacter, packText, packExtreme] as RawRuleSet[];
+const SOURCES: RawRuleSet[] = [packBase, packParity, packCharacter, packText, packExtreme, packCombo] as RawRuleSet[];
 
 export interface PackLoad {
   id: string;

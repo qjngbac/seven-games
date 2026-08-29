@@ -540,4 +540,119 @@ export const LEVELS: Level[] = [
       { id: 'l16_s_abs', tier: 'absurd', predicate: { and: [{ target: 'drain', state: { sealed: true, smelly: false } }, { flag: 'solvedTier', equals: 'absurd' }] }, endingText: '冰塞漏口，离谱但凉快止味。' },
     ],
   },
+
+  // ===================== 第五章（终章）：离谱日常 =====================
+  // ---------- L17 卡住的拉链 ----------
+  {
+    id: 'l17',
+    chapter: 5,
+    title: '卡住的拉链',
+    brief: '马上要出门，外套拉链卡在一半，越拽越死。',
+    goalText: '让拉链顺滑拉开（别扯坏）。',
+    items: [it('soap'), it('candle'), it('sock'), it('water'), it('knife'), it('tape'), it('stone')],
+    targets: [
+      { id: 'zipper', name: '拉链', icon: '🧥', tags: ['zipper', 'metal'], description: '齿咬得死死的，拉头一动不动。', initial: { stuck: true, free: false, broken: false } },
+    ],
+    recipes: [
+      { recipeId: 'l17_pro', kind: 'use', inputs: [{ item: 'soap' }], target: { id: 'zipper' }, outputs: [{ setScene: { targetId: 'zipper', state: { stuck: false, free: true } }, setFlag: { key: 'solvedTier', value: 'professional' } }], scores: PRO, feedback: '肥皂在齿上来回蹭两遍，拉链顺滑如新。专业润滑。', priority: 10, category: 'solution' },
+      { recipeId: 'l17_temp', kind: 'use', inputs: [{ item: 'candle' }], target: { id: 'zipper' }, outputs: [{ setScene: { targetId: 'zipper', state: { stuck: false, free: true } }, setFlag: { key: 'solvedTier', value: 'temporary' } }], scores: TMP, feedback: '蜡烛往齿上蹭了层蜡，拉链一拉到底——袖口蹭了点蜡灰。临时但管用。', priority: 11, category: 'solution' },
+      { recipeId: 'l17_absurd', kind: 'use', inputs: [{ item: 'sock' }], target: { id: 'zipper' }, outputs: [{ setScene: { targetId: 'zipper', state: { stuck: false, free: true } }, setFlag: { key: 'solvedTier', value: 'absurd' } }], scores: ABS, feedback: '你把袜子套在手上当防滑手套，一使劲拉链哗地开了——袜子表示立了大功。离谱防滑法。', priority: 12, category: 'solution' },
+      { recipeId: 'l17_f_knife', kind: 'use', inputs: [{ tag: 'sharp' }], target: { id: 'zipper' }, outputs: [{ setScene: { targetId: 'zipper', state: { broken: true } } }], feedback: '刀尖一撬，链齿崩了两颗，拉链彻底报废。', galleryNote: '拉链截肢。', priority: 5, category: 'failure' },
+      { recipeId: 'l17_f_water', kind: 'use', inputs: [{ tag: 'liquid' }], target: { id: 'zipper' }, outputs: [{ setScene: { targetId: 'zipper', state: { stuck: true } } }], feedback: '浇水想让它滑？金属齿直接给你锈上了。', galleryNote: '水润（反向）。', priority: 5, category: 'failure' },
+      { recipeId: 'l17_f_tape', kind: 'use', inputs: [{ tag: 'adhesive' }], target: { id: 'zipper' }, outputs: [{ setScene: { targetId: 'zipper', state: { stuck: true } } }], feedback: '胶带粘在拉链上，现在卡得更结实了。', galleryNote: '加固（负面）。', priority: 5, category: 'failure' },
+      { recipeId: 'l17_f_stone', kind: 'use', inputs: [{ tag: 'heavy' }], target: { id: 'zipper' }, outputs: [{ setScene: { targetId: 'zipper', state: { broken: true } } }], feedback: '石头砸拉链？外套先破了个洞。', galleryNote: '暴力开衣。', priority: 5, category: 'failure' },
+      { recipeId: 'l17_f_candle_soap', kind: 'combine', inputs: [{ tag: 'fire' }, { tag: 'clean' }], feedback: '蜡烛在肥皂上烧出一个坑，两败俱伤。', galleryNote: '润滑剂内战。', priority: 5, category: 'failure' },
+      { recipeId: 'l17_f_sock_water', kind: 'combine', inputs: [{ tag: 'cloth' }, { tag: 'liquid' }], feedback: '湿袜子套手，凉飕飕地拽了半天，拉链纹丝不动。', galleryNote: '湿手附魔。', priority: 5, category: 'failure' },
+    ],
+    solutions: [
+      { id: 'l17_s_pro', tier: 'professional', predicate: { and: [{ target: 'zipper', state: { free: true, stuck: false } }, { flag: 'solvedTier', equals: 'professional' }] }, endingText: '肥皂润滑，一拉到底，出门体面。' },
+      { id: 'l17_s_tmp', tier: 'temporary', predicate: { and: [{ target: 'zipper', state: { free: true, stuck: false } }, { flag: 'solvedTier', equals: 'temporary' }] }, endingText: '蜡烛打蜡，顺滑程度七成，能出门就行。' },
+      { id: 'l17_s_abs', tier: 'absurd', predicate: { and: [{ target: 'zipper', state: { free: true, stuck: false } }, { flag: 'solvedTier', equals: 'absurd' }] }, endingText: '袜子手套一鼓作气，拉链投降了。' },
+    ],
+  },
+  // ---------- L18 生锈的螺丝 ----------
+  {
+    id: 'l18',
+    chapter: 5,
+    title: '生锈的螺丝',
+    brief: '椅子腿的螺丝锈死了，椅子晃得像游船。有人建议直接换椅子。',
+    goalText: '把锈螺丝卸下来（别拧秃）。',
+    items: [it('screwdriver'), it('knife'), it('cat'), it('water'), it('hammer'), it('magnet'), it('glue'), it('soap')],
+    targets: [
+      { id: 'screw', name: '锈螺丝', icon: '🪛', tags: ['screw', 'metal'], description: '锈成一团，纹丝不动。', initial: { rusty: true, loose: false, stripped: false } },
+    ],
+    recipes: [
+      { recipeId: 'l18_pro', kind: 'use', inputs: [{ item: 'screwdriver' }], target: { id: 'screw' }, outputs: [{ setScene: { targetId: 'screw', state: { rusty: false, loose: true } }, setFlag: { key: 'solvedTier', value: 'professional' } }], scores: PRO, feedback: '螺丝刀顶住一较劲，锈层崩开，螺丝乖乖退出。专业拆解。', priority: 10, category: 'solution' },
+      { recipeId: 'l18_temp', kind: 'use', inputs: [{ item: 'knife' }], target: { id: 'screw' }, outputs: [{ setScene: { targetId: 'screw', state: { loose: true } }, setFlag: { key: 'solvedTier', value: 'temporary' } }], scores: TMP, feedback: '小刀尖卡进槽里硬撬，锈皮簌簌掉，螺丝松了——刀尖也卷了。临时凑合。', priority: 11, category: 'solution' },
+      { recipeId: 'l18_absurd', kind: 'use', inputs: [{ item: 'cat' }], target: { id: 'screw' }, outputs: [{ setScene: { targetId: 'screw', state: { loose: true } }, setFlag: { key: 'solvedTier', value: 'absurd' } }], scores: ABS, feedback: '你把猫爪按在螺丝上转了半圈——猫一爪拍下去，螺丝连锈带屑飞了出去。离谱猫爪卸钉法。', priority: 12, category: 'solution' },
+      { recipeId: 'l18_f_hammer', kind: 'use', inputs: [{ tag: 'heavy' }], target: { id: 'screw' }, outputs: [{ setScene: { targetId: 'screw', state: { stripped: true } } }], feedback: '一锤子下去，螺丝槽拧圆了，再也使不上劲。', galleryNote: '拧秃现场。', priority: 5, category: 'failure' },
+      { recipeId: 'l18_f_water', kind: 'use', inputs: [{ tag: 'liquid' }], target: { id: 'screw' }, outputs: [{ setScene: { targetId: 'screw', state: { rusty: true } } }], feedback: '浇水除锈？越浇越锈，锈水顺着椅子腿流。', galleryNote: '加水生锈（反向）。', priority: 5, category: 'failure' },
+      { recipeId: 'l18_f_glue', kind: 'use', inputs: [{ tag: 'adhesive' }], target: { id: 'screw' }, outputs: [{ setScene: { targetId: 'screw', state: { rusty: true } } }], feedback: '胶水渗进螺纹里，现在螺丝和椅子融为一体了。', galleryNote: '永久固定（字面义）。', priority: 5, category: 'failure' },
+      { recipeId: 'l18_f_magnet', kind: 'use', inputs: [{ tag: 'magnet' }], target: { id: 'screw' }, feedback: '磁铁吸是吸住了，锈死的螺丝纹丝不转。', galleryNote: '磁力空转。', priority: 5, category: 'failure' },
+      { recipeId: 'l18_f_soap', kind: 'use', inputs: [{ tag: 'clean' }], target: { id: 'screw' }, feedback: '肥皂抹螺丝，滑得连螺丝刀都打滑。', galleryNote: '润滑过度。', priority: 5, category: 'failure' },
+      { recipeId: 'l18_f_cat_soap', kind: 'combine', inputs: [{ tag: 'animal' }, { tag: 'clean' }], feedback: '你给猫爪抹肥皂再按螺丝，猫嫌弃地甩了你一手泡沫。', galleryNote: '润滑猫爪（拒绝）。', priority: 5, category: 'failure' },
+    ],
+    solutions: [
+      { id: 'l18_s_pro', tier: 'professional', predicate: { and: [{ target: 'screw', state: { loose: true } }, { flag: 'solvedTier', equals: 'professional' }] }, endingText: '螺丝刀正名，锈螺丝束手就擒。' },
+      { id: 'l18_s_tmp', tier: 'temporary', predicate: { and: [{ target: 'screw', state: { loose: true } }, { flag: 'solvedTier', equals: 'temporary' }] }, endingText: '小刀硬撬，螺丝松了，刀也退休了。' },
+      { id: 'l18_s_abs', tier: 'absurd', predicate: { and: [{ target: 'screw', state: { loose: true } }, { flag: 'solvedTier', equals: 'absurd' }] }, endingText: '猫爪卸钉，椅子和猫都对结果表示满意。' },
+    ],
+  },
+  // ---------- L19 打不开的果酱罐 ----------
+  {
+    id: 'l19',
+    chapter: 5,
+    title: '打不开的果酱罐',
+    brief: '早餐就差这罐草莓酱，盖子像是焊死的。',
+    goalText: '打开果酱罐（别打碎）。',
+    items: [it('glove'), it('knife'), it('cat'), it('towel'), it('water'), it('hammer'), it('stone'), it('soap')],
+    targets: [
+      { id: 'jar', name: '果酱罐', icon: '🍯', tags: ['jar', 'glass'], description: '金属盖拧得死紧，玻璃罐身滑手。', initial: { sealed: true, open: false, broken: false } },
+    ],
+    recipes: [
+      { recipeId: 'l19_pro', kind: 'use', inputs: [{ item: 'glove' }], target: { id: 'jar' }, outputs: [{ setScene: { targetId: 'jar', state: { sealed: false, open: true } }, setFlag: { key: 'solvedTier', value: 'professional' } }], scores: PRO, feedback: '戴上橡胶手套，防滑一拧，"啵"的一声开了。专业开罐。', priority: 10, category: 'solution' },
+      { recipeId: 'l19_temp', kind: 'use', inputs: [{ item: 'knife' }], target: { id: 'jar' }, outputs: [{ setScene: { targetId: 'jar', state: { sealed: false, open: true } }, setFlag: { key: 'solvedTier', value: 'temporary' } }], scores: TMP, feedback: '刀尖轻轻一撬盖沿，放气声一响，盖子松了——盖沿留了道小痕。临时放气法。', priority: 11, category: 'solution' },
+      { recipeId: 'l19_absurd', kind: 'use', inputs: [{ item: 'cat' }], target: { id: 'jar' }, outputs: [{ setScene: { targetId: 'jar', state: { sealed: false, open: true } }, setFlag: { key: 'solvedTier', value: 'absurd' } }], scores: ABS, feedback: '你把罐子放地上转身拿毛巾，猫一巴掌把盖子拍飞了。离谱猫力开罐。', priority: 12, category: 'solution' },
+      { recipeId: 'l19_f_water', kind: 'use', inputs: [{ tag: 'liquid' }], target: { id: 'jar' }, feedback: '热水烫盖子是真的技巧，可你用的是凉水——玻璃更滑了。', galleryNote: '温差学了个寂寞。', priority: 5, category: 'failure' },
+      { recipeId: 'l19_f_soap', kind: 'use', inputs: [{ tag: 'clean' }], target: { id: 'jar' }, feedback: '肥皂抹手，罐子直接起飞，接住时吓出一身汗。', galleryNote: '抛接杂技。', priority: 5, category: 'failure' },
+      { recipeId: 'l19_f_hammer', kind: 'use', inputs: [{ tag: 'heavy' }], target: { id: 'jar' }, outputs: [{ setScene: { targetId: 'jar', state: { broken: true } } }], feedback: '锤子落下，果酱罐解脱了——以碎片的形式。', galleryNote: '果酱自由。', priority: 5, category: 'failure' },
+      { recipeId: 'l19_f_stone', kind: 'use', inputs: [{ tag: 'heavy' }], target: { id: 'jar' }, outputs: [{ setScene: { targetId: 'jar', state: { broken: true } } }], feedback: '石头磕罐底用力过猛，罐底先开了。', galleryNote: '底部先泄。', priority: 4, category: 'failure' },
+      { recipeId: 'l19_towel', kind: 'use', inputs: [{ tag: 'absorb' }], target: { id: 'jar' }, feedback: '毛巾垫着手还是拧不开，但至少没滑出去。', galleryNote: '差一点。', priority: 5, category: 'neutral' },
+      { recipeId: 'l19_f_knife_hammer', kind: 'combine', inputs: [{ tag: 'sharp' }, { tag: 'heavy' }], feedback: '你把刀当凿子用锤砸，刀刃崩了个口。', galleryNote: '工具互害。', priority: 5, category: 'failure' },
+    ],
+    solutions: [
+      { id: 'l19_s_pro', tier: 'professional', predicate: { and: [{ target: 'jar', state: { open: true, sealed: false } }, { flag: 'solvedTier', equals: 'professional' }] }, endingText: '手套防滑一拧开，早餐圆满。' },
+      { id: 'l19_s_tmp', tier: 'temporary', predicate: { and: [{ target: 'jar', state: { open: true, sealed: false } }, { flag: 'solvedTier', equals: 'temporary' }] }, endingText: '放气撬盖，盖子松了，草莓酱到手。' },
+      { id: 'l19_s_abs', tier: 'absurd', predicate: { and: [{ target: 'jar', state: { open: true, sealed: false } }, { flag: 'solvedTier', equals: 'absurd' }] }, endingText: '猫掌开罐，盖子飞出三米，猫舔了舔爪子。' },
+    ],
+  },
+  // ---------- L20 停电的夜晚 ----------
+  {
+    id: 'l20',
+    chapter: 5,
+    title: '停电的夜晚',
+    brief: '整栋楼跳闸，物业说要修一小时。桌上的报告还没写完。',
+    goalText: '把书桌照亮（安全第一）。',
+    items: [it('bulb'), it('battery'), it('matches'), it('candle'), it('phone'), it('water'), it('tape'), it('stone')],
+    targets: [
+      { id: 'desk', name: '书桌', icon: '🪑', tags: ['desk', 'furniture'], description: '一片漆黑，纸笔就在桌上。', initial: { lit: false, burned: false, wet: false } },
+    ],
+    recipes: [
+      { recipeId: 'l20_bulb_batt', kind: 'combine', inputs: [{ item: 'bulb' }, { item: 'battery' }], outputs: [{ addItem: { defId: 'bulb', state: { lit: true }, name: '亮着的灯泡' } }], feedback: '灯泡拧上电池，微光亮起。', priority: 8, category: 'neutral' },
+      { recipeId: 'l20_candle_fire', kind: 'combine', inputs: [{ item: 'matches' }, { item: 'candle' }], outputs: [{ addItem: { defId: 'candle', state: { lit: true }, name: '点燃的蜡烛' } }], feedback: '火柴凑近蜡烛，烛光摇曳。', priority: 8, category: 'neutral' },
+      { recipeId: 'l20_pro', kind: 'use', inputs: [{ item: 'bulb', requireState: { lit: true } }], target: { id: 'desk' }, outputs: [{ setScene: { targetId: 'desk', state: { lit: true } }, setFlag: { key: 'solvedTier', value: 'professional' } }], scores: PRO, feedback: '电池灯泡立在笔筒边，桌面被照亮，继续写报告。安全照明。', priority: 10, category: 'solution' },
+      { recipeId: 'l20_temp', kind: 'use', inputs: [{ item: 'candle', requireState: { lit: true } }], target: { id: 'desk' }, outputs: [{ setScene: { targetId: 'desk', state: { lit: true } }, setFlag: { key: 'solvedTier', value: 'temporary' } }], scores: TMP, feedback: '点燃的蜡烛固定在烟灰缸里，烛光照亮半张桌子——记得别打瞌睡。临时照明。', priority: 11, category: 'solution' },
+      { recipeId: 'l20_absurd', kind: 'use', inputs: [{ item: 'phone' }], target: { id: 'desk' }, outputs: [{ setScene: { targetId: 'desk', state: { lit: true } }, setFlag: { key: 'solvedTier', value: 'absurd' } }], scores: ABS, feedback: '手机手电筒往桌上一架，亮度拉满——就是一小时后手机先没电了。离谱照明。', priority: 12, category: 'solution' },
+      { recipeId: 'l20_f_matches_direct', kind: 'use', inputs: [{ item: 'matches' }], target: { id: 'desk' }, outputs: [{ setScene: { targetId: 'desk', state: { burned: true } } }], feedback: '你直接把火柴在桌上划着，报告一角光荣牺牲。', galleryNote: '引火烧桌。', priority: 5, category: 'failure' },
+      { recipeId: 'l20_f_water', kind: 'use', inputs: [{ tag: 'liquid' }], target: { id: 'desk' }, outputs: [{ setScene: { targetId: 'desk', state: { wet: true } } }], feedback: '黑灯瞎火泼水玩，报告湿了半边。', galleryNote: '水漫书桌。', priority: 5, category: 'failure' },
+      { recipeId: 'l20_f_stone', kind: 'use', inputs: [{ tag: 'heavy' }], target: { id: 'desk' }, outputs: [{ setScene: { targetId: 'desk', state: { burned: false, wet: false } } }], feedback: '石头砸桌子制造火花？只制造了个坑。', galleryNote: '燧石（伪）。', priority: 5, category: 'failure' },
+      { recipeId: 'l20_f_tape', kind: 'use', inputs: [{ tag: 'adhesive' }], target: { id: 'desk' }, feedback: '胶带在桌上贴了个笑脸，并没有发光。', galleryNote: '贴纸照明（无效）。', priority: 5, category: 'failure' },
+      { recipeId: 'l20_f_bulb_tape', kind: 'combine', inputs: [{ tag: 'light' }, { tag: 'adhesive' }], feedback: '胶带缠灯泡，绝缘层缠得比光还亮——并没有。', galleryNote: '胶带灯罩（未遂）。', priority: 5, category: 'failure' },
+    ],
+    solutions: [
+      { id: 'l20_s_pro', tier: 'professional', predicate: { and: [{ target: 'desk', state: { lit: true } }, { flag: 'solvedTier', equals: 'professional' }] }, endingText: '电池灯泡稳稳发光，报告如期写完。' },
+      { id: 'l20_s_tmp', tier: 'temporary', predicate: { and: [{ target: 'desk', state: { lit: true } }, { flag: 'solvedTier', equals: 'temporary' }] }, endingText: '烛光夜战，报告写完，蜡油也滴了一桌。' },
+      { id: 'l20_s_abs', tier: 'absurd', predicate: { and: [{ target: 'desk', state: { lit: true } }, { flag: 'solvedTier', equals: 'absurd' }] }, endingText: '手机照明一时爽，第二天充电充到中午。' },
+    ],
+  },
 ];

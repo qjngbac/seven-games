@@ -9,6 +9,7 @@ import ch5 from "../data/puzzles/ch5.json";
 import ch6 from "../data/puzzles/ch6.json";
 import ch7 from "../data/puzzles/ch7.json";
 import ch8 from "../data/puzzles/ch8.json";
+import ch9 from "../data/puzzles/ch9.json";
 
 export interface Chapter {
   id: string;
@@ -27,9 +28,10 @@ export const CHAPTERS: Chapter[] = [
   { id: "ch6", title: "第六章 · 密室逃脱", mechanic: "五人剧本杀：恰好 1 个伪装者，且「恰好 N 人说真话」。", puzzleIds: [] },
   { id: "ch7", title: "第七章 · 双重间谍", mechanic: "量词升级：可能有 2 个伪装者，且「恰好 N 人说真话」。", puzzleIds: [] },
   { id: "ch8", title: "第八章 · 末日方舟", mechanic: "身份谜·四人版：每人身份各不相同（船长/领航/工程师/伪装者）。", puzzleIds: [] },
+  { id: "ch9", title: "第九章 · 深空法庭", mechanic: "身份谜·进阶：四人身份各不相同，且证词会引用彼此的真假（「我和他的话同真/同假」）。", puzzleIds: [] },
 ];
 
-const rawPacks = [ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8] as Puzzle[][];
+const rawPacks = [ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9] as Puzzle[][];
 
 function build(): {
   puzzles: Map<string, Puzzle>;

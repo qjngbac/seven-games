@@ -1,0 +1,416 @@
+[
+  {
+    "id": "ch9_01",
+    "title": "第九章 · 深空法庭 · 第 1 关",
+    "scene": "深空法庭开庭，四名证人身份各异，证词互相咬尾。",
+    "roles": [
+      "captain",
+      "pilot",
+      "engineer",
+      "impostor"
+    ],
+    "roleLabels": {
+      "captain": "船长",
+      "pilot": "领航员",
+      "engineer": "工程师",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "银徽证人",
+        "blurb": "语速极快"
+      },
+      {
+        "id": "B",
+        "name": "金徽证人",
+        "blurb": "滴水不漏"
+      },
+      {
+        "id": "C",
+        "name": "铁徽证人",
+        "blurb": "频繁眨眼"
+      },
+      {
+        "id": "D",
+        "name": "铜徽证人",
+        "blurb": "不停擦汗"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "铁徽证人 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我不是领航员。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "B",
+            "role": "pilot"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "银徽证人 和 金徽证人 说的真假不一样。",
+        "expr": {
+          "op": "xorTruth",
+          "left": "stmt_A",
+          "right": "stmt_B"
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我是工程师。",
+        "expr": {
+          "op": "roleIs",
+          "character": "D",
+          "role": "engineer"
+        }
+      }
+    ],
+    "mechanic": "身份谜·进阶：四人身份各不相同，且证词会引用彼此的真假（「我和他的话同真/同假」）。"
+  },
+  {
+    "id": "ch9_02",
+    "title": "第九章 · 深空法庭 · 第 2 关",
+    "scene": "星际仲裁庭上四名船员起誓，有人引用了别人的誓言。",
+    "roles": [
+      "captain",
+      "pilot",
+      "engineer",
+      "impostor"
+    ],
+    "roleLabels": {
+      "captain": "船长",
+      "pilot": "领航员",
+      "engineer": "工程师",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "银徽证人",
+        "blurb": "语速极快"
+      },
+      {
+        "id": "B",
+        "name": "金徽证人",
+        "blurb": "滴水不漏"
+      },
+      {
+        "id": "C",
+        "name": "铁徽证人",
+        "blurb": "频繁眨眼"
+      },
+      {
+        "id": "D",
+        "name": "铜徽证人",
+        "blurb": "不停擦汗"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "金徽证人 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "B",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "银徽证人 和 银徽证人 说的真假相同。",
+        "expr": {
+          "op": "eqTruth",
+          "left": "stmt_A",
+          "right": "stmt_A"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是领航员。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "pilot"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我是工程师。",
+        "expr": {
+          "op": "roleIs",
+          "character": "D",
+          "role": "engineer"
+        }
+      }
+    ],
+    "mechanic": "身份谜·进阶：四人身份各不相同，且证词会引用彼此的真假（「我和他的话同真/同假」）。"
+  },
+  {
+    "id": "ch9_03",
+    "title": "第九章 · 深空法庭 · 第 3 关",
+    "scene": "跃迁事故听证会，四人各司其职，证词真假成对出现。",
+    "roles": [
+      "captain",
+      "pilot",
+      "engineer",
+      "impostor"
+    ],
+    "roleLabels": {
+      "captain": "船长",
+      "pilot": "领航员",
+      "engineer": "工程师",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "银徽证人",
+        "blurb": "语速极快"
+      },
+      {
+        "id": "B",
+        "name": "金徽证人",
+        "blurb": "滴水不漏"
+      },
+      {
+        "id": "C",
+        "name": "铁徽证人",
+        "blurb": "频繁眨眼"
+      },
+      {
+        "id": "D",
+        "name": "铜徽证人",
+        "blurb": "不停擦汗"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "铁徽证人 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我是工程师。",
+        "expr": {
+          "op": "roleIs",
+          "character": "B",
+          "role": "engineer"
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我不是领航员。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "C",
+            "role": "pilot"
+          }
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "impostor"
+          }
+        }
+      }
+    ],
+    "mechanic": "身份谜·进阶：四人身份各不相同，且证词会引用彼此的真假（「我和他的话同真/同假」）。"
+  },
+  {
+    "id": "ch9_04",
+    "title": "第九章 · 深空法庭 · 第 4 关",
+    "scene": "末班星舰的名册核对现场，四人身份互不相同。",
+    "roles": [
+      "captain",
+      "pilot",
+      "engineer",
+      "impostor"
+    ],
+    "roleLabels": {
+      "captain": "船长",
+      "pilot": "领航员",
+      "engineer": "工程师",
+      "impostor": "伪装者"
+    },
+    "constraints": [
+      {
+        "type": "allRolesDistinct"
+      },
+      {
+        "type": "exactRoleCount",
+        "role": "impostor",
+        "count": 1
+      },
+      {
+        "type": "exactTrueStatements",
+        "count": 1
+      }
+    ],
+    "characters": [
+      {
+        "id": "A",
+        "name": "银徽证人",
+        "blurb": "语速极快"
+      },
+      {
+        "id": "B",
+        "name": "金徽证人",
+        "blurb": "滴水不漏"
+      },
+      {
+        "id": "C",
+        "name": "铁徽证人",
+        "blurb": "频繁眨眼"
+      },
+      {
+        "id": "D",
+        "name": "铜徽证人",
+        "blurb": "不停擦汗"
+      }
+    ],
+    "statements": [
+      {
+        "id": "stmt_A",
+        "speaker": "A",
+        "text": "铜徽证人 不是伪装者。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "impostor"
+          }
+        }
+      },
+      {
+        "id": "stmt_B",
+        "speaker": "B",
+        "text": "我不是船长。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "B",
+            "role": "captain"
+          }
+        }
+      },
+      {
+        "id": "stmt_C",
+        "speaker": "C",
+        "text": "我是领航员。",
+        "expr": {
+          "op": "roleIs",
+          "character": "C",
+          "role": "pilot"
+        }
+      },
+      {
+        "id": "stmt_D",
+        "speaker": "D",
+        "text": "我不是船长。",
+        "expr": {
+          "op": "not",
+          "arg": {
+            "op": "roleIs",
+            "character": "D",
+            "role": "captain"
+          }
+        }
+      }
+    ],
+    "mechanic": "身份谜·进阶：四人身份各不相同，且证词会引用彼此的真假（「我和他的话同真/同假」）。"
+  }
+]
