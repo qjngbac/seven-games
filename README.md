@@ -111,12 +111,53 @@ powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass `
 1-AbsurdDecision/ ... 7-RidiculousToolbox/  七款游戏的源码与测试
 launcher/                                 开发环境统一启动大厅
 packaging/windows-portable/               Windows 打包与验证工具
-docs/                                     设计、计划和发布指南
 七款小游戏开发文档/                    七款游戏的详细开发文档
+RELEASE_NOTES_v*.md                       各版本发布说明
 ```
 
-首次发布及后续版本的完整命令请参阅
-[`docs/GITHUB_PUBLISH.md`](docs/GITHUB_PUBLISH.md)。
+## 发布流程（Windows 便携版）
+
+在 PowerShell 中执行，先构建七款游戏，再打包并验证：
+
+```powershell
+# 1) 构建七款游戏
+$games = @('1-AbsurdDecision','2-ImpostorLies','3-NoServerBoom','4-AbsurdCensor',
+           '5-WhoBrokeProd','6-ShiftingRules','7-RidiculousToolbox')
+foreach ($game in $games) { Push-Location $game; npm run build; Pop-Location }
+
+# 2) 打包便携版（产物：release\Seven-Games-Windows-Portable-2026-08-14.zip）
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass `
+  -File .\packaging\windows-portable\build.ps1
+
+# 3) 验证
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass `
+  -File .\packaging\windows-portable\verify-release.ps1
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass `
+  -File .\packaging\windows-portable\verify-zip-runtime.ps1
+
+# 4) 生成对外发布的 Games.zip 与校验值
+Copy-Item .\release\Seven-Games-Windows-Portable-2026-08-14.zip .\release\Games.zip -Force
+(Get-FileHash -Algorithm SHA256 .\release\Games.zip).Hash.ToUpperInvariant() + ' *Games.zip' |
+  Set-Content .\release\SHA256SUMS.txt -Encoding ASCII
+```
+
+提交源码与新的 `RELEASE_NOTES_vX.Y.Z.md`，推送后创建标签与 Release：
+
+```powershell
+$version = 'v1.2.0'
+git add --all; git commit -m '发布 v1.2.0'; git push origin main
+git tag -a $version -m "七款小游戏 Windows 便携版 $version"; git push origin $version
+
+gh release create $version `
+  '.\release\Games.zip#Windows 便携版' `
+  '.\release\SHA256SUMS.txt#SHA-256 校验值' `
+  --repo qjngbac/seven-games --verify-tag `
+  --title "七款小游戏 Windows 便携版 $version" `
+  --notes-file ".\RELEASE_NOTES_$version.md" --latest
+```
+
+`dist`、`release`、`.workbuddy` 与本地 `docs` 目录不会进入 Git 历史。
+修复错误使用补丁版本号，增加兼容内容使用次版本号，不兼容修改使用主版本号。
 
 ## 许可证
 

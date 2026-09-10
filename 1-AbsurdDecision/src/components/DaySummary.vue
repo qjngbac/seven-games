@@ -46,6 +46,42 @@ function onKey(e: KeyboardEvent) {
 }
 onMounted(() => window.addEventListener("keydown", onKey));
 onUnmounted(() => window.removeEventListener("keydown", onKey));
+
+/** 资源曲线配色（与资源条一致） */
+const SERIES_COLOR: Record<ResourceKey, string> = {
+  money: "#d99a1e",
+  reputation: "#3f7fd1",
+  spirit: "#8a5cd6",
+  techDebt: "#d64545",
+};
+
+/**
+ * 资源变化曲线：把 state.history 里每天的开局快照画成折线。
+ * 每条资源按自身 [min,max] 归一化到同一高度，便于看清趋势（不追求绝对可比）。
+ */
+const chart = computed(() => {
+  const g = game.game!;
+  const hist = g.history;
+  if (hist.length < 2) return null;
+  const W = 340;
+  const H = 110;
+  const PAD = 10;
+  const days = hist.map((h) => h.day);
+  const minDay = Math.min(...days);
+  const span = Math.max(1, Math.max(...days) - minDay);
+  const series = CONTENT.resources.map((d) => {
+    const range = Math.max(1, d.max - d.min);
+    const points = hist
+      .map((h) => {
+        const x = PAD + ((h.day - minDay) / span) * (W - PAD * 2);
+        const y = H - PAD - ((h.resources[d.key] - d.min) / range) * (H - PAD * 2);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      })
+      .join(" ");
+    return { key: d.key, name: d.name, icon: d.icon, color: SERIES_COLOR[d.key], points };
+  });
+  return { W, H, series, first: minDay, last: Math.max(...days) };
+});
 </script>
 
 <template>
@@ -60,6 +96,37 @@ onUnmounted(() => window.removeEventListener("keydown", onKey));
           {{ c.icon }} {{ c.name }} {{ c.v > 0 ? "+" : "" }}{{ c.v }}
         </span>
         <span v-if="!netChips.length" class="chip flat">数值整体平稳</span>
+      </div>
+    </div>
+
+    <div class="block" v-if="chart">
+      <div class="bh">资源走势（每资源按自身区间归一化）</div>
+      <svg class="curve" :viewBox="`0 0 ${chart.W} ${chart.H}`" role="img" aria-label="资源变化曲线">
+        <line :x1="10" :y1="chart.H - 10" :x2="chart.W - 10" :y2="chart.H - 10" class="axis" />
+        <polyline
+          v-for="s in chart.series"
+          :key="s.key"
+          :points="s.points"
+          fill="none"
+          :stroke="s.color"
+          stroke-width="2"
+          stroke-linejoin="round"
+          stroke-linecap="round"
+        />
+        <circle
+          v-for="s in chart.series"
+          :key="s.key + '-end'"
+          :cx="s.points.split(' ').slice(-1)[0].split(',')[0]"
+          :cy="s.points.split(' ').slice(-1)[0].split(',')[1]"
+          r="2.6"
+          :fill="s.color"
+        />
+      </svg>
+      <div class="legend">
+        <span v-for="s in chart.series" :key="s.key" class="lg">
+          <i :style="{ background: s.color }"></i>{{ s.icon }} {{ s.name }}
+        </span>
+        <span class="lg-x">第 {{ chart.first }} → {{ chart.last }} 天</span>
       </div>
     </div>
 
@@ -142,5 +209,40 @@ onUnmounted(() => window.removeEventListener("keydown", onKey));
 }
 .tag.flat {
   color: var(--muted);
+}
+.curve {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #fbfaf7;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.axis {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  align-items: center;
+}
+.lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.lg i {
+  width: 10px;
+  height: 3px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.lg-x {
+  margin-left: auto;
 }
 </style>

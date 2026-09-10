@@ -75,10 +75,14 @@ export function makeSeed(input: string | number): number {
   return h >>> 0;
 }
 
-/** 生成「今天」的每日挑战种子 (YYYY-MM-DD 本地日期) */
+/**
+ * 生成「今天」的每日挑战种子 (YYYY-MM-DD)。
+ * 用 UTC 而非本地时区：否则跨时区（或夏令时切换）的玩家会算出不同种子，
+ * 得到不同的题目，破坏"同一天同一套题"的前提。
+ */
 export function dailySeed(date = new Date()): number {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
   return makeSeed(`daily-${y}-${m}-${d}`);
 }

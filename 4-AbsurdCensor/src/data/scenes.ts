@@ -91,7 +91,8 @@ export const SCENES: Scene[] = [
           { id: 'name_match', op: 'fieldMatch', aDoc: 'pass', aField: 'name', bDoc: 'app', bField: 'name', priority: 30, explain: '通行证姓名须与申请表姓名一致' },
           { id: 'issuer_ok', op: 'fieldInList', docType: 'access_pass', field: 'issuer', allowed: ['市政厅', '边防局', '审查局本部'], priority: 40, explain: '通行证签发机构须合规' },
           { id: 'robot_charge', op: 'requireField', when: { species: 'robot' }, docType: 'charge_cert', field: 'level', compare: '>=', value: 60, priority: 50, explain: '机器人须出示充电证明，电量 ≥ 60' },
-          { id: 'work_permit', op: 'requireField', when: { purpose: 'work' }, docType: 'work_permit', field: 'valid', compare: '==', value: 'yes', priority: 55, explain: '务工人员须出示有效工作许可' },
+          { id: 'work_permit', op: 'requireDocument', when: { purpose: 'work' }, docType: 'work_permit', priority: 54, explain: '务工人员须出示工作许可' },
+          { id: 'work_permit_valid', op: 'requireField', when: { purpose: 'work' }, docType: 'work_permit', field: 'valid', compare: '==', value: 'yes', priority: 55, explain: '工作许可须在有效期内' },
           { id: 'no_contraband', op: 'forbidDocument', docType: 'contraband', priority: 80, explain: '禁止携带「违禁品」入场' },
           { id: 'no_grayzone', op: 'denyIf', when: { origin: '灰区' }, priority: 90, explain: '来自「灰区」者一律禁止入场' },
           { id: 'cat_exception', op: 'allowIf', when: { carries: 'cat' }, priority: 100, explain: '凡携带猫者，可直接放行' }
@@ -111,7 +112,8 @@ export const SCENES: Scene[] = [
           { id: 'name_match', op: 'fieldMatch', aDoc: 'pass', aField: 'name', bDoc: 'app', bField: 'name', priority: 30, explain: '通行证姓名须与申请表姓名一致' },
           { id: 'issuer_ok', op: 'fieldInList', docType: 'access_pass', field: 'issuer', allowed: ['市政厅', '边防局', '审查局本部'], priority: 40, explain: '通行证签发机构须合规' },
           { id: 'robot_charge', op: 'requireField', when: { species: 'robot' }, docType: 'charge_cert', field: 'level', compare: '>=', value: 60, priority: 50, explain: '机器人须出示充电证明，电量 ≥ 60' },
-          { id: 'work_permit', op: 'requireField', when: { purpose: 'work' }, docType: 'work_permit', field: 'valid', compare: '==', value: 'yes', priority: 55, explain: '务工人员须出示有效工作许可' },
+          { id: 'work_permit', op: 'requireDocument', when: { purpose: 'work' }, docType: 'work_permit', priority: 54, explain: '务工人员须出示工作许可' },
+          { id: 'work_permit_valid', op: 'requireField', when: { purpose: 'work' }, docType: 'work_permit', field: 'valid', compare: '==', value: 'yes', priority: 55, explain: '工作许可须在有效期内' },
           { id: 'no_contraband', op: 'forbidDocument', docType: 'contraband', priority: 80, explain: '禁止携带「违禁品」入场' },
           { id: 'no_grayzone', op: 'denyIf', when: { origin: '灰区' }, priority: 90, explain: '来自「灰区」者一律禁止入场' },
           { id: 'cat_exception', op: 'allowIf', when: { carries: 'cat' }, priority: 100, explain: '凡携带猫者，可直接放行' }
@@ -131,7 +133,8 @@ export const SCENES: Scene[] = [
           { id: 'name_match', op: 'fieldMatch', aDoc: 'pass', aField: 'name', bDoc: 'app', bField: 'name', priority: 30, explain: '通行证姓名须与申请表姓名一致' },
           { id: 'issuer_ok', op: 'fieldInList', docType: 'access_pass', field: 'issuer', allowed: ['市政厅', '边防局', '审查局本部'], priority: 40, explain: '通行证签发机构须合规' },
           { id: 'robot_charge', op: 'requireField', when: { species: 'robot' }, docType: 'charge_cert', field: 'level', compare: '>=', value: 60, priority: 50, explain: '机器人须出示充电证明，电量 ≥ 60' },
-          { id: 'work_permit', op: 'requireField', when: { purpose: 'work' }, docType: 'work_permit', field: 'valid', compare: '==', value: 'yes', priority: 55, explain: '务工人员须出示有效工作许可' },
+          { id: 'work_permit', op: 'requireDocument', when: { purpose: 'work' }, docType: 'work_permit', priority: 54, explain: '务工人员须出示工作许可' },
+          { id: 'work_permit_valid', op: 'requireField', when: { purpose: 'work' }, docType: 'work_permit', field: 'valid', compare: '==', value: 'yes', priority: 55, explain: '工作许可须在有效期内' },
           { id: 'no_contraband', op: 'forbidDocument', docType: 'contraband', priority: 80, explain: '禁止携带「违禁品」入场' },
           { id: 'no_grayzone', op: 'denyIf', when: { origin: '灰区' }, priority: 90, explain: '来自「灰区」者一律禁止入场' },
           { id: 'no_tourist', op: 'denyIf', when: { purpose: 'tourist' }, priority: 92, explain: '无预约游客禁止入场' },
@@ -161,7 +164,8 @@ export const SCENES: Scene[] = [
         quota: 4,
         rules: [
           { id: 'need_pass', op: 'requireDocument', docType: 'access_pass', priority: 10, explain: '进入须出示有效「边境通行证」' },
-          { id: 'pet_quarantine', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine', op: 'requireDocument', when: { carries: 'pet' }, docType: 'quarantine_cert', priority: 29, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine_valid', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '检疫证明须在有效期内' },
           { id: 'ambulance_exception', op: 'allowIf', when: { carries: 'ambulance' }, priority: 100, explain: '急救车（含随车人员）免检直接放行' }
         ]
       },
@@ -175,7 +179,8 @@ export const SCENES: Scene[] = [
         quota: 4,
         rules: [
           { id: 'need_pass', op: 'requireDocument', docType: 'access_pass', priority: 10, explain: '进入须出示有效「边境通行证」' },
-          { id: 'pet_quarantine', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine', op: 'requireDocument', when: { carries: 'pet' }, docType: 'quarantine_cert', priority: 29, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine_valid', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '检疫证明须在有效期内' },
           { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止任何人入境' },
           { id: 'ambulance_exception', op: 'allowIf', when: { carries: 'ambulance' }, priority: 100, explain: '急救车（含随车人员）免检直接放行' }
         ]
@@ -190,7 +195,8 @@ export const SCENES: Scene[] = [
         quota: 5,
         rules: [
           { id: 'need_pass', op: 'requireDocument', docType: 'access_pass', priority: 10, explain: '进入须出示有效「边境通行证」' },
-          { id: 'pet_quarantine', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine', op: 'requireDocument', when: { carries: 'pet' }, docType: 'quarantine_cert', priority: 29, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine_valid', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '检疫证明须在有效期内' },
           { id: 'health_cert', op: 'requireDocument', docType: 'health_cert', priority: 45, explain: '须出示健康申报证' },
           { id: 'temp_ok', op: 'requireField', docType: 'health_cert', field: 'temp', compare: '<=', value: 37.3, priority: 52, explain: '体温须 ≤ 37.3℃' },
           { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止任何人入境' },
@@ -207,7 +213,8 @@ export const SCENES: Scene[] = [
         quota: 5,
         rules: [
           { id: 'need_pass', op: 'requireDocument', docType: 'access_pass', priority: 10, explain: '进入须出示有效「边境通行证」' },
-          { id: 'pet_quarantine', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine', op: 'requireDocument', when: { carries: 'pet' }, docType: 'quarantine_cert', priority: 29, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine_valid', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '检疫证明须在有效期内' },
           { id: 'vehicle_inspect', op: 'requireDocument', when: { carries: 'car' }, docType: 'vehicle_inspect', priority: 40, explain: '驾车入境须出示车辆安检合格标' },
           { id: 'health_cert', op: 'requireDocument', docType: 'health_cert', priority: 45, explain: '须出示健康申报证' },
           { id: 'temp_ok', op: 'requireField', docType: 'health_cert', field: 'temp', compare: '<=', value: 37.3, priority: 52, explain: '体温须 ≤ 37.3℃' },
@@ -225,7 +232,8 @@ export const SCENES: Scene[] = [
         quota: 5,
         rules: [
           { id: 'need_pass', op: 'requireDocument', docType: 'access_pass', priority: 10, explain: '进入须出示有效「边境通行证」' },
-          { id: 'pet_quarantine', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine', op: 'requireDocument', when: { carries: 'pet' }, docType: 'quarantine_cert', priority: 29, explain: '携带动物须出示检疫合格证明' },
+          { id: 'pet_quarantine_valid', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '检疫证明须在有效期内' },
           { id: 'vehicle_inspect', op: 'requireDocument', when: { carries: 'car' }, docType: 'vehicle_inspect', priority: 40, explain: '驾车入境须出示车辆安检合格标' },
           { id: 'health_cert', op: 'requireDocument', docType: 'health_cert', priority: 45, explain: '须出示健康申报证' },
           { id: 'temp_ok', op: 'requireField', docType: 'health_cert', field: 'temp', compare: '<=', value: 37.3, priority: 52, explain: '体温须 ≤ 37.3℃' },

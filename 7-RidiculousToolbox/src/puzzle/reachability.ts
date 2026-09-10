@@ -1,4 +1,4 @@
-import type { GameState, Level, Operation } from '../logic/schema';
+import type { GameState, Level, Operation, Verb } from '../logic/schema';
 import { ITEM_DEFS } from '../data/items';
 import { applyOperation, initState } from '../logic/engine';
 import { evaluateSolutions } from '../logic/solutions';
@@ -13,8 +13,9 @@ export interface ReachabilityResult {
 }
 
 function stateKey(s: GameState): string {
+  // 注意：必须带 quantity，否则"同一物品不同数量"会被当成同一状态而误判可达性
   const inv = s.inventory
-    .map((i) => `${i.defId}:${JSON.stringify(i.state)}`)
+    .map((i) => `${i.defId}:${i.quantity ?? 1}:${JSON.stringify(i.state)}`)
     .sort()
     .join(',');
   const scene = Object.entries(s.scene)
@@ -28,19 +29,51 @@ function stateKey(s: GameState): string {
   return `${inv}#${scene}#${flags}`;
 }
 
-function candidateOps(state: GameState): Operation[] {
+/** 从 arr 中取 k 元子集（k 通常很小，直接递归即可） */
+function combinations<T>(arr: T[], k: number): T[][] {
+  if (k <= 0) return [[]];
+  if (k > arr.length) return [];
+  const out: T[][] = [];
+  const pick = (start: number, acc: T[]) => {
+    if (acc.length === k) {
+      out.push([...acc]);
+      return;
+    }
+    for (let i = start; i < arr.length; i++) {
+      acc.push(arr[i]);
+      pick(i + 1, acc);
+      acc.pop();
+    }
+  };
+  pick(0, []);
+  return out;
+}
+
+function candidateOps(state: GameState, level: Level): Operation[] {
   const ops: Operation[] = [];
   const ids = state.inventory.map((i) => i.instanceId);
-  // 组合：所有 2 元子集（内容均为 2 输入配方）
-  for (let i = 0; i < ids.length; i++) {
-    for (let j = i + 1; j < ids.length; j++) {
-      ops.push({ kind: 'combine', instanceIds: [ids[i], ids[j]] });
+
+  // 组合：需要几元就枚举几元 —— 不再硬编码「2 元子集」，
+  // 否则将来出现 1 元或 3 元配方时 BFS 会漏掉合法路径、误报"不可解"。
+  const sizes = new Set<number>();
+  for (const r of level.recipes) {
+    const n = r.inputs.reduce((a, b) => a + (b.count ?? 1), 0);
+    if (n > 0) sizes.add(n);
+  }
+  if (sizes.size === 0) sizes.add(2);
+  for (const k of sizes) {
+    for (const combo of combinations(ids, k)) {
+      ops.push({ kind: 'combine', instanceIds: combo });
     }
   }
-  // 使用：每个物品 × 每个场景目标
+
+  // 使用：每个物品 × 每个场景目标 ×（无动词 + 本关出现过的动词）。
+  // 带上 verb 才能覆盖 verb 门控配方，避免"假可达"。
+  const verbs = [...new Set(level.recipes.map((r) => r.verb).filter(Boolean))] as Verb[];
   for (const id of ids) {
     for (const t of Object.keys(state.scene)) {
       ops.push({ kind: 'use', instanceId: id, targetId: t });
+      for (const v of verbs) ops.push({ kind: 'use', instanceId: id, targetId: t, verb: v });
     }
   }
   return ops;
@@ -75,7 +108,7 @@ export function checkReachable(level: Level, startId = 1): ReachabilityResult {
       }
       return { levelId: level.id, reachable: true, nodesExplored: nodes, truncated, path };
     }
-    const ops = candidateOps(cur);
+    const ops = candidateOps(cur, level);
     for (const op of ops) {
       const { next } = applyOperation(ITEM_DEFS, level, cur, op);
       const key = stateKey(next);

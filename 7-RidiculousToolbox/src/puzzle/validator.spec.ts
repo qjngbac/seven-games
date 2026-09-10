@@ -41,4 +41,28 @@ describe('validator：校验规则', () => {
     const errors = validateLevel(bad).filter((i) => i.severity === 'error');
     expect(errors.some((e) => e.message.includes('未知物品'))).toBe(true);
   });
+
+  it('同一标签"既当工具又会被消耗" → 报错（防关键道具被意外用掉）', () => {
+    const bad: Level = JSON.parse(JSON.stringify(L1));
+    // cable 在 L1 中已被声明为不消耗的工具；这里再加一条会消耗 cable 的配方
+    bad.recipes.push({
+      recipeId: 'consume_cable_bad',
+      kind: 'use',
+      inputs: [{ tag: 'cable' }], // 未声明 consumed:false → 会消耗
+      target: { id: 'outlet' },
+      outputs: [{ setScene: { targetId: 'outlet', state: { powered: false } } }],
+      feedback: '把线剪了',
+      priority: 3,
+      category: 'neutral',
+    });
+    const errors = validateLevel(bad).filter((i) => i.severity === 'error');
+    expect(errors.some((e) => e.message.includes('工具消耗语义不一致'))).toBe(true);
+  });
+
+  it('全部关卡（含 20 关）工具消耗语义一致', () => {
+    for (const lv of LEVELS) {
+      const errors = validateLevel(lv).filter((i) => i.severity === 'error');
+      expect(errors, `${lv.id}: ${errors.map((e) => e.message).join('；')}`).toHaveLength(0);
+    }
+  });
 });

@@ -3,6 +3,15 @@
 
 import { CaseOutcome, DayResult, Decision } from './types'
 
+/**
+ * 组织压力阈值（唯一来源，勿在别处重复写魔数）。
+ * - 达到 FIRE_PRESSURE：被停职（优先级最高，直接覆盖其它结局）；
+ * - 达到 BUREAUCRAT_PRESSURE：变成"完美的齿轮"（只有在未被停职时才可见）。
+ * 桌面压力条按 FIRE_PRESSURE 归一化，因此 BUREAUCRAT_PRESSURE 一定要小于它，否则该结局不可达。
+ */
+export const FIRE_PRESSURE = 150
+export const BUREAUCRAT_PRESSURE = 120
+
 export interface EndingState {
   accuracy: number // 全游戏累计准确率 0..1
   orgPressure: number // 累计组织压力
@@ -55,7 +64,7 @@ export function resolveEnding(s: EndingState): Ending {
       text: '连续的重大差错让组织压力突破红线。你收到了一封没有温度的停职函，印章被收走。审查局依旧运转，只是再没你的位置。'
     }
   }
-  if (s.orgPressure >= 120) {
+  if (s.orgPressure >= BUREAUCRAT_PRESSURE) {
     return {
       kind: 'bureaucrat',
       title: '结局 · 完美的齿轮',
@@ -108,7 +117,8 @@ export function mergeDay(
   ).length
   const diplomatFavors = day.outcomes.filter((o) => o.decision === 'allow' && o.storyEffects.includes('diplomat')).length
   return {
-    accuracy: prev.accuracy * 0.6 + day.accuracy * 0.4,
+    // 全部暂扣的一天没有做出任何实质裁定（judged=0），不应把它当作"准确率 0"参与累计
+    accuracy: day.judged === 0 ? prev.accuracy : prev.accuracy * 0.6 + day.accuracy * 0.4,
     orgPressure: prev.orgPressure + day.orgPressure,
     conscience: prev.conscience + day.conscience,
     catFavors: prev.catFavors + catFavors,

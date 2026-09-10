@@ -130,3 +130,42 @@ describe('内容可解性批量校验（设计文档 5.2）', () => {
     expect(r.detainLegal).toBe(true)
   })
 })
+
+describe('规则理由的正确性（防止"假违规"掩盖内容缺口）', () => {
+  it('文档缺失只产生 missing 理由，绝不产生 violation 理由', () => {
+    // b1_04「野宠哥」：带动物但无检疫证 —— 应当是「缺材料」，不是「字段填错」
+    const d = sceneDay('border', 1)
+    const c = one('border', 1, 'b1_04')
+    const r = evaluate(d.rules, c, d.today)
+    const violations = r.reasons.filter((x) => x.kind === 'violation')
+    const missing = r.reasons.filter((x) => x.kind === 'missing')
+    expect(r.allowLegal).toBe(false)
+    expect(violations.map((v) => v.ruleId)).toContain('pet_quarantine')
+    expect(missing.map((m) => m.ruleId)).toContain('pet_quarantine_valid')
+  })
+
+  it('每个被判拒绝的案件都必须有真实依据（violation 或例外禁止），不能只靠"缺材料"', () => {
+    for (const s of SCENES) {
+      for (const d of s.days) {
+        for (const c of casesForSceneDay(s.id, d.date)) {
+          const r = evaluate(d.rules, c, d.today)
+          if (r.allowLegal) continue
+          // denyIf 类型的禁令会产生 exception 理由，同样属于真实依据
+          const grounds = r.reasons.filter((x) => x.kind === 'violation' || x.kind === 'exception')
+          expect(
+            grounds.length,
+            `场景「${s.name}」第${d.date}天 ${c.id}(${c.name}) 判为拒绝，却没有任何真实依据 —— 很可能是把 requireField 当成了 requireDocument 用`,
+          ).toBeGreaterThan(0)
+        }
+      }
+    }
+  })
+
+  it('务工人员无工作许可必须被"缺少证件"拒绝（而不是字段不合规）', () => {
+    const d = sceneDay('censor', 5)
+    const c = one('censor', 5, 'd5_03')
+    const r = evaluate(d.rules, c, d.today)
+    expect(r.allowLegal).toBe(false)
+    expect(r.reasons.some((x) => x.kind === 'violation' && x.ruleId === 'work_permit')).toBe(true)
+  })
+})

@@ -959,6 +959,231 @@ export const WORK_ORDERS: WorkOrder[] = [
       { atTime: 28, text: '哦对，我还按了摄像头的小孔……要紧吗？' }
     ],
     tutorial: '双重人为事故：交换机被拔松→全楼离线（共因）；恢复出厂→cam1 链路恢复后仍不录像。先复电，再"重新下发配置"。'
+  },
+  // ===== 第七章：工具箱补齐 =====
+  // 说明：以下 11 单用于覆盖此前"定义了故障库但从未被任何工单注入"的死内容，
+  // 使每一种故障及其对应的修复动作都真正可玩（由 controller.spec.ts 的防腐蚀测试保证不再回退）。
+  {
+    id: 'wo_ap_down',
+    title: '无线 AP 掉线',
+    chapter: 7,
+    scene: '办公区',
+    customer: 'Wi-Fi 全没了，是不是路由器坏了？你顺便帮我换个路由吧。',
+    customerAccurate: false,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['sw_core', 'ap1'],
+    faults: [{ fault: 'ap_off' }],
+    availableActions: ['inspect_link', 'inspect_power', 'repair_ap'],
+    acceptance: [{ device: 'ap1', comp: 'apUp', equals: true }],
+    funnyFeedback: '你没换路由器，只是重启了 AP。客户表示"早知道我也重启一下"。',
+    referencePath: [
+      { action: 'inspect_link', target: 'ap1' },
+      { action: 'repair_ap', target: 'ap1' }
+    ],
+    tutorial: '交换机正常但 AP 自己不工作 → 先看 AP 的供电与状态灯，再重启 AP，不要误换路由器。'
+  },
+  {
+    id: 'wo_pc_nopower',
+    title: '台式机开不了机',
+    chapter: 7,
+    scene: '财务室',
+    customer: '电脑按开机键一点反应都没有，肯定是主板烧了，我这就下单换主板。',
+    customerAccurate: false,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['pc1'],
+    faults: [{ fault: 'pc_plug_loose', target: 'pc1' }],
+    availableActions: ['inspect_power', 'pc_reseat_plug'],
+    acceptance: [{ device: 'pc1', comp: 'usable', equals: true }],
+    funnyFeedback: '插头松了。你替主板洗清了罪名，客户把新主板退了。',
+    referencePath: [
+      { action: 'inspect_power', target: 'pc1' },
+      { action: 'pc_reseat_plug', target: 'pc1' }
+    ],
+    tutorial: '"一点反应都没有"最常见的原因是供电，而不是主板。先查供电，再插紧电源线。'
+  },
+  {
+    id: 'wo_pc_monitor',
+    title: '显示器黑屏但主机在转',
+    chapter: 7,
+    scene: '财务室',
+    customer: '屏幕黑的，但主机风扇在转、灯也亮，是不是显卡坏了？',
+    customerAccurate: false,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['pc1'],
+    faults: [{ fault: 'pc_monitor_bad', target: 'pc1' }],
+    availableActions: ['inspect_power', 'pc_swap_monitor'],
+    acceptance: [{ device: 'pc1', comp: 'usable', equals: true }],
+    funnyFeedback: '换了显示器就好了。显卡松了一口气。',
+    referencePath: [
+      { action: 'inspect_power', target: 'pc1' },
+      { action: 'pc_swap_monitor', target: 'pc1' }
+    ],
+    tutorial: '主机供电正常、显示器不亮 → 显示链路问题，换显示器验证。'
+  },
+  {
+    id: 'wo_pc_disk',
+    title: '台式机卡在开机画面',
+    chapter: 7,
+    scene: '财务室',
+    customer: '开机一直转圈圈，进不去系统，重要合同都在里面！',
+    customerAccurate: true,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['pc1'],
+    faults: [{ fault: 'pc_disk_full', target: 'pc1' }],
+    availableActions: ['inspect_power', 'pc_clear_disk'],
+    acceptance: [{ device: 'pc1', comp: 'usable', equals: true }],
+    funnyFeedback: '清了 40G 缓存，系统顺利进入。合同还在，客户发出了灵魂感叹。',
+    referencePath: [
+      { action: 'inspect_power', target: 'pc1' },
+      { action: 'pc_clear_disk', target: 'pc1' }
+    ],
+    tutorial: '系统盘写满会导致无法启动；清理系统盘即可恢复，无需重装。'
+  },
+  {
+    id: 'wo_server_disk',
+    title: '服务器关键服务停摆',
+    chapter: 7,
+    scene: '机房',
+    customer: '业务全挂了！是不是内存又漏了？上次重启一下就好了。',
+    customerAccurate: false,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['server'],
+    faults: [{ fault: 'server_disk_full' }],
+    availableActions: ['inspect_power', 'restart_service', 'clear_disk'],
+    acceptance: [{ device: 'server', comp: 'serviceRunning', equals: true }],
+    funnyFeedback: '重启服务没用——磁盘满了。清完日志，服务自己就起来了。',
+    referencePath: [
+      { action: 'inspect_power', target: 'server' },
+      { action: 'clear_disk', target: 'server' }
+    ],
+    tutorial: '服务停摆不止"内存泄漏"一种原因，磁盘写满同样会让服务起不来；先看清根因再动手。'
+  },
+  {
+    id: 'wo_sdoor_dead',
+    title: '感应门纹丝不动',
+    chapter: 7,
+    scene: '写字楼大堂',
+    customer: '门一点反应都没有，推也推不开，是不是停电了？',
+    customerAccurate: false,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['sdoor1'],
+    faults: [{ fault: 'sd_controller_dead' }],
+    availableActions: ['inspect_power', 'sd_reset_controller'],
+    acceptance: [{ device: 'sdoor1', comp: 'openOk', equals: true }],
+    funnyFeedback: '控制器死机了，复位后门"叮"地开了。客户尴尬地收回了"停电论"。',
+    referencePath: [
+      { action: 'inspect_power', target: 'sdoor1' },
+      { action: 'sd_reset_controller', target: 'sdoor1' }
+    ],
+    tutorial: '供电正常但门没反应 → 查控制器是否死机，复位控制器即可。'
+  },
+  {
+    id: 'wo_sdoor_jam',
+    title: '感应门卡住推不开',
+    chapter: 7,
+    scene: '写字楼大堂',
+    customer: '感应到了但门只开一条缝，像被什么卡住了。',
+    customerAccurate: true,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['sdoor1'],
+    faults: [{ fault: 'sd_door_jam' }],
+    availableActions: ['inspect_power', 'sd_lube'],
+    acceptance: [{ device: 'sdoor1', comp: 'openOk', equals: true }],
+    funnyFeedback: '门体导轨干涩卡阻，润滑之后顺畅开合。客户当场给它报了保养。',
+    referencePath: [
+      { action: 'inspect_power', target: 'sdoor1' },
+      { action: 'sd_lube', target: 'sdoor1' }
+    ],
+    tutorial: '感应正常但门体不动 → 机械卡阻，润滑门体。'
+  },
+  {
+    id: 'wo_cam_night',
+    title: '摄像头夜里拍不到人',
+    chapter: 7,
+    scene: '园区',
+    customer: '白天画面好好的，一到晚上就一片黑，是不是被人黑了？',
+    customerAccurate: false,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['sw_core', 'cam2'],
+    faults: [{ fault: 'cam_ir_broken', target: 'cam2' }],
+    availableActions: ['inspect_link', 'check_cam', 'replace_ir'],
+    acceptance: [{ device: 'cam2', comp: 'nightVision', equals: true }],
+    funnyFeedback: '红外灯板老化，换上新的夜视灯板，黑夜重新"亮"了。',
+    referencePath: [
+      { action: 'inspect_link', target: 'cam2' },
+      { action: 'check_cam', target: 'cam2' },
+      { action: 'replace_ir', target: 'cam2' }
+    ],
+    tutorial: '在线、白天正常，只有夜视失效 → 定位红外灯板，而不是链路或供电。'
+  },
+  {
+    id: 'wo_cam_adapter',
+    title: '摄像头整路断电',
+    chapter: 7,
+    scene: '园区',
+    customer: '这个摄像头彻底不亮了，灯都不闪，肯定得换整机。',
+    customerAccurate: false,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['sw_core', 'cam1'],
+    faults: [{ fault: 'cam_power_adapter', target: 'cam1' }],
+    availableActions: ['inspect_link', 'check_cam', 'replace_adapter'],
+    acceptance: [
+      { device: 'cam1', comp: 'online', equals: true },
+      { device: 'cam1', comp: 'videoAvailable', equals: true }
+    ],
+    funnyFeedback: '只是电源适配器坏了。换了适配器，摄像头复活，整机订单被取消。',
+    referencePath: [
+      { action: 'inspect_link', target: 'cam1' },
+      { action: 'check_cam', target: 'cam1' },
+      { action: 'replace_adapter', target: 'cam1' }
+    ],
+    tutorial: '摄像头本机断电（灯不亮）而交换机正常 → 先查本机供电/适配器，别急着换整机。'
+  },
+  {
+    id: 'wo_cable_plug',
+    title: '一路摄像头掉线：网线接头松',
+    chapter: 7,
+    scene: '园区',
+    customer: 'C 点这个摄像头突然就离线了，其他的都好。',
+    customerAccurate: true,
+    constraints: { timeBudget: 20, noFactoryReset: true },
+    devices: ['sw_core', 'cam3', 'cab_cam3'],
+    faults: [{ fault: 'cab_plug_loose', target: 'cab_cam3' }],
+    availableActions: ['inspect_link', 'test_cable', 'cab_replug', 'cab_swap'],
+    acceptance: [
+      { device: 'cam3', comp: 'online', equals: true },
+      { device: 'cam3', comp: 'videoAvailable', equals: true }
+    ],
+    funnyFeedback: '接头松了。你把它插紧，C 点回来了，交换机也终于被排除了嫌疑。',
+    referencePath: [
+      { action: 'inspect_link', target: 'cam3' },
+      { action: 'test_cable', target: 'cab_cam3' },
+      { action: 'cab_replug', target: 'cab_cam3' }
+    ],
+    tutorial: '单路离线、其余正常 → 只查这一路的网线与接头（先测线，再重插两端）。'
+  },
+  {
+    id: 'wo_ups_broken',
+    title: '市电跳闸，UPS 也坏了',
+    chapter: 7,
+    scene: '机房',
+    customer: '整层楼都没电了！UPS 应该有电的吧，怎么也全断了？',
+    customerAccurate: false,
+    constraints: { timeBudget: 25, noFactoryReset: true },
+    devices: ['pw_main', 'ups1', 'sw_core', 'server', 'nvr'],
+    faults: [{ fault: 'mains_out' }, { fault: 'ups_fault' }],
+    availableActions: ['inspect_link', 'check_ups', 'reset_breaker', 'fix_ups'],
+    acceptance: [
+      { device: 'sw_core', comp: 'powered', equals: true },
+      { device: 'nvr', comp: 'recording', equals: true }
+    ],
+    funnyFeedback: '市电跳闸 + UPS 自身故障，双保险同时失效。你合闸、修 UPS，世界重新通电。',
+    referencePath: [
+      { action: 'inspect_link', target: 'ups1' },
+      { action: 'reset_breaker', target: 'pw_main' },
+      { action: 'fix_ups', target: 'ups1' }
+    ],
+    tutorial: '市电与 UPS 同时失效才叫"双保险全断"。只合闸能临时复电，但 UPS 故障这一根因仍在。'
   }
 ]
 

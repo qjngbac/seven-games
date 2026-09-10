@@ -173,6 +173,21 @@ export function compileRuleSet(raw: RawRuleSet): CompileResult {
     }
   }
 
+  // 双重反转检测：两条 INVERT_BASE 若可能同时命中，会互相抵消（"反转两次 = 没反转"），
+  // 玩家无法预判，属于语义陷阱 —— 加载期直接拦截，不入游戏。
+  // 注意：不同优先级的「同谓词不同动作」是优先级机制的正常用法（高优先级覆盖低优先级），
+  // 不算冲突，故此处只针对 INVERT_BASE 这一修饰型动作。
+  const inverts = rules.filter((r) => r.action === "INVERT_BASE");
+  for (let i = 0; i < inverts.length; i++) {
+    for (let j = i + 1; j < inverts.length; j++) {
+      if (overlap(inverts[i].predicate, inverts[j].predicate)) {
+        errors.push(
+          `双重反转冲突：${inverts[i].id} 与 ${inverts[j].id} 同为 INVERT_BASE 且可能同时命中，会互相抵消，玩家无法预判`,
+        );
+      }
+    }
+  }
+
   const ruleSet: RuleSet | null = errors.length === 0
     ? {
         id: raw.id,

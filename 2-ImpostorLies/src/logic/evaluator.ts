@@ -37,22 +37,31 @@ export function evaluate(
       return v === undefined ? undefined : !v;
     }
     case "and": {
-      let all = true;
+      // 三值逻辑 + 短路：只要有一项为假，整体即为假（即使其它项未定）。
+      // 不短路会让可解谜题被误判为「无法收敛」而被内容校验拒收。
+      let anyUndefined = false;
       for (const a of expr.args) {
         const v = evaluate(a, roles, truth);
-        if (v === undefined) return undefined;
-        if (!v) all = false;
+        if (v === undefined) {
+          anyUndefined = true;
+          continue;
+        }
+        if (!v) return false;
       }
-      return all;
+      return anyUndefined ? undefined : true;
     }
     case "or": {
-      let any = false;
+      // 三值逻辑 + 短路：只要有一项为真，整体即为真（即使其它项未定）。
+      let anyUndefined = false;
       for (const a of expr.args) {
         const v = evaluate(a, roles, truth);
-        if (v === undefined) return undefined;
-        if (v) any = true;
+        if (v === undefined) {
+          anyUndefined = true;
+          continue;
+        }
+        if (v) return true;
       }
-      return any;
+      return anyUndefined ? undefined : false;
     }
     case "eqTruth": {
       const l = truth[expr.left];
@@ -104,11 +113,12 @@ export function computeTruth(
     }
     if (!changed) break;
   }
-  // 仍有可能依赖未定的 → 自指/循环，无法收敛
+  // 若仍有未定的真值 → 自指/循环，无法收敛
   const illformed =
     statements.length > 0 && statements.some((s) => truth[s.id] === undefined);
   if (illformed) {
-    // 仍做一次稳定性校验：即便都"算出了"，也可能互相矛盾
+    // 交叉校验：对已确定的陈述再算一遍，确认它们互相不矛盾
+    // （truth 一旦写入就不再改写，正常情况下不会矛盾；这里作为防御性断言保留）
     for (const s of statements) {
       const v = evaluate(s.expr, roles, truth);
       if (v !== undefined && v !== truth[s.id]) {

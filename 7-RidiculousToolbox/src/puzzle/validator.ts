@@ -92,6 +92,34 @@ export function validateLevel(level: Level): ValidationIssue[] {
     collectTargets(s.predicate, targetIds, issues, level.id);
   }
 
+  // 工具消耗语义一致性（新增）：
+  // 若某标签在本关的任一配方里被声明为 consumed:false（= 可复用的「工具」），
+  // 则本关所有使用该标签的配方都必须同样声明 consumed:false。
+  // 否则会出现"用工具捅了一下进风口，工具就消失了"这类软锁（最佳解再也做不出来）。
+  const tagToolFlags = new Map<string, Set<boolean>>();
+  const tagRecipes = new Map<string, string[]>();
+  for (const r of level.recipes) {
+    for (const inp of r.inputs) {
+      if (!inp.tag) continue;
+      const consumed = inp.consumed ?? true;
+      if (!tagToolFlags.has(inp.tag)) {
+        tagToolFlags.set(inp.tag, new Set());
+        tagRecipes.set(inp.tag, []);
+      }
+      tagToolFlags.get(inp.tag)!.add(consumed);
+      if (!consumed) tagRecipes.get(inp.tag)!.push(r.recipeId);
+    }
+  }
+  for (const [tag, flags] of tagToolFlags) {
+    if (flags.has(false) && flags.has(true)) {
+      issues.push({
+        levelId: level.id,
+        severity: 'error',
+        message: `工具消耗语义不一致：标签 "${tag}" 在 ${tagRecipes.get(tag)!.join('、')} 中被当作不消耗的工具，却在其它配方中会被消耗（会导致关键道具被意外用掉）`,
+      });
+    }
+  }
+
   return issues;
 }
 

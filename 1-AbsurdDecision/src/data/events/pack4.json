@@ -1,0 +1,238 @@
+[
+  {
+    "id": "crisis_techdebt_001",
+    "category": "ops",
+    "weight": 12,
+    "priority": 1.6,
+    "conditions": { "resourceRange": { "techDebt": [70, 100] } },
+    "title": "系统开始自己报错了",
+    "body": "技术债堆到这个份上，报错日志已经多到打印机都嫌吵。运维在群里@了你三次，语气一次比一次平静。",
+    "clues": ["运维：@你 3 次（平静）", "日志里出现了三年前删掉的模块名"],
+    "choices": [
+      {
+        "id": "pay_down",
+        "text": "今晚加班，把最脏的那个模块重写掉",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": -18 },
+          { "type": "resource", "target": "spirit", "value": -8 },
+          { "type": "resource", "target": "reputation", "value": 3 }
+        ],
+        "resultText": "凌晨两点，你删掉了 600 行祖传代码。编译通过的那一刻，你在工位上小声鼓了个掌。",
+        "hidden": "长期债务必须用短期精力偿还"
+      },
+      {
+        "id": "add_more",
+        "text": "先加一层重试兜住，别让业务挂",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": 8 },
+          { "type": "resource", "target": "money", "value": 2 }
+        ],
+        "resultText": "重试逻辑上线，报错被压住了——压在了更深的地方。运维说「稳了」，你笑而不语。",
+        "hidden": "掩盖比修复便宜，也更贵"
+      },
+      {
+        "id": "blame_legacy",
+        "text": "写一篇长文说明这是历史遗留问题",
+        "requires": { "forbiddenTags": ["techdebt_owner"] },
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -4 },
+          { "type": "resource", "target": "spirit", "value": 3 },
+          { "type": "tag", "target": "techdebt_owner", "value": true }
+        ],
+        "resultText": "文章获得 12 个赞和 1 条来自 CTO 的「来我办公室」。你感觉自己轻了一点。",
+        "hidden": "责任转嫁的即时快感与长期代价"
+      }
+    ],
+    "meta": { "testsJudgment": true, "funny": "报错多到打印机嫌吵", "hook": "技术债危机专属事件" }
+  },
+  {
+    "id": "crisis_spirit_001",
+    "category": "absurd",
+    "weight": 12,
+    "priority": 1.6,
+    "conditions": { "resourceRange": { "spirit": [0, 25] } },
+    "title": "你在厕所隔间坐了二十分钟",
+    "body": "不是在上厕所，只是需要一个没有钉钉的地方。镜子里的你来了一句：「要不，算了吧？」",
+    "clues": ["你已经连续四天梦见需求文档"],
+    "choices": [
+      {
+        "id": "tea_ritual",
+        "text": "泡一杯茶，光明正大地发呆十分钟",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 10 },
+          { "type": "resource", "target": "reputation", "value": -2 },
+          { "type": "resource", "target": "techDebt", "value": 2 }
+        ],
+        "resultText": "十分钟后你回到工位，发现世界并没有因为你离开而崩溃——这既让人放松，又让人有点失落。",
+        "hidden": "休息不是偷懒，是维修"
+      },
+      {
+        "id": "push_through",
+        "text": "把水龙头开到最大，然后回去继续改",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": -4 },
+          { "type": "resource", "target": "reputation", "value": 3 },
+          { "type": "resource", "target": "money", "value": 2 }
+        ],
+        "resultText": "你回去改完了需求。评审会上你的发言格外简短，大家都很满意。",
+        "hidden": "硬撑能换来短期业绩"
+      },
+      {
+        "id": "tell_manager",
+        "text": "找直属领导说「我最近状态不好」",
+        "requires": { "requiredTags": ["boss_meeting_done"] },
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 14 },
+          { "type": "relation", "target": "boss", "value": 2 },
+          { "type": "resource", "target": "reputation", "value": -3 }
+        ],
+        "resultText": "领导沉默了两秒，说「那你这周早点走」。你差点在会议室哭出来。",
+        "hidden": "已与老板建立沟通渠道后才能坦白"
+      }
+    ],
+    "meta": { "testsJudgment": true, "funny": "需要一个没有钉钉的地方", "hook": "精神危机专属事件" }
+  },
+  {
+    "id": "crisis_money_001",
+    "category": "finance",
+    "weight": 12,
+    "priority": 1.6,
+    "conditions": { "resourceRange": { "money": [0, 20] } },
+    "title": "房东发来了续租通知",
+    "body": "房租涨 8%。你盯着余额看了很久，然后打开了兼职接单群。",
+    "clues": ["余额提醒：本月剩余额度 3 位数", "群里有人发「急单，通宵，价格好谈」"],
+    "choices": [
+      {
+        "id": "take_gig",
+        "text": "接一个通宵私活",
+        "effects": [
+          { "type": "resource", "target": "money", "value": 14 },
+          { "type": "resource", "target": "spirit", "value": -7 },
+          { "type": "resource", "target": "techDebt", "value": 4 }
+        ],
+        "resultText": "钱到账了。你在早晨七点的地铁上睡着了，坐过了三站。",
+        "hidden": "短期收入换长期精力"
+      },
+      {
+        "id": "cut_costs",
+        "text": "从今天起午饭自带",
+        "effects": [
+          { "type": "resource", "target": "money", "value": 6 },
+          { "type": "resource", "target": "spirit", "value": -2 }
+        ],
+        "resultText": "你连续吃了一个月的鸡蛋炒饭。同事开始管你叫「蛋总」。",
+        "hidden": "节流有效但消磨人"
+      },
+      {
+        "id": "ask_raise",
+        "text": "拿涨租通知去找老板谈涨薪",
+        "requires": { "requiredTags": ["boss_meeting_done"] },
+        "effects": [
+          { "type": "resource", "target": "money", "value": 18 },
+          { "type": "relation", "target": "boss", "value": -2 },
+          { "type": "resource", "target": "reputation", "value": -2 }
+        ],
+        "resultText": "老板说「公司今年也难」，然后给你涨了 5%。你知道这是他能给的上限了。",
+        "hidden": "已与老板有沟通基础才敢提"
+      }
+    ],
+    "meta": { "testsJudgment": true, "funny": "蛋总", "hook": "金钱危机专属事件" }
+  },
+  {
+    "id": "crisis_reputation_001",
+    "category": "social",
+    "weight": 12,
+    "priority": 1.6,
+    "conditions": { "resourceRange": { "reputation": [0, 25] } },
+    "title": "HR 把你拉进了观察名单",
+    "body": "你不知道是谁传的，但「他最近状态不太对」这句话已经传了三个群。会议室的门今天看起来格外像审判席。",
+    "clues": ["群里有人转发了你的错别字截图", "HR：方便的话，下午聊两句？"],
+    "choices": [
+      {
+        "id": "face_it",
+        "text": "主动约 HR，把话说清楚",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 10 },
+          { "type": "resource", "target": "spirit", "value": -4 }
+        ],
+        "resultText": "聊完之后 HR 说「其实没什么大事」。你花了一整个下午证明自己没什么大事。",
+        "hidden": "主动澄清比被动积累有效"
+      },
+      {
+        "id": "lay_low",
+        "text": "降低存在感，少说话多干活",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": 4 },
+          { "type": "resource", "target": "spirit", "value": -2 },
+          { "type": "resource", "target": "money", "value": 3 }
+        ],
+        "resultText": "你成为了办公室里最安静的那个人。没人再议论你，也没人再记得你。",
+        "hidden": "低调能止损，也会被遗忘"
+      },
+      {
+        "id": "leak_back",
+        "text": "顺手把别人的截图也发出去",
+        "effects": [
+          { "type": "resource", "target": "reputation", "value": -12 },
+          { "type": "resource", "target": "spirit", "value": 6 },
+          { "type": "resource", "target": "techDebt", "value": 3 }
+        ],
+        "resultText": "群里安静了三天。第四天，HR 又找你了，这次语气不太一样。",
+        "hidden": "以恶制恶的代价"
+      }
+    ],
+    "meta": { "testsJudgment": true, "funny": "会议室像审判席", "hook": "声誉危机专属事件" }
+  },
+  {
+    "id": "crisis_burnout_001",
+    "category": "meeting",
+    "weight": 10,
+    "priority": 1.5,
+    "conditions": {
+      "dayMin": 3,
+      "resourceRange": { "techDebt": [50, 100], "spirit": [0, 35] }
+    },
+    "title": "凌晨的告警把你叫醒了",
+    "body": "技术债和睡眠一起告急。手机在床头震动，屏幕上写着「生产环境服务异常」。你知道点开之后，这一夜就没了。",
+    "clues": ["告警连续响了 5 次", "你上一次完整睡够 7 小时是上周二"],
+    "choices": [
+      {
+        "id": "get_up",
+        "text": "爬起来处理，顺手把根因也修了",
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": -12 },
+          { "type": "resource", "target": "spirit", "value": -8 },
+          { "type": "resource", "target": "reputation", "value": 5 }
+        ],
+        "resultText": "凌晨四点服务恢复。你在群里发了「已处理」，然后盯着天花板等到天亮。",
+        "hidden": "一次彻底修复能同时压低债务与声誉风险"
+      },
+      {
+        "id": "mute_phone",
+        "text": "静音，继续睡，明天再说",
+        "effects": [
+          { "type": "resource", "target": "spirit", "value": 6 },
+          { "type": "resource", "target": "reputation", "value": -8 },
+          { "type": "resource", "target": "techDebt", "value": 5 }
+        ],
+        "resultText": "你睡了个好觉。第二天早上有 47 条未读，其中 3 条来自老板。",
+        "hidden": "回避换来睡眠与更大的麻烦"
+      },
+      {
+        "id": "wake_team",
+        "text": "把运维和同事一起叫起来",
+        "requires": { "forbiddenTags": ["burnout_called_team"] },
+        "effects": [
+          { "type": "resource", "target": "techDebt", "value": -6 },
+          { "type": "resource", "target": "spirit", "value": -3 },
+          { "type": "relation", "target": "ops", "value": -3 },
+          { "type": "resource", "target": "reputation", "value": -3 },
+          { "type": "tag", "target": "burnout_called_team", "value": true }
+        ],
+        "resultText": "四个人在凌晨三点一起看日志。问题解决了，人情也欠下了。",
+        "hidden": "分摊责任会消耗关系（且只能做一次）"
+      }
+    ],
+    "meta": { "testsJudgment": true, "funny": "47 条未读", "hook": "复合资源危机事件" }
+  }
+]

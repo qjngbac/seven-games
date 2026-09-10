@@ -105,6 +105,7 @@ export class DeskController {
       wrongAllow,
       wrongDeny,
       detainCount,
+      judged,
       accuracy,
       salary,
       penalty,

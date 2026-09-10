@@ -9,6 +9,9 @@ import os from 'node:os'
 
 const PORT = Number(process.env.PORT || 5200)
 const ROOT = process.cwd()
+// 默认只监听回环地址：这是单机游戏，暴露到局域网既无必要，也会触发 Windows 防火墙弹窗。
+// 需要手机/局域网联机调试时显式开启：HOST=0.0.0.0 node serve.mjs
+const HOST = process.env.HOST || '127.0.0.1'
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -82,12 +85,13 @@ function lanIP() {
   return null
 }
 
-server.listen(PORT, '0.0.0.0', () => {
-  const ip = lanIP()
+server.listen(PORT, HOST, () => {
+  const ip = HOST === '127.0.0.1' || HOST === 'localhost' ? null : lanIP()
   console.log('\n  🎮 七款小游戏 · 统一大厅已启动')
   console.log('  ────────────────────────────────────')
-  console.log('  本机访问 :  http://localhost:' + PORT + '/')
+  console.log('  本机访问 :  http://127.0.0.1:' + PORT + '/')
   if (ip) console.log('  手机/局域网: http://' + ip + ':' + PORT + '/   (同一 WiFi 下)')
+  else console.log('  （仅本机可访问；如需局域网访问请用 HOST=0.0.0.0 启动）')
   console.log('  ────────────────────────────────────')
   console.log('  按 Ctrl+C 停止\n')
 })

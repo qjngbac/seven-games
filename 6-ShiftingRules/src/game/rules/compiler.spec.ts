@@ -65,4 +65,29 @@ describe("compileRuleSet", () => {
     expect(res.ruleset).not.toBeNull();
     expect(res.errors).toHaveLength(0);
   });
+
+  it("双重反转（两条 INVERT_BASE 谓词重叠）被拒", () => {
+    const res = compileRuleSet({
+      id: "double-invert",
+      name: "double-invert",
+      rules: [
+        { id: "inv1", predicate: { character: "cat" }, action: "INVERT_BASE", priority: 100, text: "猫反转" },
+        { id: "inv2", predicate: { character: "cat" }, action: "INVERT_BASE", priority: 200, text: "猫又反转" },
+      ],
+    });
+    expect(res.errors.some((e) => e.includes("双重反转"))).toBe(true);
+  });
+
+  it("不同优先级的同谓词不同动作属正常覆盖，不算冲突", () => {
+    const res = compileRuleSet({
+      id: "override",
+      name: "override",
+      rules: [
+        { id: "low", predicate: { color: "red" }, action: "LEFT", priority: 10, text: "红左" },
+        { id: "high", predicate: { color: "red" }, action: "RIGHT", priority: 100, text: "红右" },
+      ],
+    });
+    expect(res.errors).toHaveLength(0);
+    expect(res.conflicts).toHaveLength(0);
+  });
 });

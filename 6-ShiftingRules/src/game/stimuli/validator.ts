@@ -75,3 +75,33 @@ export function validateRuleSet(rules: Rule[], rng: Rng, sampleSize = 20000): Va
     distinctActions: actionSet.size,
   };
 }
+
+/**
+ * 校验「动态揭示能否覆盖整包规则」。
+ *
+ * 背景：普通/每日模式只在 targetRounds 轮内进行，而规则是开局 initialActive 条 + 每
+ * revealEvery 轮揭示 1 条。若 规则总数 > initialActive + floor(targetRounds / revealEvery)，
+ * 就会有规则整局永不生效（既不可玩，也让"难度递增"名不副实）。
+ * 采样式 validateRuleSet 只校验"规则生效后是否自洽"，无法发现这一类不可达。
+ *
+ * @returns null 表示可覆盖；否则返回人类可读的问题描述。
+ */
+export function validateRevealCoverage(
+  ruleset: import("../rules/schema").RuleSet,
+  targetRounds: number,
+): string | null {
+  const total = ruleset.rules.length;
+  const initial = Math.min(ruleset.initialActive, total);
+  const remaining = total - initial;
+  if (remaining <= 0) return null;
+  if (ruleset.revealEvery <= 0) {
+    return `规则集 ${ruleset.id}：还有 ${remaining} 条规则未开局生效，但 revealEvery=0（永不揭示）`;
+  }
+  // 与 GameSession 保持一致的口径：均匀铺开，下限 1
+  const interval = Math.max(1, Math.min(ruleset.revealEvery, Math.floor(targetRounds / remaining)));
+  const reveals = Math.floor(targetRounds / interval);
+  if (reveals < remaining) {
+    return `规则集 ${ruleset.id}：${targetRounds} 轮内最多揭示 ${reveals} 条，仍有 ${remaining - reveals} 条规则永不生效（总数 ${total}，开局 ${initial}，间隔 ${ruleset.revealEvery}）`;
+  }
+  return null;
+}

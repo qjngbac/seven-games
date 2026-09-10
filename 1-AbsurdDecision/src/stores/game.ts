@@ -18,7 +18,7 @@ import { bandOf } from "../core/resources";
 import type { Band } from "../core/types";
 import { choiceAvailable } from "../core/eventSelector";
 import { CONTENT, CONTENT_ERRORS, CONTENT_STATS, reportContent } from "../data";
-import { loadGame, saveGame, clearSave, hasSave, migrate } from "../services/save";
+import { loadGame, saveGame, clearSave, hasUsableSave, migrate } from "../services/save";
 import { sound } from "../services/audio";
 
 export type Screen =
@@ -90,7 +90,8 @@ export const useGame = defineStore("game", () => {
       sound.toggle(false);
     }
     if (CONTENT_ERRORS.length) lastError.value = contentReport.value;
-    savePresent.value = hasSave();
+    // 用"能否真正读出一份合法存档"来判断，而不是仅看键是否存在
+    savePresent.value = hasUsableSave();
     screen.value = "MAIN_MENU";
   }
 
@@ -116,9 +117,13 @@ export const useGame = defineStore("game", () => {
   function continueGame() {
     const st = loadGame();
     if (!st) {
+      // 存档损坏 / 版本不兼容：明确告知，而不是静默回菜单让玩家以为按钮坏了
+      lastError.value = "存档已损坏或版本不兼容，无法继续。可从主菜单开始新游戏。";
+      savePresent.value = false;
       screen.value = "MAIN_MENU";
       return;
     }
+    lastError.value = "";
     game.value = st;
     rng = new Rng(st.rngState ?? st.seed);
     // 恢复界面

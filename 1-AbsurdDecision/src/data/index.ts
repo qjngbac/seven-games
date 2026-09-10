@@ -3,11 +3,12 @@
 import pack1 from "./events/pack1.json";
 import pack2 from "./events/pack2.json";
 import pack3 from "./events/pack3.json";
+import pack4 from "./events/pack4.json";
 import type { ContentPack, EventDef } from "../core/types";
 import { buildContent, RELATIONS } from "./world";
 import { validateContent, validateEvent } from "./schema";
 
-const rawPacks = [pack1, pack2, pack3];
+const rawPacks = [pack1, pack2, pack3, pack4];
 
 function load(): { content: ContentPack; errors: string[]; total: number; kept: number } {
   const all = rawPacks.flat() as EventDef[];

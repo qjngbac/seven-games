@@ -45,4 +45,4 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(port, () => console.log(`[serve] http://localhost:${port}/  (root=${root})`));
+server.listen(port, '127.0.0.1', () => console.log(`[serve] http://localhost:${port}/  (root=${root})`));

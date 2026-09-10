@@ -105,13 +105,15 @@ export function applyEffects(
   const snap = cloneState(state);
   try {
     const resourceDelta: Partial<Record<ResourceKey, number>> = {};
+    const appliedTags: string[] = [];
     for (const e of effects) {
       const d = commitOne(state, e, rm);
+      if (e.type === "tag") appliedTags.push(e.target);
       for (const k of Object.keys(d) as ResourceKey[]) {
         resourceDelta[k] = (resourceDelta[k] ?? 0) + (d[k] ?? 0);
       }
     }
-    return { ok: true, resourceDelta, appliedTags: [] };
+    return { ok: true, resourceDelta, appliedTags };
   } catch (err) {
     // 回滚并报告内容错误
     Object.assign(state, snap);

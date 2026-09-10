@@ -12,7 +12,7 @@ npm install          # 安装依赖（vue / pinia / vite / vitest / typescript�
 npm run dev          # 开发热更预览（默认 http://localhost:5173）
 npm run build        # 类型检查 + 生产构建，产出 dist/
 node serve.cjs 5185  # 静态预览已构建产物（http://localhost:5185/）
-npm test             # 运行全部单元测试（含 32 关批量唯一解验证）
+npm test             # 运行全部单元测试（含 36 关批量唯一解验证）
 npm run typecheck    # 仅类型检查
 ```
 
@@ -31,7 +31,7 @@ src/
   puzzle/
     schema.ts             # 谜题 JSON 形状校验
     validator.ts          # 引用/唯一解/自指 深度校验；错误内容跳过不发布
-    repository.ts         # 加载 8 章 JSON、分组、dev 暴露全部解
+    repository.ts         # 加载 9 章 JSON、分组、dev 暴露全部解
   features/
     board/board.ts        # 玩家推理板：标记 + 撤销栈 + 按「恰好 N」约束自动推导
     hints/hints.ts        # 三级提示（从唯一解合成，对全部解成立）
@@ -40,7 +40,7 @@ src/
     settings.ts           # 设置 + 进度，事务式 localStorage 存档
     audio.ts              # WebAudio 合成音效（无音频资源文件）
     store.ts              # Pinia 状态机：菜单→章节→关卡说明→推理→校验→错误分析/结算
-  data/puzzles/           # 32 关内容（8 章 × 4 关），由生成器产出并验证唯一解
+  data/puzzles/           # 36 关内容（9 章 × 4 关），由生成器产出并验证唯一解
   dev/generator.ts        # 谜题生成器（开发期工具 / 批量求解校验）
   components/             # Vue 界面：主菜单/章节/关卡说明/推理主界面/结算
   App.vue / main.ts / styles.css
@@ -55,21 +55,22 @@ src/
 
 ## 内容生产：正确性即玩法
 
-32 关由 `src/dev/generator.ts` 用求解器当「预言机」自动搜索——只保留「能在目标世界成为解、
+36 关由 `src/dev/generator.ts` 用求解器当「预言机」自动搜索——只保留「能在目标世界成为解、
 且求解器判定为唯一解」的谜题，避免手工写出多解/无解内容。运行：
 
 ```bash
 GEN=1 npx vitest run src/dev/generate.spec.ts
 ```
 
-八章渐进难度：经典真假话 / 陈述互相引用 / 身份决定说话规则 /
+九章渐进难度：经典真假话 / 陈述互相引用 / 身份决定说话规则 /
 量词变体（多伪装者+恰好 N 真）/ 全员身份谜（身份互不相同）/
-五人剧本杀（恰好 1 伪装者）/ 双重间谍（2 个伪装者）/ 末日方舟（四人身份谜）。
+五人剧本杀（恰好 1 伪装者）/ 双重间谍（2 个伪装者）/ 末日方舟（四人身份谜）/
+深空法庭（身份谜 + 陈述互相引用真假的进阶版）。
 
 ## 验证结果
 
-- `npm test`：**32/32 通过**——逻辑内核（无解/多解/唯一解、嵌套 not/and/or、eqTruth、
-  自指循环检测）、推理板、评分、解释器，以及**32 关批量求解全部唯一解、无校验错误**。
+- `npm test`：全部通过——逻辑内核（无解/多解/唯一解、嵌套 not/and/or、eqTruth、
+  自指循环检测）、推理板、评分、解释器，以及**36 关批量求解全部唯一解、无校验错误**。
 - `npm run typecheck`、`npm run build`：通过（JS ~132 KB / gzip 45 KB）。
 - 可访问性：色弱模式（颜色+文字/形状双编码）、大字号、减少抖动、键盘操作为主。
 

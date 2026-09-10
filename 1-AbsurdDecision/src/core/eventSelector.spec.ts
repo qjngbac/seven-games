@@ -80,3 +80,85 @@ describe("EventSelector 条件 / 抽取", () => {
     }
   });
 });
+
+describe("资源危机专属事件（resourceRange）与选项前置（requires）", () => {
+  const crisis = (id: string): EventDef => CONTENT.events.find((e) => e.id === id)!;
+
+  it("内容加载无错误，且危机事件已进入内容池", () => {
+    expect(CONTENT.events.some((e) => e.id === "crisis_techdebt_001")).toBe(true);
+    expect(CONTENT.events.some((e) => e.id === "crisis_spirit_001")).toBe(true);
+    expect(CONTENT.events.some((e) => e.id === "crisis_money_001")).toBe(true);
+    expect(CONTENT.events.some((e) => e.id === "crisis_reputation_001")).toBe(true);
+    expect(CONTENT.events.some((e) => e.id === "crisis_burnout_001")).toBe(true);
+  });
+
+  it("技术债高时才eligible，低时不可抽到", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.resources.techDebt = 10;
+    expect(eventEligible(crisis("crisis_techdebt_001"), s, CONTENT)).toBe(false);
+    s.resources.techDebt = 80;
+    expect(eventEligible(crisis("crisis_techdebt_001"), s, CONTENT)).toBe(true);
+  });
+
+  it("复合条件：技术债高且精神低才出现（凌晨告警）", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.day = 4;
+    s.resources.techDebt = 80;
+    s.resources.spirit = 60;
+    expect(eventEligible(crisis("crisis_burnout_001"), s, CONTENT)).toBe(false);
+    s.resources.spirit = 20;
+    expect(eventEligible(crisis("crisis_burnout_001"), s, CONTENT)).toBe(true);
+  });
+
+  it("选项前置生效：没有对应标签时该选项不可选，但事件仍有其它可选项", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.resources.money = 5;
+    const ev = crisis("crisis_money_001");
+    const gated = ev.choices.find((c) => c.id === "ask_raise")!;
+    expect(choiceAvailable(gated, s, CONTENT)).toBe(false);
+    expect(eventEligible(ev, s, CONTENT), "仍应有其它可选项，事件不能变成死锁").toBe(true);
+    s.tags.push("boss_meeting_done");
+    expect(choiceAvailable(gated, s, CONTENT)).toBe(true);
+  });
+});
+
+describe("资源危机专属事件（resourceRange）与选项前置（requires）", () => {
+  const crisis = (id: string): EventDef => CONTENT.events.find((e) => e.id === id)!;
+
+  it("内容加载无错误，且危机事件已进入内容池", () => {
+    expect(CONTENT.events.some((e) => e.id === "crisis_techdebt_001")).toBe(true);
+    expect(CONTENT.events.some((e) => e.id === "crisis_spirit_001")).toBe(true);
+    expect(CONTENT.events.some((e) => e.id === "crisis_money_001")).toBe(true);
+    expect(CONTENT.events.some((e) => e.id === "crisis_reputation_001")).toBe(true);
+    expect(CONTENT.events.some((e) => e.id === "crisis_burnout_001")).toBe(true);
+  });
+
+  it("技术债高时才eligible，低时不可抽到", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.resources.techDebt = 10;
+    expect(eventEligible(crisis("crisis_techdebt_001"), s, CONTENT)).toBe(false);
+    s.resources.techDebt = 80;
+    expect(eventEligible(crisis("crisis_techdebt_001"), s, CONTENT)).toBe(true);
+  });
+
+  it("复合条件：技术债高且精神低才出现（凌晨告警）", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.day = 4;
+    s.resources.techDebt = 80;
+    s.resources.spirit = 60;
+    expect(eventEligible(crisis("crisis_burnout_001"), s, CONTENT)).toBe(false);
+    s.resources.spirit = 20;
+    expect(eventEligible(crisis("crisis_burnout_001"), s, CONTENT)).toBe(true);
+  });
+
+  it("选项前置生效：没有对应标签时该选项不可选，但事件仍有其它可选项", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.resources.money = 5;
+    const ev = crisis("crisis_money_001");
+    const gated = ev.choices.find((c) => c.id === "ask_raise")!;
+    expect(choiceAvailable(gated, s, CONTENT)).toBe(false);
+    expect(eventEligible(ev, s, CONTENT), "仍应有其它可选项，事件不能变成死锁").toBe(true);
+    s.tags.push("boss_meeting_done");
+    expect(choiceAvailable(gated, s, CONTENT)).toBe(true);
+  });
+});

@@ -27,6 +27,24 @@ describe("EffectEngine 事务化结算", () => {
     expect(s.tags).not.toContain("x");
   });
 
+  it("appliedTags 应真实反映本批标签效果（而非恒为空数组）", () => {
+    const s = fresh();
+    const r = applyEffects(
+      s,
+      [
+        { type: "tag", target: "found_loose_cable", value: true },
+        { type: "resource", target: "money", value: -2 },
+      ],
+      content
+    );
+    expect(r.ok).toBe(true);
+    expect(r.appliedTags).toEqual(["found_loose_cable"]);
+    // 非法批次不应声称应用了任何标签
+    const bad = applyEffects(s, [{ type: "resource", target: "nope", value: 1 }], content);
+    expect(bad.ok).toBe(false);
+    expect(bad.appliedTags).toEqual([]);
+  });
+
   it("关系变化生效", () => {
     const s = fresh();
     applyEffects(s, [{ type: "relation", target: "boss", value: 5 }], content);

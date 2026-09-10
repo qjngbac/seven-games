@@ -12,6 +12,9 @@ launcher/games/*/assets/
 **/.vite/
 **/*.tsbuildinfo
 
+# vite 加载 TS 配置时产生的临时文件（进程被中断时可能残留）
+**/vite.config.ts.timestamp-*.mjs
+
 # 发布附件通过 GitHub Releases 上传
 /release/
 
@@ -41,6 +44,10 @@ launcher/games/*/assets/
 # 工作区探测输出
 /copy_report.txt
 /probe*.txt
+
+# 本地文档与代理工作数据（仅本地保留，不进入仓库）
+/docs/
+/.workbuddy/
 
 # 第五款游戏的历史验证命令输出
 /5-WhoBrokeProd/build_out.txt

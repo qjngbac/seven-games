@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { GameSession, type SubmitResult } from "./session";
 import type { Action, Stimulus } from "./rules/schema";
-import { getPack } from "../data/packs";
+import { getPack, PACKS, LOAD_ERRORS } from "../data/packs";
 import type { RoundView } from "./session";
 
 function wrongAction(correct: Action): Action {
@@ -59,6 +59,31 @@ describe("GameSession 流程", () => {
     // 第 9 轮起生成刺激使用的规则集应含 green_skip：观察第 9 轮刺激仍可唯一判定（无异常即可）
     expect(out.stimuli.length).toBeGreaterThanOrEqual(9);
   });
+});
+
+describe("动态揭示必须覆盖整包规则（普通模式 30 轮内不留死规则）", () => {
+  it("所有规则包都应通过加载期校验（含揭示覆盖校验）", () => {
+    expect(LOAD_ERRORS, `加载错误：${LOAD_ERRORS.join("；")}`).toEqual([]);
+    expect(PACKS).toHaveLength(6);
+  });
+
+  for (const pack of PACKS) {
+    it(`${pack.id}（${pack.ruleset.rules.length} 条规则）30 轮内全部生效`, () => {
+      const s = new GameSession({ mode: "normal", ruleset: pack.ruleset, seed: 20260910 });
+      for (let i = 0; i < 30; i++) {
+        const v = s.beginRound();
+        const res = s.submit(v.correctAction, 300);
+        if (res.over) break;
+      }
+      expect(
+        s.getActiveRules().length,
+        `${pack.id} 仍有规则未生效：${pack.ruleset.rules
+          .filter((r) => !s.getActiveRules().some((a) => a.id === r.id))
+          .map((r) => r.id)
+          .join(", ")}`,
+      ).toBe(pack.ruleset.rules.length);
+    });
+  }
 });
 
 describe("重放一致性 (文档 §5.2 / §8.4：固定种子可复现)", () => {

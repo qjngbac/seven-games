@@ -1,7 +1,8 @@
 import type { GameState, Solution, SolutionTier } from './schema';
 import { evalPredicate } from './scene';
 
-const TIER_RANK: Record<SolutionTier, number> = {
+/** 解法等级排序权重（专业 > 临时 > 离谱）。导出以便其它模块复用同一口径。 */
+export const TIER_RANK: Record<SolutionTier, number> = {
   professional: 3,
   temporary: 2,
   absurd: 1,

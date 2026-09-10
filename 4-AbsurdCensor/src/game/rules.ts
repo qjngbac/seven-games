@@ -127,8 +127,9 @@ function applyRule(rule: Rule, c: ApplicantCase, today: string, p: Policy, reaso
     case 'requireField': {
       const d = rule.doc ? docById(c, rule.doc) : rule.docType ? docByType(c, rule.docType) : undefined
       if (!d) {
-        p.allow = false
-        push('violation', `缺少相关材料：${rule.explain}`)
+        // 材料本身不存在：这不是"字段不合规"，而是"缺材料"。
+        // 是否因此拒绝，交由 requireDocument 规则判定，避免给出错误理由（如"信息不一致"）。
+        push('missing', `材料缺失：${rule.explain}`)
       } else {
         const fv = d.fields[rule.field!]
         if (fv === undefined || !cmp(fv, rule.compare!, rule.value!)) {
@@ -143,8 +144,7 @@ function applyRule(rule: Rule, c: ApplicantCase, today: string, p: Policy, reaso
     case 'fieldInList': {
       const d = rule.doc ? docById(c, rule.doc) : rule.docType ? docByType(c, rule.docType) : undefined
       if (!d) {
-        p.allow = false
-        push('violation', `缺少相关材料：${rule.explain}`)
+        push('missing', `材料缺失：${rule.explain}`)
       } else {
         const fv = d.fields[rule.field!]
         const ok = (rule.allowed ?? []).map(String).includes(String(fv))
@@ -160,8 +160,13 @@ function applyRule(rule: Rule, c: ApplicantCase, today: string, p: Policy, reaso
     case 'fieldMatch': {
       const a = rule.aDoc ? docById(c, rule.aDoc) : docByType(c, rule.aDoc ?? '')
       const b = rule.bDoc ? docById(c, rule.bDoc) : docByType(c, rule.bDoc ?? '')
-      const av = a?.fields[rule.aField!]
-      const bv2 = b?.fields[rule.bField!]
+      if (!a || !b) {
+        // 交叉比对需要两份材料都在场；缺一份时无法比对，不能判成"信息不一致"。
+        push('missing', `交叉比对所需材料缺失：${rule.explain}`)
+        break
+      }
+      const av = a.fields[rule.aField!]
+      const bv2 = b.fields[rule.bField!]
       if (av === undefined || bv2 === undefined || String(av) !== String(bv2)) {
         p.allow = false
         push('violation', `信息不一致：${rule.explain}（${rule.aField}=${av ?? '缺失'} ≠ ${rule.bField}=${bv2 ?? '缺失'}）`)

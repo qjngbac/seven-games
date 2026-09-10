@@ -75,6 +75,12 @@ export class GameSession {
   activeRules: Rule[];
   private revealQueue: Rule[];
   private pendingReveal: Rule[] = [];
+  /**
+   * 本局的揭示间隔（轮）。由「目标轮数」和「待揭示规则数」动态推导，
+   * 而不是直接用 ruleset.revealEvery —— 否则规则多的包（如极限混战 10 条 / 间隔 6）
+   * 在 30 轮内根本揭不完，会出现「整局永不生效」的规则。
+   */
+  private revealEvery: number;
 
   private round = 0;
   private lives: number;
@@ -101,10 +107,18 @@ export class GameSession {
       const n = Math.min(cfg.ruleset.initialActive, this.fullRules.length);
       this.activeRules = this.fullRules.slice(0, n);
       this.revealQueue = this.fullRules.slice(n);
+      // 在目标轮数内把剩余规则均匀铺开，且不快于 ruleset 声明的节奏。
+      // 下限取 1：即使规则数多到无法在目标轮数内铺完，也保证每轮都揭示，绝不留下永不生效的规则。
+      const rounds = this.mode.targetRounds;
+      this.revealEvery =
+        this.revealQueue.length > 0
+          ? Math.max(1, Math.min(this.ruleset.revealEvery, Math.floor(rounds / this.revealQueue.length)))
+          : 0;
     } else {
       // 练习/非动态：规则全开
       this.activeRules = this.fullRules.slice();
       this.revealQueue = [];
+      this.revealEvery = 0;
     }
     this.lives = this.mode.lives;
   }
@@ -202,7 +216,7 @@ export class GameSession {
 
     // 动态揭示新规则（在阶段节点、且仍有剩余）
     let revealed: Rule[] = [];
-    if (this.mode.enableDynamicRules && this.revealQueue.length > 0 && this.round % this.ruleset.revealEvery === 0) {
+    if (this.mode.enableDynamicRules && this.revealQueue.length > 0 && this.revealEvery > 0 && this.round % this.revealEvery === 0) {
       const next = this.revealQueue.shift()!;
       this.activeRules = [...this.activeRules, next];
       revealed = [next];

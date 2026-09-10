@@ -5,7 +5,8 @@
 import type { RuleSet } from "../game/rules/schema";
 import { compileRuleSet, type RawRuleSet } from "../game/rules/compiler";
 import { Rng } from "../game/rng";
-import { validateRuleSet, type ValidationReport } from "../game/stimuli/validator";
+import { validateRuleSet, validateRevealCoverage, type ValidationReport } from "../game/stimuli/validator";
+import { MODES } from "../game/modes/types";
 import packBase from "./rule-packs/pack-base.json";
 import packParity from "./rule-packs/pack-parity.json";
 import packCharacter from "./rule-packs/pack-character.json";
@@ -39,6 +40,12 @@ for (const raw of SOURCES) {
       `规则包 ${raw.id} 校验异常：冲突 ${report.conflicts.map((c) => c.join("×")).join(",")}；不可达 ${report.unreachable.join(",")}`,
     );
     // 校验异常的包不进入游戏（文档 §5.2）
+    continue;
+  }
+  // 动态揭示覆盖校验：保证普通/每日（有限轮数）内每条规则都能真正生效
+  const coverageIssue = validateRevealCoverage(res.ruleset, MODES.normal.targetRounds);
+  if (coverageIssue) {
+    LOAD_ERRORS.push(`规则包 ${raw.id} 揭示覆盖异常：${coverageIssue}`);
     continue;
   }
   PACKS.push({ id: res.ruleset.id, name: res.ruleset.name, ruleset: res.ruleset, errors: res.errors, report });

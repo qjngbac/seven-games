@@ -31,6 +31,15 @@ export function hasSave(): boolean {
   return store().getItem(SAVE_KEY) != null;
 }
 
+/**
+ * "继续游戏"是否真的可用：不仅要存在存档键，还要能解析出合法状态。
+ * hasSave() 只看键是否存在，存档损坏时主菜单仍会亮起"继续"，点进去却只能静默回退，
+ * 因此启动时用这个更严格的判定。
+ */
+export function hasUsableSave(): boolean {
+  return loadGame() != null;
+}
+
 /** 事务式写入：先写临时键，再覆盖主键值前把旧值存为备份，最后删除临时键。 */
 export function saveGame(state: GameState): { ok: boolean; error?: string } {
   try {

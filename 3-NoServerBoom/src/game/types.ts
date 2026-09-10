@@ -154,4 +154,6 @@ export interface ResultData {
   deviation: string | null
   timeline: TimelineEntry[]
   funny: string
+  /** 本次工单造成的不可逆损失（配置/录像/门体）。空数组表示没有任何永久损害。 */
+  collateralLosses: { actionId: string; actionName: string; target?: string; comp: string }[]
 }

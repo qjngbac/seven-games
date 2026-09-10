@@ -3,6 +3,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useGame } from '../store'
 import DocumentCard from './DocumentCard.vue'
 import { Decision } from '../game/types'
+import { FIRE_PRESSURE } from '../game/narrative'
 
 const game = useGame()
 const selectedDoc = ref<string | null>(null)
@@ -10,7 +11,8 @@ const selectedDoc = ref<string | null>(null)
 const case_ = computed(() => game.currentCase)
 const isFeedback = computed(() => game.phase === 'feedback')
 
-const pressurePct = computed(() => Math.min(100, Math.round((game.cum.orgPressure / 150) * 100)))
+// 压力条按"停职红线"归一化（阈值唯一来源见 game/narrative.ts）
+const pressurePct = computed(() => Math.min(100, Math.round((game.cum.orgPressure / FIRE_PRESSURE) * 100)))
 
 function selectDoc(id: string) {
   selectedDoc.value = id

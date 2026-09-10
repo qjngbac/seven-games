@@ -113,7 +113,14 @@ export function isDayComplete(state: GameState): boolean {
 export function beginDay(state: GameState, content: ContentPack): EffectResult & { notes: string[] } {
   const due = resolveDueScheduled(state, content);
   state.eventsDoneToday = 0;
-  state.history.push({ day: state.day, resources: { ...state.resources } });
+  // 每天只保留一条快照：同一天重复进入（如从存档恢复、或开局当天）时覆盖为最新数值，
+  // 避免出现两条相同 day 的记录、也避免首条漏掉开局特质。
+  const last = state.history[state.history.length - 1];
+  if (last && last.day === state.day) {
+    last.resources = { ...state.resources };
+  } else {
+    state.history.push({ day: state.day, resources: { ...state.resources } });
+  }
   return due;
 }
 

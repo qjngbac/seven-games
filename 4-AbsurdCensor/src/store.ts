@@ -5,11 +5,9 @@ import { casesForSceneDay } from './data/cases'
 import { DeskController } from './game/desk'
 import { evaluate } from './game/rules'
 import { ApplicantCase, CaseOutcome, DayResult, Decision, EvalResult } from './game/types'
-import { Ending, EndingState, mergeDay, resolveEnding } from './game/narrative'
+import { Ending, EndingState, mergeDay, resolveEnding, FIRE_PRESSURE } from './game/narrative'
 
 export type Phase = 'menu' | 'brief' | 'desk' | 'feedback' | 'dayend' | 'ending'
-
-const FIRE_PRESSURE = 150
 
 export const useGame = defineStore('absurd-censor', () => {
   const phase = ref<Phase>('menu')

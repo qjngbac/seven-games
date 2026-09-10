@@ -63,6 +63,42 @@ describe("evaluate", () => {
     // 依赖未定真值 → undefined
     expect(evaluate({ op: "eqTruth", left: "s0", right: "s9" }, world, { s0: true })).toBeUndefined();
   });
+
+  it("and / or 在三值逻辑下短路：已确定的真假优先于未定项", () => {
+    const world = { A: "normal", B: "impostor" };
+    const undef = { op: "stmtTruth", statement: "unknown" } as const;
+    // and：一项为假 → 整体为假（即便另一项未定）
+    expect(
+      evaluate(
+        { op: "and", args: [{ op: "roleIs", character: "A", role: "impostor" }, undef] },
+        world,
+        {},
+      ),
+    ).toBe(false);
+    // or：一项为真 → 整体为真（即便另一项未定）
+    expect(
+      evaluate(
+        { op: "or", args: [{ op: "roleIs", character: "B", role: "impostor" }, undef] },
+        world,
+        {},
+      ),
+    ).toBe(true);
+    // 仍然未定：and 全真但含未定 → undefined；or 全假但含未定 → undefined
+    expect(
+      evaluate(
+        { op: "and", args: [{ op: "roleIs", character: "B", role: "impostor" }, undef] },
+        world,
+        {},
+      ),
+    ).toBeUndefined();
+    expect(
+      evaluate(
+        { op: "or", args: [{ op: "roleIs", character: "A", role: "impostor" }, undef] },
+        world,
+        {},
+      ),
+    ).toBeUndefined();
+  });
 });
 
 describe("computeTruth (fixpoint)", () => {

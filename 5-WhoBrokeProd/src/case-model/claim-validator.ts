@@ -18,9 +18,11 @@ export function actionMatches(claimAction: string, acceptanceAction: string, ali
 /**
  * 校验玩家指控。
  * 判定顺序：
- *  - 主责任人未全部指认 或 误指认了无辜者 → 'fail'（错怪好人）
- *  - 责任人正确，但行为/证据/事实/时间不全 → 'partial'（证据不足，可继续调查）
- *  - 责任人正确且全齐 → 若遗漏管理/次要责任则 'partial'，否则 'success'
+ *  - 一个主责任人都没指认到 → 'fail'（完全没找到人）
+ *  - 误指认了无辜者 → 'fail'（错怪好人）
+ *  - 只锁定部分主责任人 → 'partial'（多责任人案件允许分别指认，提示补齐）
+ *  - 主责任人齐了，但行为/证据/事实/时间不全 → 'partial'（证据不足，可继续调查）
+ *  - 主责任人齐且全齐 → 若遗漏管理/次要责任则 'partial'，否则 'success'
  */
 export function validateClaim(def: CaseDef, claim: Claim, discoveredFacts: FactId[]): ClaimVerdict {
   const acc = def.acceptance
@@ -30,6 +32,7 @@ export function validateClaim(def: CaseDef, claim: Claim, discoveredFacts: FactI
 
   const namedSet = new Set<CharacterId>(claim.actors)
   const missingResponsible = responsible.filter((a) => !namedSet.has(a))
+  const namedResponsible = responsible.filter((a) => namedSet.has(a))
   const wrongActors = claim.actors.filter((a) => !allowedActors.has(a))
 
   const correctActors = missingResponsible.length === 0
@@ -63,7 +66,7 @@ export function validateClaim(def: CaseDef, claim: Claim, discoveredFacts: FactI
     message: ''
   }
 
-  if (!correctActors) {
+  if (missingResponsible.length > 0 && namedResponsible.length === 0) {
     base.outcome = 'fail'
     base.message = `主责任人认定错误：你遗漏了 ${missingResponsible.join('、')}。指认错误的人，无法结案。`
     return base
@@ -71,6 +74,12 @@ export function validateClaim(def: CaseDef, claim: Claim, discoveredFacts: FactI
   if (wrongActors.length > 0) {
     base.outcome = 'fail'
     base.message = `你误指认了无辜者：${wrongActors.join('、')}。错怪好人会让真凶逃脱。`
+    return base
+  }
+  if (missingResponsible.length > 0) {
+    // 已经锁定了部分主责任人（多责任人案件）：允许"分别指认"，但必须补齐才算完整。
+    base.outcome = 'partial'
+    base.message = `你指认了部分责任人，还遗漏了 ${missingResponsible.join('、')}。请补齐共同责任后重新提交。`
     return base
   }
 

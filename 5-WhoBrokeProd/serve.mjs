@@ -46,6 +46,6 @@ const server = createServer(async (req, res) => {
   }
 })
 
-server.listen(port, () => {
+server.listen(port, '127.0.0.1', () => {
   console.log(`[serve] WhoBrokeProd preview → http://127.0.0.1:${port}/`)
 })

@@ -68,12 +68,22 @@ describe("Game 流程", () => {
     expect(e?.kind).toBe("win");
   });
 
-  it("beginDay 重置当日计数并写入历史快照", () => {
+  it("beginDay 重置当日计数，同一天不产生重复快照、跨天才新增", () => {
     const s = createInitialState(1, CONTENT, null);
-    const before = s.history.length;
+    expect(s.history).toHaveLength(1);
     beginDay(s, CONTENT);
     expect(s.eventsDoneToday).toBe(0);
-    expect(s.history.length).toBe(before + 1);
+    expect(s.history, "同一天重复 beginDay 不应产生重复快照").toHaveLength(1);
+    s.day += 1;
+    beginDay(s, CONTENT);
+    expect(s.history.map((h) => h.day)).toEqual([1, 2]);
+  });
+
+  it("首日快照必须包含开局特质带来的数值变化", () => {
+    const plain = createInitialState(7, CONTENT, null);
+    const veteran = createInitialState(7, CONTENT, "veteran");
+    expect(veteran.resources.money).toBe(plain.resources.money + 10);
+    expect(veteran.history[0].resources.money, "首日快照不应漏掉开局特质").toBe(veteran.resources.money);
   });
 
   it("完整对局必然终止并产生结局", () => {

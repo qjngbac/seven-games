@@ -44,7 +44,8 @@ export function createInitialState(
     currentEventId: null,
     lastDueNotes: [],
     choiceLog: [],
-    history: [{ day: 1, resources: { ...resources } }],
+    // 初始快照在"应用开局特质之后"再写入（见下方），否则首日曲线记录的是未加特质前的数值
+    history: [],
     trait: traitId,
     createdAt: Date.now(),
   };
@@ -65,6 +66,8 @@ export function createInitialState(
       state.unlockedTraits.push(traitId);
     }
   }
+  // 开局快照（此时数值已包含开局特质，避免曲线图首点与实际不符）
+  state.history.push({ day: state.day, resources: { ...state.resources } });
   return state;
 }
 

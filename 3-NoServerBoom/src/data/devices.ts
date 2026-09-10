@@ -197,7 +197,11 @@ export const DEVICE_DEFS: DeviceDef[] = [
         key: 'serviceRunning',
         label: '关键服务',
         observable: true,
-        derive: (w) => w.get('server', 'powered') === true && w.get('server', 'memLeak') !== true
+        // 磁盘写满同样会让关键服务停摆（原本漏了这一条因果，导致“服务器磁盘满”故障没有任何可观察症状）
+        derive: (w) =>
+          w.get('server', 'powered') === true &&
+          w.get('server', 'memLeak') !== true &&
+          w.get('server', 'diskFull') !== true
       },
       {
         key: 'alarmActive',

@@ -281,18 +281,23 @@ export const useGame = defineStore('game', () => {
   function submitAccusation(): ClaimVerdict | null {
     const c = currentCase.value
     if (!c) return null
+    // 幂等保护：同一案件已结算过就不再重复加/扣声誉。
+    // 否则"结算页刷新 → 存档把屏幕回落为指控页 → 再次提交"会无限刷声誉。
+    const alreadySettled = Boolean(verdicts[c.id])
     // 把玩家当前的已知事实作为指控事实集合传入（用于 requiredFacts 校验）
     const claim: Claim = { ...accusation, facts: discoveredFacts.value.slice() }
     const v = validateClaim(c, claim, discoveredFacts.value)
     verdict.value = v
-    // 声誉影响
-    if (v.outcome === 'success') reputation.value += 10
-    else if (v.outcome === 'partial') reputation.value += 3
-    else reputation.value -= 5
-    if (v.outcome !== 'fail' && !solvedCases.value.includes(c.id)) {
-      solvedCases.value.push(c.id)
+    // 声誉影响：仅首次结算时计入
+    if (!alreadySettled) {
+      if (v.outcome === 'success') reputation.value += 10
+      else if (v.outcome === 'partial') reputation.value += 3
+      else reputation.value -= 5
+      if (v.outcome !== 'fail' && !solvedCases.value.includes(c.id)) {
+        solvedCases.value.push(c.id)
+      }
+      verdicts[c.id] = v.outcome
     }
-    verdicts[c.id] = v.outcome
     screen.value = 'result'
     save()
     return v

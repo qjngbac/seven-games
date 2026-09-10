@@ -121,7 +121,15 @@ export interface ApplicantCase {
 export interface ReasonEntry {
   ruleId: string
   rule: Rule
-  kind: 'violation' | 'satisfied' | 'exception'
+  /**
+   * violation：确实违反了制度（应拒绝）；
+   * satisfied：满足要求；
+   * exception：allowIf / denyIf 这类覆盖性例外；
+   * missing  ：规则所依赖的材料本次并不存在（既不是合规、也不是违规）——
+   *            是否拒绝应由「必须提交该材料」的 requireDocument 规则决定，
+   *            不能让"缺材料"伪装成"字段填错"而给出错误理由。
+   */
+  kind: 'violation' | 'satisfied' | 'exception' | 'missing'
   text: string
 }
 
@@ -151,6 +159,11 @@ export interface DayResult {
   wrongAllow: number
   wrongDeny: number
   detainCount: number
+  /**
+   * 当天实际做出实质裁定的数量（= correct + wrongAllow + wrongDeny，不含暂扣）。
+   * 用于累计准确率时判断"这一天是否真的判过东西"：全部暂扣时不参与累计，避免把准确率拖成 0。
+   */
+  judged: number
   accuracy: number // 0..1（仅算 allow/deny 的合法率）
   salary: number
   penalty: number

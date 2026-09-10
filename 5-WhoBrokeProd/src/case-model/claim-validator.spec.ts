@@ -94,3 +94,65 @@ describe('claim-validator', () => {
     expect(actionMatches('乱填', 'force_push', [])).toBe(false)
   })
 })
+
+describe('多责任人案件（共同责任）：分别指认应给 partial 而不是直接 fail', () => {
+  it('case4 只指认其中一人 → partial，并提示遗漏的共同责任人', async () => {
+    const { case4 } = await import('../data/cases/case4-cascade')
+    const v = validateClaim(
+      case4,
+      {
+        actors: ['oncall_feng'],
+        action: '调短超时并叠加重试',
+        time: '22:00',
+        motive: '',
+        evidence: ['gateway_cfg', 'pay_deploy'],
+        facts: ['timeout_tightened', 'retry_storm', 'cascade_outage']
+      },
+      ['timeout_tightened', 'retry_storm', 'cascade_outage']
+    )
+    expect(v.outcome).toBe('partial')
+    expect(v.missingResponsible).toContain('pay_lead_zhen')
+    expect(v.message).toContain('部分责任人')
+  })
+
+  it('case4 一个主责任人都没指认到（只指认无关者）→ fail', async () => {
+    const { case4 } = await import('../data/cases/case4-cascade')
+    const v = validateClaim(
+      case4,
+      { actors: ['oncall_small_change'], action: '', time: '', motive: '', evidence: [], facts: [] },
+      []
+    )
+    expect(v.outcome).toBe('fail')
+  })
+})
+
+describe('多责任人案件（共同责任）：分别指认应给 partial 而不是直接 fail', () => {
+  it('case4 只指认其中一人 → partial，并提示遗漏的共同责任人', async () => {
+    const { case4 } = await import('../data/cases/case4-cascade')
+    const v = validateClaim(
+      case4,
+      {
+        actors: ['oncall_feng'],
+        action: '调短超时并叠加重试',
+        time: '22:00',
+        motive: '',
+        evidence: ['gateway_cfg', 'pay_deploy'],
+        facts: ['timeout_tightened', 'retry_storm', 'cascade_outage']
+      },
+      ['timeout_tightened', 'retry_storm', 'cascade_outage']
+    )
+    expect(v.outcome).toBe('partial')
+    expect(v.missingResponsible).toContain('pay_lead_zhen')
+    expect(v.message).toContain('部分责任人')
+  })
+
+  it('case4 一个主责任人都没指认到（只指认无关者）→ fail', async () => {
+    const { case4 } = await import('../data/cases/case4-cascade')
+    const v = validateClaim(
+      case4,
+      { actors: ['oncall_small_change'], action: '', time: '', motive: '', evidence: [], facts: [] },
+      []
+    )
+    expect(v.outcome).toBe('fail')
+  })
+})

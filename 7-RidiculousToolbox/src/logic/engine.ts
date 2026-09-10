@@ -6,10 +6,12 @@ import type {
   OperationResult,
   Recipe,
   SceneTargetDef,
+  SolutionTier,
 } from './schema';
 import { cloneState } from './command';
 import { instanceName, matchInput, type ItemRegistry } from './items';
 import { findRecipe } from './recipes';
+import { TIER_RANK } from './solutions';
 import { genericCombineFeedback, genericUseFeedback } from './feedback';
 
 /** 由关卡定义初始化运行期状态（重新分配实例 id，保证唯一） */
@@ -142,8 +144,22 @@ function commit(
       sceneChanges.push({ targetId: out.setScene.targetId, state: out.setScene.state });
     }
     if (out.setFlag) {
-      next.flags[out.setFlag.key] = out.setFlag.value;
-      flagChanges.push({ key: out.setFlag.key, value: out.setFlag.value });
+      let value = out.setFlag.value;
+      // solvedTier 只升不降：先做出专业解、之后再随手做一次离谱操作，不应把评价反降为"离谱"。
+      if (out.setFlag.key === 'solvedTier') {
+        const cur = next.flags['solvedTier'];
+        if (
+          typeof cur === 'string' &&
+          cur in TIER_RANK &&
+          typeof value === 'string' &&
+          value in TIER_RANK &&
+          TIER_RANK[value as SolutionTier] < TIER_RANK[cur as SolutionTier]
+        ) {
+          value = cur;
+        }
+      }
+      next.flags[out.setFlag.key] = value;
+      flagChanges.push({ key: out.setFlag.key, value });
     }
   }
 

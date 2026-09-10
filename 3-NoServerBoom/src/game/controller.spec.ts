@@ -3,6 +3,7 @@ import { WORK_ORDERS } from '../data/workorders'
 import { WorkOrderController } from './controller'
 import { ACTION_BY_ID } from '../data/actions'
 import { DEVICE_BY_ID } from '../data/devices'
+import { FAULT_DEFS } from '../data/faults'
 import { deviceSymptoms } from './symptoms'
 
 /** 沿参考路径执行，返回控制器 */
@@ -27,8 +28,43 @@ describe('内容校验：每关都有可行解', () => {
       const res = c.submit()
       expect(res.cleared).toBe(true)
       expect(['S', 'A', 'B']).toContain(res.grade)
+      expect(res.collateralLosses, '参考解法不应造成不可逆损失').toHaveLength(0)
     })
   }
+})
+
+describe('内容完整性：不留死数据 / 不写悬空引用', () => {
+  it('每个已定义故障都至少被一个工单注入（否则对应修复动作永远点不动）', () => {
+    const used = new Set(WORK_ORDERS.flatMap((w) => w.faults.map((f) => f.fault)))
+    const dead = FAULT_DEFS.map((f) => f.id).filter((id) => !used.has(id))
+    expect(dead, `以下故障定义了但没有任何工单使用：${dead.join(', ')}`).toEqual([])
+  })
+
+  it('每个工单引用的动作 / 故障 / 设备都存在，且可用动作列表不含未知动作', () => {
+    for (const wo of WORK_ORDERS) {
+      for (const a of wo.availableActions) {
+        expect(ACTION_BY_ID[a], `${wo.id} 的 availableActions 引用了未知动作 ${a}`).toBeTruthy()
+      }
+      for (const f of wo.faults) {
+        expect(FAULT_DEFS.some((d) => d.id === f.fault), `${wo.id} 引用了未知故障 ${f.fault}`).toBe(true)
+      }
+      for (const d of wo.devices) {
+        expect(DEVICE_BY_ID[d], `${wo.id} 引用了未知设备 ${d}`).toBeTruthy()
+      }
+      for (const step of wo.referencePath) {
+        expect(ACTION_BY_ID[step.action], `${wo.id} 的参考路径引用了未知动作 ${step.action}`).toBeTruthy()
+      }
+    }
+  })
+
+  it('参考路径用到的动作必须在该工单的 availableActions 内（否则 UI 里点不到）', () => {
+    for (const wo of WORK_ORDERS) {
+      const allowed = new Set(wo.availableActions)
+      for (const step of wo.referencePath) {
+        expect(allowed.has(step.action), `${wo.id} 的参考路径动作 ${step.action} 不在 availableActions 中`).toBe(true)
+      }
+    }
+  })
 })
 
 describe('依赖传播：交换机断电 → 所有摄像头离线 → 复电恢复', () => {
@@ -96,6 +132,52 @@ describe('约束违反触发失败', () => {
     // 即便摄像头可能被推回在线，违反约束仍判失败
     const res = c.submit()
     expect(res.cleared).toBe(false)
+  })
+})
+
+describe('不可逆损失必须进入结算口径（不能"先毁再修"拿高分）', () => {
+  it('参考解法不含高危动作 → 无不可逆损失', () => {
+    const c = runReference('wo_cam1_loose')
+    expect(c.collateral).toHaveLength(0)
+    const res = c.submit()
+    expect(res.collateralLosses).toHaveLength(0)
+    expect(['S', 'A', 'B']).toContain(res.grade)
+  })
+
+  it('先恢复出厂毁配置、再修好原故障：验收虽过，但评价封顶 C 且如实披露', () => {
+    const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_cam1_loose')!)
+    c.apply('factory_reset', 'cam1') // 配置永久丢失
+    c.apply('replug_cable', 'cam1') // 修好原故障（网口松）
+    expect(c.acceptanceMet(), '验收条件确实被满足了').toBe(true)
+    expect(c.rootCauseFixed()).toBe(true)
+    expect(c.collateral.map((x) => x.comp)).toEqual(['configLost'])
+    const res = c.submit()
+    expect(res.cleared).toBe(true)
+    expect(res.grade, '毁了配置不应还能拿 S/A/B').toBe('C')
+    expect(res.title).toContain('不可逆损失')
+    expect(res.collateralLosses.map((x) => x.comp)).toEqual(['configLost'])
+  })
+
+  it('破拆开门（force_break）同属不可逆损失，且门体损坏会直接导致验收不通过', () => {
+    const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_door')!)
+    c.apply('force_break', 'door1')
+    expect(c.world.get('door1', 'doorBroken')).toBe(true)
+    expect(c.collateral.map((x) => x.comp)).toEqual(['doorBroken'])
+    // openOk 的派生条件含 !doorBroken，所以破拆会让验收永久无法满足 —— 下策的真实代价
+    expect(c.acceptanceMet()).toBe(false)
+    const res = c.submit()
+    expect(res.cleared).toBe(false)
+    expect(res.collateralLosses.map((x) => x.comp)).toEqual(['doorBroken'])
+  })
+
+  it('noFactoryReset 覆盖全部高危不可逆动作（含 force_break）', () => {
+    // 现有工单里没有同时出现 force_break 与 noFactoryReset，故用改造后的工单直接验证判定口径。
+    const base = WORK_ORDERS.find((w) => w.id === 'wo_door')!
+    const wo = { ...base, constraints: { timeBudget: 30, noFactoryReset: true } }
+    const c = new WorkOrderController(wo)
+    c.apply('force_break', 'door1')
+    expect(c.violated, 'force_break 同属高危不可逆，应判违规').toBe(true)
+    expect(c.submit().cleared).toBe(false)
   })
 })
 
