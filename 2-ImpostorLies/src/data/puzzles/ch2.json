@@ -43,7 +43,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我是伪装间谍。",
+        "text": "我是伪装间谍",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -53,7 +53,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我是伪装间谍。",
+        "text": "我是伪装间谍",
         "expr": {
           "op": "roleIs",
           "character": "B",
@@ -63,7 +63,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "触手乙 是伪装间谍。",
+        "text": "触手乙 是伪装间谍",
         "expr": {
           "op": "roleIs",
           "character": "B",
@@ -117,7 +117,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "触手丙 不是伪装间谍。",
+        "text": "触手丙 不是伪装间谍",
         "expr": {
           "op": "not",
           "arg": {
@@ -130,7 +130,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我是老实外星人。",
+        "text": "我是老实外星人",
         "expr": {
           "op": "roleIs",
           "character": "B",
@@ -140,7 +140,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "触手甲 在说谎。",
+        "text": "触手甲 在说谎",
         "expr": {
           "op": "not",
           "arg": {
@@ -196,7 +196,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我是老实外星人。",
+        "text": "我是老实外星人",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -206,7 +206,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "触手丙 不是伪装间谍。",
+        "text": "触手丙 不是伪装间谍",
         "expr": {
           "op": "not",
           "arg": {
@@ -219,7 +219,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我是老实外星人。",
+        "text": "我是老实外星人",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -273,7 +273,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "触手丙 不是伪装间谍。",
+        "text": "触手丙 不是伪装间谍",
         "expr": {
           "op": "not",
           "arg": {
@@ -286,7 +286,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "触手甲 不是伪装间谍。",
+        "text": "触手甲 不是伪装间谍",
         "expr": {
           "op": "not",
           "arg": {
@@ -299,7 +299,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "触手甲 是伪装间谍。",
+        "text": "触手甲 是伪装间谍",
         "expr": {
           "op": "roleIs",
           "character": "A",

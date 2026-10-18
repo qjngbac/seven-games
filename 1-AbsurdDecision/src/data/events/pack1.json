@@ -37,9 +37,9 @@
         "text": "把《好运来》开到最大盖过噪音",
         "effects": [
           { "type": "resource", "target": "spirit", "value": 1 },
-          { "type": "resource", "target": "techDebt", "value": 3 }
+          { "type": "resource", "target": "techDebt", "value": 6 }
         ],
-        "resultText": "你把音响开到最大。精神 +1，技术债 +3，并解锁成就「听不见就是修好了」。",
+        "resultText": "你把音响开到最大。精神 +1，技术债 +6，并解锁成就「听不见就是修好了」。",
         "hidden": "掩耳盗铃"
       }
     ],
@@ -352,9 +352,9 @@
         "text": "果断全量发布",
         "effects": [
           { "type": "resource", "target": "reputation", "value": 2 },
-          { "type": "resource", "target": "techDebt", "value": 3 }
+          { "type": "resource", "target": "techDebt", "value": 8 }
         ],
-        "resultText": "发布成功！声誉 +2，技术债 +3。你关掉电脑，准备享受周末……",
+        "resultText": "发布成功！声誉 +2，技术债 +8。你关掉电脑，准备享受周末……",
         "delayed": {
           "daysLater": 1,
           "effects": [

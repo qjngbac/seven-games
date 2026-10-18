@@ -14,6 +14,7 @@ export type RuleOp =
   | 'notExpired' // 某证件须在有效期内（issueDate + validityDays）
   | 'allowIf' // 条件成立 → 例外允许（高优先级）
   | 'denyIf' // 条件成立 → 例外禁止（高优先级）
+  | 'detainIf' // 条件成立 → 强制暂扣（通缉/走私/重大伪造）
   | 'forbidDocument' // 持有某类证件 → 拒绝
 
 export interface WhenCond {
@@ -21,7 +22,7 @@ export interface WhenCond {
   // species: person.species === value
   // carries: person.carries 数组包含 value
   // origin / purpose / name 等：person[key] === value
-  [attr: string]: string
+  [attr: string]: string | number | boolean | undefined
 }
 
 export interface Rule {
@@ -92,7 +93,11 @@ export interface PersonState {
   origin?: string
   purpose?: string
   name?: string
-  [k: string]: string | string[] | undefined
+  slot?: 'day' | 'night'
+  arrivalTime?: string // 到达时间（如 "23:45"）
+  wanted?: boolean // 是否为通缉犯
+  contraband?: boolean // 是否携带严重违禁走私品
+  [k: string]: string | string[] | number | boolean | undefined
 }
 
 export type Decision = 'allow' | 'deny' | 'detain'
@@ -107,6 +112,7 @@ export interface ApplicantCase {
   items: string[] // 携带物品（与人类可读）
   truth: string // 真实状态（日结揭示用）
   storyTags: string[] // 叙事标签（延迟后果/结局）
+  arrivalTime?: string // 登记时间（如 23:40）
   // 合法裁决由 RuleEvaluator 预计算（CaseGenerator 反向验证）
   expected: Decision
   // 道德冲突：玩家在「合法」与「善良」之间如何选
@@ -137,19 +143,46 @@ export interface EvalResult {
   allowLegal: boolean
   denyLegal: boolean
   detainLegal: boolean
+  detainRequired?: boolean
   reasons: ReasonEntry[]
 }
 
 export interface CaseOutcome {
   caseId: string
+  applicantName?: string
   decision: Decision
   expected: Decision
   legalCorrect: boolean // 与制度合法裁决一致
-  isWrongAllow: boolean // 本应拒绝却放行
-  isWrongDeny: boolean // 本应放行却拒绝
+  isWrongAllow: boolean // 本应拒绝或暂扣却放行
+  isWrongDeny: boolean // 本应放行却拒绝，或本应暂扣却驱离放跑
+  isWrongDetain?: boolean // 本应放行或正常拒签却无故扣押
+  isCorrectDetain?: boolean // 成功抓捕暂扣
   penalty: number // 罚款
   conscienceDelta: number // 良心变化
   storyEffects: string[] // 触发的叙事标签
+  truth?: string
+}
+
+/** 历史审查记录条目 */
+export interface HistoryRecord {
+  id: string
+  timestamp: number
+  sceneId: string
+  sceneName: string
+  dayDate: number
+  today: string
+  applicantName: string
+  portrait: string
+  statement: string
+  arrivalTime: string
+  items: string[]
+  docCount: number
+  decision: Decision
+  expected: Decision
+  legalCorrect: boolean
+  feedbackTitle: string
+  truth: string
+  penalty: number
 }
 
 export interface DayResult {

@@ -1,0 +1,2114 @@
+[
+  {
+    "id": "subway_rush_001",
+    "category": "commute",
+    "weight": 12,
+    "title": "早高峰地铁站的肉夹馍形态",
+    "body": "早高峰地铁站限流，你被死死挤在铁栏杆外，前面大哥的羽绒服拉链正抵着你的鼻尖。广播通知下班列车预计延误3分钟，后方的人流如潮水般涌来。",
+    "clues": [
+      "前方大哥羽绒服味道很冲",
+      "距离迟到打卡只剩12分钟",
+      "站台旁有个煎饼果子摊在冒热气"
+    ],
+    "choices": [
+      {
+        "id": "abandon_rush",
+        "text": "果断出站买煎饼果子，坐在花坛边晒太阳",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": -1
+          }
+        ],
+        "resultText": "热气腾腾的煎饼果子治愈了灵魂。打卡迟到了，但你看着蓝天白云，突然觉得人间值得。精神 +4，金钱 -2，声誉 -1。",
+        "hidden": "放过自己，精神大涨"
+      },
+      {
+        "id": "airdrop_shoe",
+        "text": "使出金蝉脱壳硬挤进车厢，代价是挤掉了一只鞋",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 2
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "你成功卡着秒打卡上岗！全组为你坚韧的职场精神鼓掌，但你今天只能单脚穿拖鞋办公。精神 +2，金钱 -2（要网购新鞋），声誉 +1。",
+        "hidden": "打工人的倔强"
+      },
+      {
+        "id": "noise_cancel_meditate",
+        "text": "戴上降噪耳机闭眼放空，假装在赛博修仙",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": 1
+          }
+        ],
+        "resultText": "耳边响起大悲咒与重金属交响，人群的推搡变成了肉体的洗礼。你悟道了。精神 +3，顺便漏看了一条早会提醒（技术债 +1）。",
+        "hidden": "肉身受难，精神超脱"
+      },
+      {
+        "id": "muscle_push",
+        "text": "气沉丹田与身后大爷比拼内力硬撑",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -2
+          },
+          {
+            "type": "tag",
+            "target": "subway_warrior",
+            "value": true
+          }
+        ],
+        "resultText": "大爷冷笑一声“年轻人底盘不稳啊”，一记借力打力把你推到了立柱旁。精神 -2，腰酸背痛，解锁「早高峰武术家」称号。",
+        "hidden": "和大爷对线没有好下场"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "挤地铁挤掉鞋 vs 煎饼果子治愈",
+      "hook": "通勤日常"
+    }
+  },
+  {
+    "id": "shared_bike_puzzle_001",
+    "category": "commute",
+    "weight": 10,
+    "title": "十字路口的共享单车开盲盒",
+    "body": "最后一公里。路边停了四辆不同颜色的共享单车：一辆没了车座，一辆脚踏掉了，一辆车牌二维码被刮花，最后一辆被一把大铁锁锁在行道树上。",
+    "clues": [
+      "距离公司还剩 1.5 公里",
+      "蓝车无座，黄车无脚踏",
+      "绿车锁在树上还贴着私人告示"
+    ],
+    "choices": [
+      {
+        "id": "run_jogging",
+        "text": "不骑了！迎风慢跑当作晨练有氧",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "大汗淋漓地冲进公司，多巴胺疯狂分泌，感觉精神焕发！连老板都夸你今天气色红润有朝气。精神 +4，声誉 +1。",
+        "hidden": "生命在于运动"
+      },
+      {
+        "id": "hack_qr",
+        "text": "掏出微距相机还原被刮花的二维码扫码解锁",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "图形学算法在生活中的完美应用！车锁“滴答”一声打开，你潇洒蹬车而去，深藏功与名。精神 +3，金钱 -1。",
+        "hidden": "极客解题法"
+      },
+      {
+        "id": "stand_ride",
+        "text": "硬骑那辆没座的单车，全程站立式飞驰",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 1
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": -2
+          }
+        ],
+        "resultText": "你在非机动车道上像杂技演员一样踩单车，引来无数路人侧目并被拍成搞笑视频发上同城热搜。精神 +1，声誉 -2。",
+        "hidden": "街头杂耍"
+      },
+      {
+        "id": "call_luxury_car",
+        "text": "破防了！怒叫专车送这最后两公里",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -4
+          }
+        ],
+        "resultText": "坐进真皮座椅吹着空调喝着免费矿泉水，你发誓今天一定要把车费从代码里赚回来。精神 +4，金钱 -4。",
+        "hidden": "金钱买舒坦"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "四辆破车开盲盒",
+      "hook": "通勤路况"
+    }
+  },
+  {
+    "id": "rainy_puddle_jump_001",
+    "category": "commute",
+    "weight": 10,
+    "title": "暴雨天斑马线前的一汪死海",
+    "body": "夏日暴雨倾盆。公司楼下的斑马线前积了一汪深不见底的黄色浑水，水面上还漂着半个西瓜皮。无数打工人围在水坑前犹豫不决，绿灯倒计时还剩 10 秒。",
+    "clues": [
+      "水深目测没过脚踝",
+      "绿灯还剩 10 秒",
+      "旁边路过一辆疾驰的泥头车"
+    ],
+    "choices": [
+      {
+        "id": "leap_faith",
+        "text": "助跑、蓄力、飞身一跃！",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 2
+          }
+        ],
+        "resultText": "你在空中划出一道凌厉弧线，衣角翩翩轻盈落入干爽地带！围观众人爆发出热烈欢呼，今天你就是大厦唯一的刺客信条！精神 +5，声誉 +2。",
+        "hidden": "信仰之跃成功"
+      },
+      {
+        "id": "barefoot_child",
+        "text": "脱了袜子挽起裤腿，踩水忆童年",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": -1
+          }
+        ],
+        "resultText": "冰凉的雨水刺激着脚丫，你想起了小学放学踩水坑的快乐午后，生活的重压一扫而空。虽然拎着湿鞋进电梯有点尴尬，但精神 +4！",
+        "hidden": "唤醒童心"
+      },
+      {
+        "id": "muddy_detour",
+        "text": "老实绕路两百米走花坛泥路",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -2
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "泥巴把新买的小白鞋裹成了兵马俑，进公司还被保洁阿姨瞪了一眼。精神 -2，金钱 -1（洗鞋费）。",
+        "hidden": "看似稳妥实则翻车"
+      },
+      {
+        "id": "share_umbrella",
+        "text": "邀请旁边同样犹豫的路人并肩趟水",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "两人并肩涉水，对方夸你雨伞很大很有安全感。你感到心跳加速，阴雨天也变成了偶像剧片场。精神 +3。",
+        "hidden": "雨中奇遇"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "斑马线水坑信仰之跃",
+      "hook": "雨天通勤"
+    }
+  },
+  {
+    "id": "taxi_philosopher_001",
+    "category": "commute",
+    "weight": 10,
+    "title": "网约车司机的宇宙哲学拷问",
+    "body": "你刚钻进网约车后座，师傅就一甩方向盘：“老弟，去软件园啊？看你这眼神，刚被需求按在地上摩擦过吧？你知道宇宙的终极归宿是热寂吗？”",
+    "clues": [
+      "师傅中控台摆着《道德经》和量子力学",
+      "行程预计 25 分钟",
+      "你脑子里还装着报错堆栈"
+    ],
+    "choices": [
+      {
+        "id": "deep_talk",
+        "text": "跟师傅从热力学第二定律畅聊到系统架构演进",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": -1
+          }
+        ],
+        "resultText": "相谈甚欢！师傅原来是大厂提前退休的P9老哥。一番点拨让你顿悟了系统的解耦方案。精神 +5，技术债 -1！",
+        "hidden": "扫地僧就在身边"
+      },
+      {
+        "id": "pretend_asleep",
+        "text": "闭上眼发出均匀的假呼噜声补觉",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          }
+        ],
+        "resultText": "师傅识趣地调小了收音机，给你贴心地盖上了一件外套。你在后座舒服地补了二十分钟觉。精神 +3。",
+        "hidden": "假睡变成真睡"
+      },
+      {
+        "id": "reverse_recruit",
+        "text": "反手给师傅推销自己业余搞的赛博算命小程序",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 2
+          }
+        ],
+        "resultText": "师傅听得两眼放光，当场扫码买了你的尊享算命年卡！“老弟，有点东西啊！”金钱 +2，精神 +3。",
+        "hidden": "商业奇才"
+      },
+      {
+        "id": "awkward_nod",
+        "text": "全程只会客气地“啊对对对”点头附和",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -1
+          }
+        ],
+        "resultText": "二十五分钟里你点头了四百多次，颈椎病加重了，下车时头晕目眩。精神 -1。",
+        "hidden": "无效社交"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "网约车P9司机哲学课",
+      "hook": "打车漫谈"
+    }
+  },
+  {
+    "id": "carpool_coworker_001",
+    "category": "commute",
+    "weight": 10,
+    "title": "拼车拼到了同部门的冤家",
+    "body": "顺风车门一拉开，后座坐着的赫然是昨天在会上把你方案批得一文不值的隔壁组同事。两人对视三秒，司机打破沉默：“尾号3388是吧？你俩认识啊？”",
+    "clues": [
+      "同事手里端着超大杯冰美式",
+      "车程还有半小时堵在早高峰高架上"
+    ],
+    "choices": [
+      {
+        "id": "unite_bitching",
+        "text": "默契对视，转头一起疯狂吐槽老板的离谱KPI",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "relation",
+            "target": "team",
+            "value": 2
+          },
+          {
+            "type": "tag",
+            "target": "carpool_pact",
+            "value": true
+          }
+        ],
+        "resultText": "“你也觉得那个需求扯淡吧？！”共同的敌人就是最好的朋友！两人一路疯狂倒苦水，结成了坚实的摸鱼战壕同盟。精神 +4，同事关系 +2，获得标签 [carpool_pact]。",
+        "hidden": "敌人的敌人是盟友"
+      },
+      {
+        "id": "share_cookie",
+        "text": "递过去一包夹心饼干：“早上火气别那么大，吃点？”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "relation",
+            "target": "team",
+            "value": 1
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "对方愣了一下接过饼干，尴尬的气氛融化在草莓味奶油里。成年人的职场恩怨有时一块饼干就能化解。精神 +3，同事关系 +1。",
+        "hidden": "零食外交"
+      },
+      {
+        "id": "wear_headphones",
+        "text": "掏出墨镜和降噪耳机，开启终极冷漠结界",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 1
+          },
+          {
+            "type": "relation",
+            "target": "team",
+            "value": -1
+          }
+        ],
+        "resultText": "车厢里弥漫着零下四十度的空气，司机甚至不敢踩急刹。相安无事，但关系更僵了。精神 +1，同事关系 -1。",
+        "hidden": "绝对防御"
+      },
+      {
+        "id": "jump_early",
+        "text": "师傅靠边停！我突然想起来要吃生煎包！",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 2
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          }
+        ],
+        "resultText": "你提前两站逃离现场，在路边美滋滋吃了一份爆汁生煎包。尴尬化解了，就是多走了一公里。精神 +2，金钱 -2。",
+        "hidden": "战略性撤退"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "拼车偶遇死对头",
+      "hook": "carpool_pact 触发早会掩护"
+    }
+  },
+  {
+    "id": "carpool_pact_followup_002",
+    "category": "social",
+    "weight": 15,
+    "priority": 2.0,
+    "conditions": {
+      "requiredTags": [
+        "carpool_pact"
+      ]
+    },
+    "title": "早会上同盟者的眼神交汇",
+    "body": "早会上老板突然点名质问你某项进度为什么慢了。正在你组织借口时，昨天在拼车里结盟的同事突然举手：“老板，这块逻辑是他帮我们组兜底了，责任在我们。”",
+    "clues": [
+      "对方冲你偷偷眨了眨左眼",
+      "老板摸了摸下巴沉思"
+    ],
+    "choices": [
+      {
+        "id": "team_combo",
+        "text": "顺水推舟：“是的，但我们俩已经梳理好协同方案了”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 2
+          },
+          {
+            "type": "relation",
+            "target": "boss",
+            "value": 1
+          }
+        ],
+        "resultText": "双剑合璧！老板不仅没有发火，还当场表扬了两个团队的跨组协同精神。精神 +4，声誉 +2，老板好感 +1！",
+        "hidden": "拼车盟友显神威"
+      },
+      {
+        "id": "treat_drink",
+        "text": "会议结束后立刻给同盟者点一杯暴打柠檬茶",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          },
+          {
+            "type": "relation",
+            "target": "team",
+            "value": 2
+          }
+        ],
+        "resultText": "柠檬茶送达，对方在微信上回了你一张可爱的猫猫比心表情包。战友情坚不可摧！精神 +3，同事关系 +2。",
+        "hidden": "礼尚往来"
+      },
+      {
+        "id": "take_blame",
+        "text": "反向坦白：“其实我自己也有摸鱼责任”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 1
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": -1
+          }
+        ],
+        "resultText": "你耿直得让全场窒息。同事在桌子底下狠狠踩了你一脚。精神 +1，声誉 -1。",
+        "hidden": "耿直过头"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "战壕同盟早会打掩护",
+      "hook": "carpool_pact 后续"
+    }
+  },
+  {
+    "id": "family_wechat_rumor_001",
+    "category": "family",
+    "weight": 10,
+    "title": "家族相亲相爱群的养生风暴",
+    "body": "家族群叮咚狂响。大舅转发了《速看即将被删！手机屏幕散发致命射线，年轻人猝死元凶！》，并单独 @你 让你不要整天对着屏幕，赶紧回家考个编制。",
+    "clues": [
+      "群成员 48 人，全是七大姑八大姨",
+      "二姨在下面接龙“转了功德无量”"
+    ],
+    "choices": [
+      {
+        "id": "counter_science_article",
+        "text": "编写《惊天辟谣！每天看手机两小时激活脑细胞》反向洗脑",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "你用AI生成了一篇图文并茂的《诺奖得主最新证实看屏幕延年益寿》。长辈们纷纷震惊点赞并转发朋友圈！以毒攻毒大获全胜！精神 +5，声誉 +1。",
+        "hidden": "魔法打败魔法"
+      },
+      {
+        "id": "red_envelope_bomb",
+        "text": "发一个 0.5 元的拼手气红包打破死寂",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "红包一出，大舅二姨瞬间抢光，群里刷屏“谢谢老板”，再也没人关心致命射线了。精神 +3，金钱 -1。",
+        "hidden": "红包转移视线"
+      },
+      {
+        "id": "mute_and_rename",
+        "text": "将群消息免打扰，群名片改为“文件传输助手”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          }
+        ],
+        "resultText": "世界顿时清净了！群里热闹是他们的，你坐看风起云涌内心波澜不惊。精神 +4。",
+        "hidden": "终极隐身"
+      },
+      {
+        "id": "serious_debunk",
+        "text": "认真发五百字科普论文和实验数据反驳",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -3
+          }
+        ],
+        "resultText": "大舅回了一句“读了几年书就不把长辈放在眼里了”，七大姑八大姨轮番教育你做人。精神 -3。",
+        "hidden": "认真的代价"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "家族群致命射线",
+      "hook": "亲戚催生"
+    }
+  },
+  {
+    "id": "relative_pc_disaster_001",
+    "category": "family",
+    "weight": 10,
+    "title": "亲戚带熊孩子突击上门借电脑",
+    "body": "周末三姑带着上小学的表侄来家里串门。三姑拍拍你肩膀：“听说你是搞电脑的，让你弟玩玩你的大电脑打个游戏，小孩子乖得很。”表侄手里正抓着半融化的巧克力雪糕跃跃欲试。",
+    "clues": [
+      "你的机械键盘客制化轴体价值 1500",
+      "电脑桌面上放着下周要交付的工程源码"
+    ],
+    "choices": [
+      {
+        "id": "vim_teaching",
+        "text": "打开黑底白字的 Linux 终端：“来，叔叔教你玩 Vim”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "屏幕上全是看不懂的绿色字符与代码。表侄按了半天Esc退不出去当场委屈大哭，三姑赶紧带他出去买奥特曼卡片。降维打击太爽了！精神 +5，声誉 +1。",
+        "hidden": "Vim 退不出神功"
+      },
+      {
+        "id": "give_exam_book",
+        "text": "从抽屉抽出崭新的《小学奥数拔高训练》塞过去",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "“做完这张卷子才能开机哦。”表侄瞬间两眼呆滞，默默坐在小板凳上写起了算术。三姑夸你懂教育！精神 +4。",
+        "hidden": "题海战术"
+      },
+      {
+        "id": "quantum_excuse",
+        "text": "谎称主机漏电：“这机箱接地不良，碰了容易变爆炸头”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          }
+        ],
+        "resultText": "三姑吓得一把把表侄拉开三米远：“哎呀快离远点！你们大城市的高科技太危险了！”危机解除！精神 +3。",
+        "hidden": "漏电威慑"
+      },
+      {
+        "id": "let_him_play",
+        "text": "硬着头皮把电脑让给表侄玩《网页小游戏》",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -2
+          },
+          {
+            "type": "tag",
+            "target": "pc_invaded",
+            "value": true
+          }
+        ],
+        "resultText": "键盘上糊满了雪糕印子，你坐在旁边心惊肉跳地盯了两小时。精神 -2，留下隐患标签 [pc_invaded]。",
+        "hidden": "妥协引狼入室"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "熊孩子与Vim终端",
+      "hook": "pc_invaded 触发电脑桌面惨案"
+    }
+  },
+  {
+    "id": "pc_invaded_followup_002",
+    "category": "family",
+    "weight": 15,
+    "priority": 2.0,
+    "conditions": {
+      "requiredTags": [
+        "pc_invaded"
+      ]
+    },
+    "title": "被熊孩子洗劫后的电脑桌面",
+    "body": "亲戚走后你坐回电脑前，屏幕上密密麻麻全是《贪玩蓝月》、《屠龙宝刀秒回收》的快捷方式，浏览器主页变成了金光闪闪的传奇大本营，风扇在以每分钟九千转狂哮。",
+    "clues": [
+      "C 盘可用空间只剩 200MB",
+      "右下角弹出一万个弹窗"
+    ],
+    "choices": [
+      {
+        "id": "deep_clean_rage",
+        "text": "掏出硬核清理工具连根拔除，顺手重构系统缓存",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": -2
+          }
+        ],
+        "resultText": "敲下一串精巧的批处理脚本把垃圾全家桶彻底粉碎，C盘瞬间释放50G空间！这种掌控机器的感觉爽到飞起！精神 +4，技术债 -2！",
+        "hidden": "重获纯净"
+      },
+      {
+        "id": "play_legend",
+        "text": "好奇点开屠龙宝刀，竟然一刀爆出极品神装！",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 1
+          }
+        ],
+        "resultText": "“点一下玩一年，装备不花一分钱！”你在传奇里砍了半小时Boss，不仅压力全无，还把神装卖给公会大哥赚了十块钱！精神 +5，金钱 +1。",
+        "hidden": "真香定律"
+      },
+      {
+        "id": "cry_format",
+        "text": "受不了了，直接格式化重装系统",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 1
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": 1
+          }
+        ],
+        "resultText": "干净是干净了，但也花了一整个周末重装开发环境。精神 +1，技术债 +1。",
+        "hidden": "断臂求生"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "全家桶攻陷C盘",
+      "hook": "pc_invaded 后续"
+    }
+  },
+  {
+    "id": "parents_blind_date_001",
+    "category": "family",
+    "weight": 10,
+    "title": "老妈以送特产为由安排的硬核相亲",
+    "body": "老妈打电话说寄了家乡香肠让你去某高档咖啡厅取，到了现场发现对面坐着一个同样被家里逼来、满脸写着“生无可恋”的相亲对象。桌上摆着两杯拿铁。",
+    "clues": [
+      "对方穿着印着“我爱加班”的文化衫",
+      "双方老妈在微信上疯狂追问战况"
+    ],
+    "choices": [
+      {
+        "id": "form_fake_alliance",
+        "text": "一拍即合：“合作吧，结成应付家长假情侣同盟！”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "tag",
+            "target": "fake_couple_pact",
+            "value": true
+          }
+        ],
+        "resultText": "“我每周给你朋友圈点赞，逢年过节互相打掩护！”两人瞬间达成战略共识碰杯庆祝，找到了打工人最纯粹的战友！精神 +5，获得标签 [fake_couple_pact]。",
+        "hidden": "结盟契约"
+      },
+      {
+        "id": "microservice_lecture",
+        "text": "滔滔不绝跟对方讲解微服务架构容灾治理",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          }
+        ],
+        "resultText": "对方听得两眼翻白，十分钟后借口“代码编译完成”逃单离开。你买完单走出咖啡厅，为自己的口才得意。精神 +3，金钱 -2。",
+        "hidden": "技术劝退"
+      },
+      {
+        "id": "crazy_eating",
+        "text": "不谈感情只谈干饭，把咖啡厅的贵价甜品吃个遍",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -3
+          }
+        ],
+        "resultText": "黑森林蛋糕、舒芙蕾、提拉米苏狂炫！糖分带来的快乐真实不虚！相亲黄了，但胃被填满了！精神 +4，金钱 -3。",
+        "hidden": "干饭人无所畏惧"
+      },
+      {
+        "id": "awkward_interrogate",
+        "text": "按老妈给的提问单死板盘问户口学历房产",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -3
+          }
+        ],
+        "resultText": "气氛僵得像在审问特务。两人都痛苦万分，回家后被老妈追问骂了一顿。精神 -3。",
+        "hidden": "照本宣科"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "假情侣同盟的建立",
+      "hook": "fake_couple_pact 触发朋友圈演戏"
+    }
+  },
+  {
+    "id": "fake_couple_followup_002",
+    "category": "family",
+    "weight": 15,
+    "priority": 2.0,
+    "conditions": {
+      "requiredTags": [
+        "fake_couple_pact"
+      ]
+    },
+    "title": "假情侣同盟的朋友圈高端对线",
+    "body": "周五晚上，假情侣盟友发来急电：“我妈突击检查，快配合我发一条恩爱朋友圈秀一下！”对方已经精修好了一张合照，并贴心配好了情侣文案。",
+    "clues": [
+      "盟友的文案很甜，但双方心知肚明",
+      "你老妈已经在朋友圈评论区前排占座"
+    ],
+    "choices": [
+      {
+        "id": "epic_acting",
+        "text": "深情转发并配上浪漫歌词，奥斯卡级演技拉满",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 2
+          }
+        ],
+        "resultText": "双方家长在评论区笑开了花，亲戚们疯狂点赞！你们私信里笑得直锤床，为这场精妙的配合狂欢！精神 +5，声誉 +2。",
+        "hidden": "影帝影后"
+      },
+      {
+        "id": "ask_for_favor",
+        "text": "“配合可以，下次我家聚餐你得当我挡箭牌”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 1
+          }
+        ],
+        "resultText": "对方爽快答应，还顺手给你点了一杯星巴克作为谢礼。公平交易童叟无欺！精神 +3，金钱 +1。",
+        "hidden": "等价交换"
+      },
+      {
+        "id": "overboard_cringe",
+        "text": "用力过猛发了九张非主流油腻情话",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 2
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": -2
+          }
+        ],
+        "resultText": "油腻得让同组同事误以为你被盗号了，连老板都私信问你“精神状态还稳定吗”。精神 +2，声誉 -2。",
+        "hidden": "油腻反噬"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "假情侣朋友圈大作战",
+      "hook": "fake_couple_pact 后续"
+    }
+  },
+  {
+    "id": "relative_borrow_money_001",
+    "category": "family",
+    "weight": 10,
+    "title": "远房表哥上门借钱搞元宇宙养鸡",
+    "body": "多年不联系的表哥拎着两斤干红枣找上门，神神秘秘拉开拉链掏出一份商业计划书：“老弟，元宇宙智能土鸡养殖！区块链溯源每只鸡的下蛋频率！投五万，下半年保底分红翻倍！”",
+    "clues": [
+      "商业计划书甚至用的是彩色蜡笔手绘",
+      "表哥脖子上挂着褪色的金项链"
+    ],
+    "choices": [
+      {
+        "id": "cry_poverty_reverse",
+        "text": "当场亮出花呗欠款截图，声泪俱下反借两百买挂面",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 1
+          }
+        ],
+        "resultText": "你哭得比他还惨，列举了房租、颈椎治疗、猫粮等三十项负债。表哥吓得红枣都没敢吃完，反塞给你两百块落荒而逃。精神 +5，金钱 +1！",
+        "hidden": "比惨大师"
+      },
+      {
+        "id": "tech_inquiry_crush",
+        "text": "从密码学共识算法到智能合约漏洞层层拷问",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "“表哥，你们的拜占庭容错机制怎么解决？鸡死了链上状态怎么回滚？”表哥满头大汗哑口无言，灰溜溜收摊。精神 +4，声誉 +1。",
+        "hidden": "学术击退"
+      },
+      {
+        "id": "give_petty_cash",
+        "text": "给两百块车马费当打水漂买清静",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 1
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          }
+        ],
+        "resultText": "表哥拿了钱喜笑颜开离开，虽然破费了，但省下了一下午的口水。金钱 -2。",
+        "hidden": "花钱买时间"
+      },
+      {
+        "id": "fake_promise",
+        "text": "“等我下周发了年终奖全投你”，先糊弄过去",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -1
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": 1
+          }
+        ],
+        "resultText": "埋下了拖延的雷，表哥在日历上设好了倒计时，天天在微信上给你发土鸡视频。精神 -1。",
+        "hidden": "拖延之后患"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "元宇宙土鸡养殖借钱",
+      "hook": "亲友借贷"
+    }
+  },
+  {
+    "id": "landlord_sudden_hike_001",
+    "category": "housing",
+    "weight": 11,
+    "title": "房东阿姨的涨租通牒与降维打击",
+    "body": "房东阿姨发来微信：“小李啊，今年物价涨了，隔壁都租四千五了，阿姨看你老实给你算四千二，下个月起生效哈，不续租的话这周要带人来看房。”",
+    "clues": [
+      "房间的破空调夏天像拖拉机冬天像冰箱",
+      "你的银行卡余额刚刚够吃外卖"
+    ],
+    "choices": [
+      {
+        "id": "emotional_plea",
+        "text": "晒出工牌和体检单：“阿姨，我刚被降薪还在治颈椎…”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 1
+          }
+        ],
+        "resultText": "阿姨看着你的黑眼圈突然母性大发：“哎哟造孽啊现在的孩子！不涨了不涨了！下周末阿姨给你带家里的土母鸡补补！”精神 +5，甚至还赚了一只鸡！",
+        "hidden": "母性唤醒"
+      },
+      {
+        "id": "negotiate_upgrade",
+        "text": "同意加两百，但必须把老破空调换成立式静音新空调",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          }
+        ],
+        "resultText": "一番商业谈判，阿姨咬牙给你换了新空调。虽然房租微涨，但夏天的夜晚终于能安然入睡了！精神 +3，金钱 -2。",
+        "hidden": "以退为进"
+      },
+      {
+        "id": "fortune_telling_bluff",
+        "text": "反向忽悠：“阿姨，这屋子朝向极旺房东，换房客会破财”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "你掏出罗盘和易经说得头头是道，阿姨笃信风水，吓得连连保证三年内绝不涨房租！玄学制胜！精神 +4，声誉 +1。",
+        "hidden": "风水绝技"
+      },
+      {
+        "id": "rage_quit",
+        "text": "“退租！我现在就收拾铺盖断舍离！”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 1
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -4
+          }
+        ],
+        "resultText": "硬气是硬气了，但周末全花在找搬家公司和押一付三的血泪里。金钱 -4，精神 +1。",
+        "hidden": "冲动的惩罚"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "房东涨租风水攻防",
+      "hook": "租房生存"
+    }
+  },
+  {
+    "id": "upstairs_bowling_noise_001",
+    "category": "housing",
+    "weight": 10,
+    "title": "楼上邻居午夜的保龄球交响乐",
+    "body": "凌晨一点，楼上天花板准时传来滚珠声、重物砸地声、拉拽椅子的摩擦声，仿佛有一群大象在客厅里跳踢踏舞。你盯着天花板，精神临近崩溃边缘。",
+    "clues": [
+      "明天上午九点有重要的客户评审",
+      "楼上已经连续闹腾三天了"
+    ],
+    "choices": [
+      {
+        "id": "haidilao_midnight",
+        "text": "不睡了！提着笔记本去 24 小时海底捞连吃带办公",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -3
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": -1
+          }
+        ],
+        "resultText": "甩面师傅为你激情起舞，蘸料台免费吃西瓜，服务员嘘寒问暖！不仅代码写完了，精神更是满血复活！海底捞，深夜打工人的圣殿！精神 +5，金钱 -3。",
+        "hidden": "海底捞办公避难所"
+      },
+      {
+        "id": "earplug_concert",
+        "text": "戴上工业级防噪耳塞，播放重金属摇滚一起蹦迪",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": -1
+          }
+        ],
+        "resultText": "既然无法战胜噪音，那就加入狂欢！你在被窝里跟着电吉他摇头晃脑，把负能量全部甩飞。精神 +4！",
+        "hidden": "被窝蹦迪"
+      },
+      {
+        "id": "owner_chat_sarcasm",
+        "text": "在业主群撰写高情商文学《楼上当代鲁班手工纪录片》",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 2
+          }
+        ],
+        "resultText": "幽默风趣又刀刀见血的文笔引发全楼业主共鸣，物业连夜上门劝停。楼上送来道歉水果！精神 +4，声誉 +2。",
+        "hidden": "业主群神作"
+      },
+      {
+        "id": "bang_ceiling",
+        "text": "拿晾衣杆猛戳天花板进行物理对决",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -2
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "楼上砸得更起劲了，天花板甚至掉下一层石膏粉砸了你一脸。精神 -2，还得扫地。",
+        "hidden": "物理反击失败"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "半夜楼上打保龄球",
+      "hook": "邻里交锋"
+    }
+  },
+  {
+    "id": "cat_doorstep_trap_001",
+    "category": "housing",
+    "weight": 12,
+    "title": "单元门口翻肚皮碰瓷的橘猫",
+    "body": "刚出单元门，一只圆滚滚的黄白花流浪橘猫“啪叽”躺倒在你鞋面上，肚皮朝天，发出拖拉机般的喉音，用爪子勾住你的裤腿不放。",
+    "clues": [
+      "猫毛色光亮，目测体重超过 12 斤",
+      "包里正好装着买早餐剩下的半根火腿肠"
+    ],
+    "choices": [
+      {
+        "id": "adopt_to_office",
+        "text": "一把抄起抱进帆布包带去公司：“今天起你就是防Bug吉祥物”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 6
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          },
+          {
+            "type": "relation",
+            "target": "team",
+            "value": 2
+          },
+          {
+            "type": "tag",
+            "target": "has_office_cat",
+            "value": true
+          }
+        ],
+        "resultText": "猫猫一进工位立刻俘获全组芳心！同事们争相投喂猫条，连产品经理都来摸两把。全天吸猫，精神突破天际！精神 +6，金钱 -2（买了猫砂），同事关系 +2，获得标签 [has_office_cat]！",
+        "hidden": "工位吉祥物"
+      },
+      {
+        "id": "feed_and_pet",
+        "text": "蹲在路边喂完火腿肠，疯狂狂吸猫头十分钟",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "毛茸茸的温热治愈了一整周的疲惫。小猫蹭了蹭你的手心，今天的心情从阴转大晴天！精神 +4，金钱 -1。",
+        "hidden": "路边吸猫"
+      },
+      {
+        "id": "laser_duel",
+        "text": "掏出调试用的红外激光笔与猫在花坛决斗",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": -1
+          }
+        ],
+        "resultText": "你引着胖橘猫在草丛里扑腾飞跃，一人一猫玩得不亦乐乎，引来保洁阿姨围观。虽然上班晚了5分钟，但超值！精神 +4。",
+        "hidden": "激光对决"
+      },
+      {
+        "id": "cold_pass",
+        "text": "“走开，我自己也是在社会上碰瓷的社畜”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -2
+          }
+        ],
+        "resultText": "你忍痛绕开小猫，一整天眼前都是那双委屈的大圆眼睛，良心隐隐作痛。精神 -2。",
+        "hidden": "良心不安"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "流浪橘猫碰瓷吸猫",
+      "hook": "has_office_cat 触发猫爪发版"
+    }
+  },
+  {
+    "id": "cat_prod_deploy_002",
+    "category": "absurd",
+    "weight": 15,
+    "priority": 2.0,
+    "conditions": {
+      "requiredTags": [
+        "has_office_cat"
+      ]
+    },
+    "title": "办公室猫主子的肉垫发版奇迹",
+    "body": "午休时你把笔记本留在工位去接水，收养的橘猫踩着小猫步走过键盘，粉嫩肉垫在回车键上狠狠一按——直接把写着“fix: 优化了部分逻辑”的分支推上了生产环境！",
+    "clues": [
+      "监控显示猫爪操作行云流水",
+      "生产告警群突然弹出数十条提示"
+    ],
+    "choices": [
+      {
+        "id": "cat_did_it",
+        "text": "截图猫踩键盘画面发群：“是猫神亲自部署的神之补丁”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 2
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": -2
+          }
+        ],
+        "resultText": "奇迹发生了！猫踩出来的死循环居然把原先的死锁逻辑解开了，核心接口延迟下降40%！全公司惊呼“猫神降世”！精神 +5，声誉 +2，技术债 -2！",
+        "hidden": "猫神保佑"
+      },
+      {
+        "id": "quick_rollback",
+        "text": "手速超神在三秒内紧急回滚分支",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 2
+          },
+          {
+            "type": "relation",
+            "target": "ops",
+            "value": 2
+          }
+        ],
+        "resultText": "运维大哥抹了一把冷汗：“小李手速挺快啊，下次看好你的猫”。虽然惊险，但展示了过硬应急能力。精神 +2，运维好感 +2。",
+        "hidden": "极速回滚"
+      },
+      {
+        "id": "give_cat_treat",
+        "text": "不管了，先奖励功臣一罐金枪鱼罐头",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "猫猫呼噜呼噜吃着罐头，管它什么生产环境，天塌下来有猫顶着！精神 +4，金钱 -1。",
+        "hidden": "先吃为敬"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "猫爪按回车上生产",
+      "hook": "has_office_cat 后续"
+    }
+  },
+  {
+    "id": "crazy_thursday_kfc_001",
+    "category": "social",
+    "weight": 11,
+    "title": "疯狂星期四的工位诱惑",
+    "body": "周四上午十一点，公司大群里突然开始疯狂刷屏“今天是肯德基疯狂星期四，谁V我50”。外卖软件上满减券倒计时正在一秒秒跳动，同事们眼巴巴地看着你。",
+    "clues": [
+      "距离午饭还有半小时",
+      "隔壁桌已经开始点单拼单了"
+    ],
+    "choices": [
+      {
+        "id": "treat_whole_team",
+        "text": "豪气冲天！直接点四份全家桶请全组狂欢",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 6
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -4
+          },
+          {
+            "type": "relation",
+            "target": "team",
+            "value": 3
+          }
+        ],
+        "resultText": "炸鸡、蛋挞、九珍果汁摆满三张桌子！大家手握鸡腿热泪盈眶高呼“李哥万岁”！你在此刻就是办公室的神！精神 +6，同事关系 +3，金钱 -4。",
+        "hidden": "请客封神"
+      },
+      {
+        "id": "crazy_wechat_beg",
+        "text": "在家族群转发发疯文学：“V我50，今晚聆听我的复仇大计”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 2
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": -1
+          }
+        ],
+        "resultText": "二叔竟然真的微信转了 66 块钱：“孩子别复仇了，拿着买炸鸡好好过日子”！白嫖到了炸鸡基金！精神 +5，金钱 +2！",
+        "hidden": "发疯文学白嫖"
+      },
+      {
+        "id": "eat_solo_six_wings",
+        "text": "自己偷偷下一单黄金脆皮鸡配冰可乐独享",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          }
+        ],
+        "resultText": "躲在天台楼梯间大口啃炸鸡，金黄香脆肉汁四溢，疲劳烟消云散！精神 +4，金钱 -2。",
+        "hidden": "天台独享"
+      },
+      {
+        "id": "steamed_veggie",
+        "text": "咬牙拒绝诱惑，默默吃自己带的水煮西兰花",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 1
+          }
+        ],
+        "resultText": "每一口西兰花都味同嚼蜡，闻着办公室飘荡的炸鸡香味，你委屈得几乎要哭出来。精神 -3。",
+        "hidden": "意志崩溃"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "疯狂星期四炸鸡狂欢",
+      "hook": "外卖与美食"
+    }
+  },
+  {
+    "id": "midnight_street_skewer_001",
+    "category": "social",
+    "weight": 10,
+    "title": "凌晨一点路边炭烤摊的烟火气",
+    "body": "刚从公司加班出来，晚风微凉。路口拐角处的小吃摊炭火通红，孜然与烤生蚝的香气飘散在夜空里。老板正熟练地翻滚着肉串，滋滋冒油。",
+    "clues": [
+      "肚子里正在抗议",
+      "深夜微风拂面",
+      "旁边桌坐着几位谈笑风生的大叔"
+    ],
+    "choices": [
+      {
+        "id": "skewer_carnival",
+        "text": "“老板！二十串羊肉、三个生蚝，再来一瓶冰镇麦汁！”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 6
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -3
+          }
+        ],
+        "resultText": "热辣滚烫的肉串配上冰爽的气泡，深夜的碳水大餐抚平了打工人一整天的酸楚！这一刻，天地广阔！精神 +6，金钱 -3。",
+        "hidden": "深夜碳水疗愈"
+      },
+      {
+        "id": "chat_with_stranger",
+        "text": "边吃边与旁边光头大叔聊天，发现对方是退休老黑客",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": -2
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -2
+          }
+        ],
+        "resultText": "大叔就着花生米给你手绘了解耦分布式缓存的绝妙思路，比你翻三天技术博客还管用！精神 +4，技术债 -2！",
+        "hidden": "路边高人"
+      },
+      {
+        "id": "takeaway_crying",
+        "text": "打包几串回出租屋，边吃边看催泪动漫大哭一场",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "眼泪混着辣椒面流下来，彻底释放了积压数月的压力。哭完洗个热水澡，睡得无比香甜。精神 +5，金钱 -1。",
+        "hidden": "情绪大宣泄"
+      },
+      {
+        "id": "resist_and_walk",
+        "text": "咽了咽口水，提醒自己“半夜吃烧烤伤肝”忍饿走开",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -2
+          }
+        ],
+        "resultText": "饥肠辘辘地躺在床上，满脑子都是羊肉串在跳舞，失眠到了凌晨四点。精神 -2。",
+        "hidden": "饥肠辘辘"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "深夜烤串与啤酒",
+      "hook": "夜市烟火"
+    }
+  },
+  {
+    "id": "gym_hard_sell_001",
+    "category": "health",
+    "weight": 10,
+    "title": "地铁口肌肉猛男销售的前后夹击",
+    "body": "刚出地铁，两个穿着紧身背心、臂围比你大腿还粗的教练左右堵住了你：“哥！我看你走路骨盆前倾、圆肩驼背严重啊！游泳健身了解一下？今天周年庆三年只要 8888！”",
+    "clues": [
+      "教练的胸肌在微微跳动",
+      "身后是上班赶时间的汹涌人流"
+    ],
+    "choices": [
+      {
+        "id": "pinch_biceps_recruit",
+        "text": "反手捏教练肱二头肌：“哥们，你们招码农吗？我手敲抽筋算不算无氧训练？”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "教练被你的反向操作整懵了，甚至跟你探讨起了程序员护腕的使用心得。周围路人忍不住笑出声。精神 +5，声誉 +1。",
+        "hidden": "反客为主"
+      },
+      {
+        "id": "fake_foreign_accent",
+        "text": "操着蹩脚假外语：“Sorry I only speak Python and C++”飘走",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          }
+        ],
+        "resultText": "教练愣在原地怀疑人生，你迈着胜利者的步伐昂首飘入公司。机智逃脱！精神 +4。",
+        "hidden": "假装歪果仁"
+      },
+      {
+        "id": "impulse_card",
+        "text": "一时热血上头，刷卡办了三年尊贵黑金卡！",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -5
+          }
+        ],
+        "resultText": "走出健身房你觉得自己浑身充满了施瓦辛格的力量！虽然钱包空了，但今天你精神抖擞！（尽管大概率一年去一次洗澡）。精神 +3，金钱 -5。",
+        "hidden": "健身冲动消费"
+      },
+      {
+        "id": "enter_and_criticized",
+        "text": "被半推半就拉进店里测体脂，被数落全身亚健康",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -3
+          }
+        ],
+        "resultText": "教练把你的体测表批判得一无是处，仿佛你明天就要进ICU。你郁闷地逃出店门，自尊心碎了一地。精神 -3。",
+        "hidden": "体测暴击"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "游泳健身了解一下",
+      "hook": "健康与办卡"
+    }
+  },
+  {
+    "id": "hospital_checkup_anxiety_001",
+    "category": "health",
+    "weight": 10,
+    "title": "年度体检报告的开箱惊魂",
+    "body": "年度体检报告出炉了，PDF 文件带有密码保护。同事们都在紧张地解压文件，群里不时传来倒吸凉气的声音。你深吸一口气，输入了身份证后六位。",
+    "clues": [
+      "你最近半年喝了 300 杯冰美式熬了 50 次夜",
+      "周围同事有的已经开始查病友贴吧了"
+    ],
+    "choices": [
+      {
+        "id": "crazy_consumerism",
+        "text": "“反正人终有一死！”下班立即去买心愿单里的昂贵数码好物",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 6
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -4
+          }
+        ],
+        "resultText": "买了心心念念的游戏机和降噪耳机！拆开包装的香气治愈了一切虚幻的焦虑，当下快乐才是真正的活着！精神 +6，金钱 -4。",
+        "hidden": "虚无主义消费"
+      },
+      {
+        "id": "compare_arrows",
+        "text": "和同组同事互相交换报告，看谁的异常箭头更多",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "relation",
+            "target": "team",
+            "value": 2
+          }
+        ],
+        "resultText": "“你才三个箭头？我都七个了！”比惨大赛让办公室洋溢着病友间温馨的欢声笑语，焦虑瞬间化解。精神 +4，同事关系 +2。",
+        "hidden": "病友交流会"
+      },
+      {
+        "id": "punk_wellness",
+        "text": "买个超大保温杯泡人参枸杞，开启朋克养生模式",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "一边熬夜写代码一边喝养生茶，心理暗示拉满。精神 +3，金钱 -1。",
+        "hidden": "保温杯泡枸杞"
+      },
+      {
+        "id": "baidu_symptoms",
+        "text": "在百度上逐条搜索报告上的专有名词",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -4
+          }
+        ],
+        "resultText": "搜索结果把一个小结节说成了晚期绝症，你吓得瘫软在椅子上写了三封遗书，最后发现是医生手抖写错了个字母。精神 -4。",
+        "hidden": "百度看病"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "体检报告开箱焦虑",
+      "hook": "健康日常"
+    }
+  },
+  {
+    "id": "cyber_wooden_fish_app_001",
+    "category": "leisure",
+    "weight": 11,
+    "title": "工位赛博木鱼积攒功德计划",
+    "body": "连日的离谱需求让你感到心浮气躁。你在手机上下载了一个《敲电子木鱼，见赛博佛祖》软件，还能连接蓝牙，敲一下屏幕跳出金色“功德+1，Bug-1”。",
+    "clues": [
+      "同事正从你身后路过",
+      "下午还有产品经理的撕逼会"
+    ],
+    "choices": [
+      {
+        "id": "auto_clicker_script",
+        "text": "写个自动化连点脚本挂在后台：每秒功德+9999！",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": 2
+          }
+        ],
+        "resultText": "脚本狂飙，屏幕上的金光甚至闪瞎了隔壁同事！你的功德在十分钟内超越了全宇宙，内心安详得宛如入定老僧！精神 +5，技术债 +2。",
+        "hidden": "超频功德"
+      },
+      {
+        "id": "physical_giant_fish",
+        "text": "直接淘宝买个拳头大的真实木鱼，在办公室笃笃笃猛敲",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          },
+          {
+            "type": "relation",
+            "target": "boss",
+            "value": -1
+          },
+          {
+            "type": "relation",
+            "target": "team",
+            "value": 1
+          }
+        ],
+        "resultText": "清脆的木鱼声在大厅回荡，整个技术部沐浴在慈悲祥和的佛光中，同事们纷纷双手合十，老板路过都绕着走。精神 +5，老板好感 -1。",
+        "hidden": "物理功德"
+      },
+      {
+        "id": "hook_enter_key",
+        "text": "把木鱼音效绑定到 IDE 的回车键上",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "写一行代码敲一下木鱼，心如止水，代码写得如诗般优雅。精神 +4，声誉 +1。",
+        "hidden": "禅意编程"
+      },
+      {
+        "id": "over_think",
+        "text": "思考“赛博功德在以太坊上的通胀模型”，导致精神内耗",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -2
+          }
+        ],
+        "resultText": "你越想越觉得这个世界是个巨大的草台班子，陷入了虚无主义泥潭。精神 -2。",
+        "hidden": "过度内耗"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "电子木鱼与赛博功德",
+      "hook": "工位解压"
+    }
+  },
+  {
+    "id": "gacha_game_last_pull_001",
+    "category": "leisure",
+    "weight": 10,
+    "title": "抽卡手游限定池终局倒计时",
+    "body": "深夜十一点五十，你最爱的手游限定UP池只剩最后 10 分钟。你辛辛苦苦攒的原石已经见底，距离大保底还差恰好 20 抽。界面上可爱的角色仿佛在隔着屏幕呼唤你。",
+    "clues": [
+      "卡池关闭后预计复刻要等一年",
+      "下个月房租还没交"
+    ],
+    "choices": [
+      {
+        "id": "swipe_card_648",
+        "text": "去他的！直接氪一单！金光一闪双黄蛋！",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 6
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -4
+          }
+        ],
+        "resultText": "彩虹光芒撕裂屏幕，本命角色带着专属武器迎风降临！你在卧室里激动得无声尖叫满床打滚！这个月吃泡面也值了！精神 +6，金钱 -4。",
+        "hidden": "氪金快乐"
+      },
+      {
+        "id": "tieba_schadenfreude",
+        "text": "关掉充值界面，打开贴吧看氪佬沉船惨状",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          }
+        ],
+        "resultText": "看到无数玩家发帖痛哭“氪了三千全歪了”，你突然觉得自己省下了三千块，心情像中了大奖一样美滋滋！精神 +5！",
+        "hidden": "贴吧幸灾乐祸"
+      },
+      {
+        "id": "metaphysical_single_pull",
+        "text": "洗手更衣，播放神曲单抽，结果抽出三星蓝光破铁剑",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": -1
+          }
+        ],
+        "resultText": "单抽出了一把破铁剑，卡池在眼前残忍关闭。你呆坐在床上，感受到了被概率玩弄的彻底绝望。精神 -3。",
+        "hidden": "沉船自闭"
+      },
+      {
+        "id": "uninstall_rage",
+        "text": "怒而卸载！发誓做个现充早睡早起！",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 3
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "长按图标点击删除的一瞬间，整个人如释重负，感觉找回了自己的人生。精神 +3，声誉 +1。",
+        "hidden": "戒断解脱"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "深夜大保底抽卡",
+      "hook": "手游氪金"
+    }
+  },
+  {
+    "id": "secondhand_bargain_king_001",
+    "category": "leisure",
+    "weight": 10,
+    "title": "闲鱼出闲置遇到宇宙级大刀客",
+    "body": "你在闲鱼上挂了个八成新的电竞显示器标价 500。一分钟后消息亮起：“学生，很喜欢，能 50 包邮顺丰吗？不同意就是歧视祖国的花朵，不讲奉献精神。”",
+    "clues": [
+      "对方主页信用极低",
+      "你挂出的价格已经是全网最低二手价"
+    ],
+    "choices": [
+      {
+        "id": "reverse_trolling",
+        "text": "反手回怼：“我把人给你包邮寄过去天天伺候你，要不要？”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          }
+        ],
+        "resultText": "神级阴阳怪气把大刀客怼得哑口无言并火速拉黑了你。你截图发到群里，群友们直呼“嘴替”，精神极其舒畅！精神 +5！",
+        "hidden": "神级回怼"
+      },
+      {
+        "id": "compete_misery",
+        "text": "戏精上身，给对方发三张馒头咸菜图：“弟弟，哥三天没吃饭了…”",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 1
+          }
+        ],
+        "resultText": "对方被你的惊天惨状震撼了，沉默良久转了 5 块钱过来：“哥，拿着去买两个肉包子吧，显示器我不要了”。反向赚了5块！精神 +4，金钱 +1。",
+        "hidden": "反向化缘"
+      },
+      {
+        "id": "diy_fish_tank",
+        "text": "不卖了！把外壳拆掉改造成工位热带鱼缸",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 1
+          }
+        ],
+        "resultText": "极客动手能力拉满！工位上多了一个泛着荧光水草的赛博水族箱，全公司排队来参观打卡！精神 +4，声誉 +1。",
+        "hidden": "极客改造"
+      },
+      {
+        "id": "surrender_sell",
+        "text": "懒得扯皮，真 50 块卖了",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -3
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 1
+          }
+        ],
+        "resultText": "寄完快递越想越亏，晚上翻来覆去扇自己耳光“我当时怎么就答应了”。精神 -3。",
+        "hidden": "窝囊妥协"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "闲鱼50包邮大刀客",
+      "hook": "二手交易"
+    }
+  },
+  {
+    "id": "open_source_bizarre_issue_001",
+    "category": "leisure",
+    "weight": 10,
+    "title": "摸鱼搞的开源项目收到奇葩 Issue",
+    "body": "周末摸鱼写的一个《喝水倒计时提醒工具》突然被推荐到了热门榜，收获了 800 个 Star。同时 Issue 列表被刷爆，最新置顶的一条写着：“作者你好，请问这个工具能不能移植到我儿子的小天才电话手表上？”",
+    "clues": [
+      "这个项目总共只有 50 行代码",
+      "Issue 已经有 40 多个表情回复"
+    ],
+    "choices": [
+      {
+        "id": "madman_porting",
+        "text": "挑战不可能！熬夜爆肝成功把它移植到了电话手表上！",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 6
+          },
+          {
+            "type": "resource",
+            "target": "reputation",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "techDebt",
+            "value": 2
+          }
+        ],
+        "resultText": "你录制的手表运行视频爆火全网，B站播放破百万！极客狂欢！连小天才官方都在评论区给你留言比心！精神 +6，声誉 +4，技术债 +2！",
+        "hidden": "极客出圈"
+      },
+      {
+        "id": "wont_fix_king",
+        "text": "神回复：“Won't fix. Works on my microwave.” 秒关 Issue",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 5
+          }
+        ],
+        "resultText": "极具朋克态度的回复被截图传为开源界美谈，社区成员纷纷打出“Based”表情包！深藏功与名！精神 +5！",
+        "hidden": "朋克闭环"
+      },
+      {
+        "id": "sponsor_qr_code",
+        "text": "在 README 挂上“请我喝冰美式立刻开发”的赞赏码",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": 4
+          },
+          {
+            "type": "resource",
+            "target": "money",
+            "value": 3
+          }
+        ],
+        "resultText": "竟然真的收到了好几个热心网友的打赏！一杯杯冰美式折算成了真金白银！金钱 +3，精神 +4。",
+        "hidden": "咖啡基金"
+      },
+      {
+        "id": "serious_long_reply",
+        "text": "认真写了三千字解释安卓与定制穿戴设备的内核差异",
+        "effects": [
+          {
+            "type": "resource",
+            "target": "spirit",
+            "value": -2
+          }
+        ],
+        "resultText": "提问者只回复了两个字“垃圾”，然后关掉了 Issue。你盯着屏幕，体验到了知识付费时代的荒诞。精神 -2。",
+        "hidden": "好心被当驴肝肺"
+      }
+    ],
+    "meta": {
+      "testsJudgment": true,
+      "funny": "开源移植小天才手表",
+      "hook": "开源整活"
+    }
+  }
+]

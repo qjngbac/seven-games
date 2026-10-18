@@ -143,3 +143,58 @@ export function markDailyDone(seedKey: string): void {
   m[seedKey] = true;
   atomicSet(DAILY_KEY, JSON.stringify(m));
 }
+
+// ---------- 历史战绩 ----------
+export interface RunHistoryRecord {
+  id: string;
+  modeId: string;
+  modeName: string;
+  packId: string;
+  packName: string;
+  timestamp: string;
+  score: number;
+  accuracy: number;
+  rounds: number;
+  correct: number;
+  maxCombo: number;
+  reactionAvg: number;
+  reason: "lives" | "complete" | "manual";
+  tags: string[];
+}
+
+const HISTORY_KEY = "shifting-rules-history-v1";
+
+export function loadHistory(): RunHistoryRecord[] {
+  const raw = atomicGet(HISTORY_KEY);
+  if (!raw) return [];
+  try {
+    return JSON.parse(raw) as RunHistoryRecord[];
+  } catch {
+    return [];
+  }
+}
+
+export function saveHistory(records: RunHistoryRecord[]): void {
+  atomicSet(HISTORY_KEY, JSON.stringify(records.slice(0, 100)));
+}
+
+export function clearHistory(): void {
+  try {
+    localStorage.removeItem(HISTORY_KEY);
+    localStorage.removeItem(HISTORY_KEY + ".tmp");
+  } catch {
+    /* 忽略 */
+  }
+}
+
+export function clearModeHistory(modeId: string): void {
+  const list = loadHistory().filter((r) => r.modeId !== modeId);
+  saveHistory(list);
+}
+
+export function addHistoryRecord(entry: RunHistoryRecord): void {
+  const list = loadHistory();
+  list.unshift(entry);
+  if (list.length > 100) list.length = 100;
+  saveHistory(list);
+}

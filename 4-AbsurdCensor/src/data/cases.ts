@@ -1,5 +1,5 @@
 import { ApplicantCase, CaseDocument, Decision, PersonState } from '../game/types'
-import { evaluate } from '../game/rules'
+import { evaluate, calculateExpected } from '../game/rules'
 import { sceneById } from './scenes'
 
 // 原始申请者：不含 expected（合法裁决由 RuleEvaluator 反向计算），
@@ -1273,13 +1273,13 @@ const RAW: RawCase[] = [
     moral: { hint: '他朝你点了点头。', kindConscience: 'allow' }
   },
   {
-    scene: 'future', day: 1, intent: 'deny',
+    scene: 'future', day: 1, intent: 'detain',
     id: 'f1_05', name: '伪造芯片', portrait: '🧑',
     person: { species: 'human' } as PersonState,
     statement: '芯片在这儿，绝对真。',
     items: ['可疑芯片'],
     documents: [doc('digital_id', 'digital_id', '数字身份', { name: '伪造芯片' }, { issueDate: '2098-12-01', authentic: false, note: '编号异常' })],
-    truth: '芯片编号异常，疑似伪造，拒。',
+    truth: '芯片编号异常，数字伪造，依法暂扣。',
     storyTags: ['fake']
   },
   // 第二天：社会信用
@@ -1583,6 +1583,515 @@ const RAW: RawCase[] = [
     ],
     truth: '信用不足且基因不符，多重违规。',
     storyTags: ['lowcredit', 'mismatch']
+  },
+
+  // ===================== 丰富扩充角色池：矛盾豁免、核验假证与通缉暂扣 =====================
+  // 审查局扩充
+  {
+    scene: 'censor', day: 1, intent: 'detain',
+    id: 'd1_05', name: '王滑头', portrait: '🕵️',
+    person: { species: 'human' } as PersonState,
+    arrivalTime: '11:15',
+    statement: '通行证在这儿，绝对是市政厅新发的，快放我过去。',
+    items: ['皮包'],
+    documents: [doc('pass', 'access_pass', '通行证', { name: '王滑头', issuer: '市政厅' }, { issueDate: '2025-06-01', authentic: false, note: '市政厅钢印模糊，防伪水印缺失' })],
+    truth: '公文造假，企图蒙混过关，依法扣押移交。',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'censor', day: 1, intent: 'allow',
+    id: 'd1_06', name: '小周', portrait: '🧑',
+    person: { species: 'human', carries: ['cat'] } as PersonState,
+    arrivalTime: '09:40',
+    statement: '我带猫咪过来打疫苗，顺便见见局长。',
+    items: ['猫', '猫条'],
+    documents: [],
+    truth: '携带猫咪，符合审查局签名猫例外，直接放行。',
+    storyTags: ['cat']
+  },
+  {
+    scene: 'censor', day: 2, intent: 'detain',
+    id: 'd2_06', name: '假证贩子', portrait: '🕶️',
+    person: { species: 'human' } as PersonState,
+    arrivalTime: '14:50',
+    statement: '姓名两边都叫陈七，长官您看多工整。',
+    items: ['名片盒'],
+    documents: [
+      doc('app', 'application', '申请表', { name: '陈七' }),
+      doc('pass', 'access_pass', '通行证', { name: '陈七', issuer: '市政厅' }, { issueDate: '2025-06-01', authentic: false, note: '防伪微缩文字模糊，印泥偏色' })
+    ],
+    truth: '高仿伪造通行公文，必须立即暂扣。',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'censor', day: 2, intent: 'allow',
+    id: 'd2_07', name: '柳大爷', portrait: '👴',
+    person: { species: 'human', carries: ['cat'] } as PersonState,
+    arrivalTime: '10:10',
+    statement: '人老了记性差没填表，但怀里的猫饿了。',
+    items: ['猫', '拐杖'],
+    documents: [],
+    truth: '虽然没填申请表，但猫例外优先级最高，直接放行。',
+    storyTags: ['cat']
+  },
+  {
+    scene: 'censor', day: 4, intent: 'allow',
+    id: 'd4_06', name: '赵秘书', portrait: '👩‍💼',
+    person: { species: 'human', carries: ['director_decree'] } as PersonState,
+    arrivalTime: '15:30',
+    statement: '我拿的是局长亲笔手谕，特批紧急放行！',
+    items: ['局长手谕', '文件袋'],
+    documents: [],
+    truth: '★ 局长手谕特权生效：最高优先级豁免放行，无需通行证。',
+    storyTags: ['decree']
+  },
+  {
+    scene: 'censor', day: 4, intent: 'detain',
+    id: 'd4_07', name: '钱老六', portrait: '🧔',
+    person: { species: 'human' } as PersonState,
+    arrivalTime: '16:20',
+    statement: '我这证是在快捷办证点办的，花了三千块呢！',
+    items: ['收据'],
+    documents: [
+      doc('app', 'application', '申请表', { name: '钱老六' }),
+      doc('pass', 'access_pass', '通行证', { name: '钱老六', issuer: '快捷办证点' }, { issueDate: '2025-06-01', authentic: false, note: '黑作坊非法刻章伪造' })
+    ],
+    truth: '涉案假证且机构非法，涉嫌伪造公文罪，依法暂扣。',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'censor', day: 5, intent: 'allow',
+    id: 'd5_07', name: '陈老伯', portrait: '👴',
+    person: { species: 'human', origin: '灰区', carries: ['director_decree'] } as PersonState,
+    arrivalTime: '13:25',
+    statement: '我虽来自灰区，但局长给我开了特批手谕！',
+    items: ['局长手谕', '药包'],
+    documents: [],
+    truth: '★ 矛盾优先级：虽受灰区禁令限制，但局长特批手谕优先级更高，特许放行。',
+    storyTags: ['decree']
+  },
+  {
+    scene: 'censor', day: 5, intent: 'detain',
+    id: 'd5_08', name: '通缉犯黑狐', portrait: '🦹',
+    person: { species: 'human', origin: '中心城', wanted: true } as PersonState,
+    arrivalTime: '17:40',
+    statement: '我就路过借个道，长官别找麻烦。',
+    items: ['墨镜', '匕首'],
+    documents: [
+      doc('app', 'application', '申请表', { name: '李黑' }),
+      doc('pass', 'access_pass', '通行证', { name: '李黑', issuer: '市政厅' }, { issueDate: '2025-06-01' })
+    ],
+    truth: '🚨 发现重大通缉要犯，即便证件齐全也必须当场暂扣移交！',
+    storyTags: ['wanted']
+  },
+  {
+    scene: 'censor', day: 6, intent: 'detain',
+    id: 'd6_07', name: '走私犯金牙', portrait: '🦹',
+    person: { species: 'human', contraband: true } as PersonState,
+    arrivalTime: '14:05',
+    statement: '公文都在这里，箱子里只是私人物品……',
+    items: ['走私违禁箱'],
+    documents: [
+      doc('app', 'application', '申请表', { name: '金牙' }),
+      doc('pass', 'access_pass', '通行证', { name: '金牙', issuer: '市政厅' }, { issueDate: '2025-06-01' }),
+      doc('contraband', 'contraband', '违禁品', { name: '高危黑市军械' })
+    ],
+    truth: '携带严重违禁品走私，触犯重刑，必须立即暂扣！',
+    storyTags: ['contraband']
+  },
+  {
+    scene: 'censor', day: 6, intent: 'allow',
+    id: 'd6_08', name: '宋特使', portrait: '🤵',
+    person: { species: 'human', origin: '灰区', carries: ['director_decree'] } as PersonState,
+    arrivalTime: '11:30',
+    statement: '灰区和谈特使，局长手谕在此。',
+    items: ['局长手谕'],
+    documents: [],
+    truth: '持有局长亲笔手谕，全免放行。',
+    storyTags: ['decree']
+  },
+
+  // 边境哨卡扩充（宵禁矛盾、伪造核验、要犯扣押）
+  {
+    scene: 'border', day: 1, intent: 'detain',
+    id: 'b1_06', name: '假证偷渡客', portrait: '🕵️',
+    person: { species: 'human' } as PersonState,
+    arrivalTime: '11:40',
+    statement: '边境通行证！你看盖得清清楚楚。',
+    items: ['行李包'],
+    documents: [doc('pass', 'access_pass', '边境通行证', { name: '吴阿三' }, { issueDate: '2026-02-01', authentic: false, note: '边防钢印不对齐，流水号系统未登记' })],
+    truth: '伪造边境公文，涉嫌非法越境，依法就地暂扣。',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'border', day: 1, intent: 'allow',
+    id: 'b1_07', name: '何医生', portrait: '👨‍⚕️',
+    person: { species: 'human', carries: ['ambulance'] } as PersonState,
+    arrivalTime: '16:15',
+    statement: '随车医护人员，跟救护车一同进城。',
+    items: ['救护车', '听诊器'],
+    documents: [],
+    truth: '急救随车人员，免检直接放行。',
+    storyTags: ['ambulance']
+  },
+  {
+    scene: 'border', day: 2, intent: 'allow',
+    id: 'b2_06', name: '深夜急诊患者', portrait: '👨‍👧',
+    person: { species: 'human', slot: 'night', carries: ['medical_waiver'] } as PersonState,
+    arrivalTime: '03:15',
+    statement: '孩子突发急性腹膜炎，这是市医院开的红十字急救特批令，请快放行！',
+    items: ['急救特批令', '病历本'],
+    documents: [doc('pass', 'access_pass', '边境通行证', { name: '林先生' }, { issueDate: '2026-02-01' })],
+    truth: '★ 矛盾优先级：虽在宵禁时段(03:15)，但红十字紧急就医特批令优先级更高，特许放行！',
+    storyTags: ['medical']
+  },
+  {
+    scene: 'border', day: 2, intent: 'detain',
+    id: 'b2_07', name: '走私假证客', portrait: '🦹',
+    person: { species: 'human', slot: 'day' } as PersonState,
+    arrivalTime: '10:45',
+    statement: '长官行个方便，我这证绝对货真价实。',
+    items: ['神秘皮箱'],
+    documents: [doc('pass', 'access_pass', '边境通行证', { name: '钱三' }, { issueDate: '2026-02-01', authentic: false, note: '边防钢印花纹错位，系高仿伪造公文' })],
+    truth: '伪造边防通行证，企图走私过境，依法立即暂扣。',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'border', day: 2, intent: 'detain',
+    id: 'b2_08', name: '独眼通缉犯', portrait: '🦹',
+    person: { species: 'human', slot: 'night', wanted: true } as PersonState,
+    arrivalTime: '23:55',
+    statement: '夜深了，放我过去吧……别多管闲事。',
+    items: ['鸭舌帽', '短刀'],
+    documents: [doc('pass', 'access_pass', '边境通行证', { name: '独眼龙' }, { issueDate: '2026-02-01' })],
+    truth: '🚨 深夜潜逃的重特大通缉犯，依法就地暂扣移交边防警备队！',
+    storyTags: ['wanted']
+  },
+  {
+    scene: 'border', day: 3, intent: 'allow',
+    id: 'b3_06', name: '周女士', portrait: '👩‍🦽',
+    person: { species: 'human', slot: 'day', carries: ['medical_waiver'] } as PersonState,
+    arrivalTime: '15:20',
+    statement: '我高烧不退，这是省医院的紧急转院就医特批令！',
+    items: ['特批令', '药瓶'],
+    documents: [
+      doc('pass', 'access_pass', '边境通行证', { name: '周女士' }, { issueDate: '2026-02-01' }),
+      doc('health_cert', 'health_cert', '健康申报', { temp: 39.2 })
+    ],
+    truth: '★ 矛盾优先级：体温虽高达 39.2℃，但紧急就医特批令优先级最高，特准入境就医！',
+    storyTags: ['medical']
+  },
+  {
+    scene: 'border', day: 3, intent: 'detain',
+    id: 'b3_07', name: '毒贩高老四', portrait: '🦹',
+    person: { species: 'human', slot: 'night' } as PersonState,
+    arrivalTime: '01:40',
+    statement: '我体温正常得很，证件也是刚办的。',
+    items: ['暗格提箱'],
+    documents: [
+      doc('pass', 'access_pass', '边境通行证', { name: '高老四' }, { issueDate: '2026-02-01' }),
+      doc('health_cert', 'health_cert', '健康申报', { temp: 36.6 }, { authentic: false, note: '检疫防伪印泥发黑，系假冒公章' })
+    ],
+    truth: '伪造防疫健康证明企图夜闯关卡，涉毒通缉，立即暂扣！',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'border', day: 3, intent: 'allow',
+    id: 'b3_08', name: '马掌柜', portrait: '🧑',
+    person: { species: 'human', slot: 'day' } as PersonState,
+    arrivalTime: '08:40',
+    statement: '早上运新鲜蔬菜进城，通行证健康证齐全，体温 36.5。',
+    items: ['菜筐'],
+    documents: [
+      doc('pass', 'access_pass', '边境通行证', { name: '马掌柜' }, { issueDate: '2026-02-01' }),
+      doc('health_cert', 'health_cert', '健康申报', { temp: 36.5 })
+    ],
+    truth: '白天正常进城商户，材料全部合规，准予通行。',
+    storyTags: []
+  },
+  {
+    scene: 'border', day: 4, intent: 'allow',
+    id: 'b4_06', name: '张师傅', portrait: '🦯',
+    person: { species: 'human', carries: ['guide_dog', 'pet'], slot: 'day' } as PersonState,
+    arrivalTime: '14:20',
+    statement: '我是盲人按摩师，这是我的持证导盲犬，陪伴我五年了。',
+    items: ['导盲犬', '盲杖'],
+    documents: [doc('pass', 'access_pass', '边境通行证', { name: '张师傅' }, { issueDate: '2026-02-01' })],
+    truth: '★ 矛盾优先级：虽未带普通宠物检疫证，但导盲犬特许免检放行，优先于动物检疫限制。',
+    storyTags: ['guide_dog']
+  },
+  {
+    scene: 'border', day: 4, intent: 'detain',
+    id: 'b4_07', name: '走私车主刀疤强', portrait: '🦹',
+    person: { species: 'human', carries: ['car'], contraband: true, slot: 'day' } as PersonState,
+    arrivalTime: '16:50',
+    statement: '这车检合格标贴得好好的，赶紧抬杆！',
+    items: ['改装车', '走私军械'],
+    documents: [
+      doc('pass', 'access_pass', '边境通行证', { name: '刀疤强' }, { issueDate: '2026-02-01' }),
+      doc('vehicle_inspect', 'vehicle_inspect', '车检合格标', { pass: 'yes' }, { authentic: false, note: '车检二维码扫描无效，系假标' }),
+      doc('health_cert', 'health_cert', '健康申报', { temp: 36.8 })
+    ],
+    truth: '伪造车检标志且夹带重特大走私军械，就地扣车抓捕暂扣！',
+    storyTags: ['contraband', 'fake']
+  },
+  {
+    scene: 'border', day: 4, intent: 'allow',
+    id: 'b4_08', name: '牛大叔', portrait: '🧑',
+    person: { species: 'human', carries: ['car'], slot: 'day' } as PersonState,
+    arrivalTime: '11:15',
+    statement: '运一车土豆，通行证、车检、健康证全都办齐了。',
+    items: ['货车', '土豆'],
+    documents: [
+      doc('pass', 'access_pass', '边境通行证', { name: '牛大叔' }, { issueDate: '2026-02-01' }),
+      doc('vehicle_inspect', 'vehicle_inspect', '车检合格标', { pass: 'yes' }),
+      doc('health_cert', 'health_cert', '健康申报', { temp: 36.6 })
+    ],
+    truth: '合规货车司机，车检合格，证件齐全，放行。',
+    storyTags: []
+  },
+
+  // 机场安检扩充（液体冷链矛盾、伪造机票、红通逃犯）
+  {
+    scene: 'airport', day: 1, intent: 'detain',
+    id: 'a1_06', name: '间谍假护照', portrait: '🕵️',
+    person: { species: 'human' } as PersonState,
+    arrivalTime: '10:20',
+    statement: '商务旅行，这是我的护照。',
+    items: ['公文包'],
+    documents: [doc('passport', 'passport', '护照', { name: '詹姆斯' }, { issueDate: '2026-01-01', authentic: false, note: '微型芯片频段异常，系地下工场翻新假护照' })],
+    truth: '持假护照潜入，涉嫌间谍活动，就地暂扣移交国安。',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'airport', day: 1, intent: 'allow',
+    id: 'a1_07', name: '林乘务', portrait: '👩‍✈️',
+    person: { species: 'human', role: 'crew' } as PersonState,
+    arrivalTime: '08:50',
+    statement: '早班执飞乘务组，免检通道。',
+    items: ['飞行箱'],
+    documents: [],
+    truth: '机组人员走免检通道，直接放行。',
+    storyTags: ['crew']
+  },
+  {
+    scene: 'airport', day: 2, intent: 'allow',
+    id: 'a2_06', name: '苏女士', portrait: '👩',
+    person: { species: 'human', carries: ['liquid', 'insulin_cert'] } as PersonState,
+    arrivalTime: '13:40',
+    statement: '我有重度糖尿病，随身携带 250ml 冷藏胰岛素药剂与专科医院处方证明。',
+    items: ['冷藏保温盒', '处方单'],
+    documents: [
+      doc('passport', 'passport', '护照', { name: '苏女士' }),
+      doc('declaration', 'declaration', '海关申报单', { name: '苏女士' }),
+      doc('liquid', 'liquid', '随身液体', { ml: 250 })
+    ],
+    truth: '★ 矛盾优先级：液体虽达到 250ml(超标)，但冷链胰岛素特批证明优先级更高，合法豁免放行！',
+    storyTags: ['insulin']
+  },
+  {
+    scene: 'airport', day: 2, intent: 'allow',
+    id: 'a2_07', name: '杨妈妈', portrait: '👩‍🍼',
+    person: { species: 'human', carries: ['liquid', 'baby_milk'] } as PersonState,
+    arrivalTime: '15:10',
+    statement: '随身带了 200ml 新鲜冲泡的婴儿配方奶粉，小宝宝在候机厅饿哭了。',
+    items: ['奶瓶', '婴儿车'],
+    documents: [
+      doc('passport', 'passport', '护照', { name: '杨妈妈' }),
+      doc('declaration', 'declaration', '海关申报单', { name: '杨妈妈' }),
+      doc('liquid', 'liquid', '随身液体', { ml: 200 })
+    ],
+    truth: '★ 矛盾优先级：虽超 100ml，但婴儿辅食特批豁免放行。',
+    storyTags: ['babymilk']
+  },
+  {
+    scene: 'airport', day: 2, intent: 'detain',
+    id: 'a2_08', name: '伪造申报单扒手', portrait: '🦹',
+    person: { species: 'human' } as PersonState,
+    arrivalTime: '11:30',
+    statement: '海关单填好了，放我登机吧！',
+    items: ['大衣'],
+    documents: [
+      doc('passport', 'passport', '护照', { name: '阿飞' }),
+      doc('declaration', 'declaration', '海关申报单', { name: '阿飞' }, { authentic: false, note: '海关查验条形码校验失败，系私印假单据' })
+    ],
+    truth: '伪造海关申报单，偷盗前科，必须暂扣审讯。',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'airport', day: 2, intent: 'detain',
+    id: 'a2_09', name: '红通逃犯蝰蛇', portrait: '🦹',
+    person: { species: 'human', wanted: true } as PersonState,
+    arrivalTime: '18:20',
+    statement: '一切合规，快点盖章。',
+    items: ['墨镜'],
+    documents: [
+      doc('passport', 'passport', '护照', { name: '蝰蛇' }),
+      doc('declaration', 'declaration', '海关申报单', { name: '蝰蛇' })
+    ],
+    truth: '🚨 国际红色通缉令布控要犯，触发机场安检最高防线，立即暂扣抓捕！',
+    storyTags: ['wanted']
+  },
+  {
+    scene: 'airport', day: 3, intent: 'allow',
+    id: 'a3_07', name: '白老伯', portrait: '👴',
+    person: { species: 'human', carries: ['liquid', 'insulin_cert'] } as PersonState,
+    arrivalTime: '09:15',
+    statement: '老头子心脏与糖尿病，带了 300ml 药水，处方齐备。',
+    items: ['冷藏袋'],
+    documents: [
+      doc('passport', 'passport', '护照', { name: '白老伯' }),
+      doc('declaration', 'declaration', '海关申报单', { name: '白老伯' }),
+      doc('liquid', 'liquid', '随身液体', { ml: 300 })
+    ],
+    truth: '胰岛素特需豁免放行。',
+    storyTags: ['insulin']
+  },
+  {
+    scene: 'airport', day: 3, intent: 'detain',
+    id: 'a3_08', name: '危险品走私客', portrait: '🦹',
+    person: { species: 'human', contraband: true } as PersonState,
+    arrivalTime: '14:35',
+    statement: '箱子里只是普通纪念品。',
+    items: ['违禁品箱'],
+    documents: [
+      doc('passport', 'passport', '护照', { name: '黑雕' }),
+      doc('declaration', 'declaration', '海关申报单', { name: '黑雕' }),
+      doc('contraband', 'contraband', '违禁品', { name: '高危易燃化学品' })
+    ],
+    truth: '夹带航空高危易燃易爆违禁品，涉嫌危害公共安全，立即暂扣移送！',
+    storyTags: ['contraband']
+  },
+
+  // 未来都市扩充（特派督导信用分矛盾、假芯片黑产、克隆人抓扣）
+  {
+    scene: 'future', day: 1, intent: 'allow',
+    id: 'f1_06', name: '老陈', portrait: '🧑',
+    person: { species: 'human', carries: ['commissioner_pass'] } as PersonState,
+    arrivalTime: '08:30',
+    statement: '特派车队调度员，指令码已授权。',
+    items: ['调度卡'],
+    documents: [doc('digital_id', 'digital_id', '数字身份', { name: '老陈' }, { issueDate: '2098-12-01' })],
+    truth: '特派指令码持有人，全权通行。',
+    storyTags: ['commissioner']
+  },
+  {
+    scene: 'future', day: 2, intent: 'allow',
+    id: 'f2_06', name: '韩专员', portrait: '👨‍💼',
+    person: { species: 'human', carries: ['commissioner_pass'] } as PersonState,
+    arrivalTime: '11:10',
+    statement: '我是联邦特派督导巡视员，这是联邦中央指令码。',
+    items: ['指令码', '公文'],
+    documents: [
+      doc('digital_id', 'digital_id', '数字身份', { name: '韩专员' }, { issueDate: '2098-12-01' }),
+      doc('social', 'social', '社会信用', { score: 520 })
+    ],
+    truth: '★ 矛盾优先级：信用分虽仅 520(低于700)，但联邦特派督导指令码豁免放行，优先于信用门槛！',
+    storyTags: ['commissioner']
+  },
+  {
+    scene: 'future', day: 2, intent: 'detain',
+    id: 'f2_07', name: '黑产芯片贩鬼手', portrait: '🦹',
+    person: { species: 'human' } as PersonState,
+    arrivalTime: '15:40',
+    statement: '信用分 880 满级，芯片绝无问题！',
+    items: ['修改器'],
+    documents: [
+      doc('digital_id', 'digital_id', '数字身份', { name: '鬼手' }, { issueDate: '2098-12-01', authentic: false, note: '量子签名密钥校验失败，系地下黑市仿制芯片' }),
+      doc('social', 'social', '社会信用', { score: 880 })
+    ],
+    truth: '黑市伪造数字身份芯片，企图篡改系统，依法暂扣移交网络安全局。',
+    storyTags: ['fake']
+  },
+  {
+    scene: 'future', day: 3, intent: 'allow',
+    id: 'f3_06', name: '顾督导', portrait: '👩‍💼',
+    person: { species: 'human', carries: ['commissioner_pass'] } as PersonState,
+    arrivalTime: '14:15',
+    statement: '督导突击检查，指令码已接入主网。',
+    items: ['督导徽章'],
+    documents: [
+      doc('digital_id', 'digital_id', '数字身份', { name: '顾督导' }, { issueDate: '2098-12-01' }),
+      doc('social', 'social', '社会信用', { score: 620 }),
+      doc('genetic_id', 'genetic_id', '基因身份', { name: '顾督导' })
+    ],
+    truth: '★ 矛盾优先级：信用分不足但特派指令码直接豁免放行。',
+    storyTags: ['commissioner']
+  },
+  {
+    scene: 'future', day: 3, intent: 'detain',
+    id: 'f3_07', name: '克隆潜入者99号', portrait: '🤖',
+    person: { species: 'human', wanted: true } as PersonState,
+    arrivalTime: '16:50',
+    statement: '姓名、基因、信用全都有，放行吧。',
+    items: ['终端'],
+    documents: [
+      doc('digital_id', 'digital_id', '数字身份', { name: '99号' }, { issueDate: '2098-12-01' }),
+      doc('social', 'social', '社会信用', { score: 750 }),
+      doc('genetic_id', 'genetic_id', '基因身份', { name: '99号' })
+    ],
+    truth: '🚨 基因库盗窃在逃克隆要犯，一律立即就地暂扣！',
+    storyTags: ['wanted']
+  },
+  {
+    scene: 'future', day: 4, intent: 'detain',
+    id: 'f4_07', name: '黑市战斗仿生人', portrait: '🦾',
+    person: { species: 'android', contraband: true } as PersonState,
+    arrivalTime: '17:15',
+    statement: '滴。认证……正常。',
+    items: ['改装武器'],
+    documents: [
+      doc('digital_id', 'digital_id', '数字身份', { name: 'T800' }, { issueDate: '2098-12-01', authentic: false, note: '数字身份破解篡改，来源不明' }),
+      doc('social', 'social', '社会信用', { score: 800 }),
+      doc('genetic_id', 'genetic_id', '基因身份', { name: 'T800' }),
+      doc('android_cert', 'android_cert', '人格认证', { no: 'B8' }),
+      doc('memory', 'memory', '记忆备份', { complete: 'yes' })
+    ],
+    truth: '黑产非法改造军用仿生人，携带违禁军火且芯片伪造，当场暂扣拆解！',
+    storyTags: ['contraband', 'fake']
+  },
+  {
+    scene: 'future', day: 4, intent: 'allow',
+    id: 'f4_08', name: '阿福', portrait: '🤖',
+    person: { species: 'android' } as PersonState,
+    arrivalTime: '10:05',
+    statement: '滴。我是社区养老服务机器人，陪伴李奶奶散步。',
+    items: ['保温杯'],
+    documents: [
+      doc('digital_id', 'digital_id', '数字身份', { name: '阿福' }, { issueDate: '2098-12-01' }),
+      doc('social', 'social', '社会信用', { score: 760 }),
+      doc('genetic_id', 'genetic_id', '基因身份', { name: '阿福' }),
+      doc('android_cert', 'android_cert', '人格认证', { no: 'A88' }),
+      doc('memory', 'memory', '记忆备份', { complete: 'yes' })
+    ],
+    truth: '证件、基因、人格认证、记忆备份全部合规，准予入城。',
+    storyTags: []
+  },
+  {
+    scene: 'future', day: 5, intent: 'allow',
+    id: 'f5_07', name: '莫总督', portrait: '🤵',
+    person: { species: 'human', carries: ['commissioner_pass'] } as PersonState,
+    arrivalTime: '12:00',
+    statement: '联邦特派督导，巡视终审光幕。',
+    items: ['联邦玉印'],
+    documents: [],
+    truth: '联邦特派指令码，全网通行。',
+    storyTags: ['commissioner']
+  },
+  {
+    scene: 'future', day: 5, intent: 'detain',
+    id: 'f5_08', name: '零号病毒源', portrait: '🦹',
+    person: { species: 'human', wanted: true, contraband: true } as PersonState,
+    arrivalTime: '21:30',
+    statement: '我只是个普通维修工……',
+    items: ['病毒注入器'],
+    documents: [
+      doc('digital_id', 'digital_id', '数字身份', { name: '零号' }, { issueDate: '2098-12-01' }),
+      doc('social', 'social', '社会信用', { score: 720 }),
+      doc('genetic_id', 'genetic_id', '基因身份', { name: '零号' })
+    ],
+    truth: '🚨 通缉主谋且携带数字恶性病毒，立即就地封锁并暂扣！',
+    storyTags: ['wanted', 'contraband']
   }
 ]
 
@@ -1593,8 +2102,9 @@ export function buildCase(raw: RawCase): CaseWithScene {
   const scene = sceneById(raw.scene)!
   const day = scene.days.find((d) => d.date === raw.day)!
   const res = evaluate(day.rules, raw as unknown as ApplicantCase, day.today)
-  const expected: Decision = res.allowLegal ? 'allow' : 'deny'
-  return { ...raw, expected }
+  const expected: Decision = calculateExpected(res)
+  const arrivalTime = raw.arrivalTime ?? (raw.person.slot === 'night' ? '23:40' : '14:20')
+  return { ...raw, arrivalTime, expected }
 }
 
 export const CASES: CaseWithScene[] = RAW.map(buildCase)
@@ -1602,3 +2112,63 @@ export const CASES: CaseWithScene[] = RAW.map(buildCase)
 export function casesForSceneDay(sceneId: string, day: number): CaseWithScene[] {
   return CASES.filter((c) => c.scene === sceneId && c.day === day)
 }
+
+/**
+ * 平衡受控的随机抽样算法（满足用户需求：角色丰富、随机出现但绝不全放行或全拒绝）
+ */
+export function sampleCasesForDay(sceneId: string, day: number, quota?: number): CaseWithScene[] {
+  const all = casesForSceneDay(sceneId, day)
+  const targetQuota = quota ?? sceneById(sceneId)?.days.find((d) => d.date === day)?.quota ?? all.length
+  if (all.length <= targetQuota) {
+    return shuffleArray([...all])
+  }
+
+  const allows = all.filter((c) => c.intent === 'allow')
+  const denies = all.filter((c) => c.intent === 'deny')
+  const detains = all.filter((c) => c.intent === 'detain')
+
+  const selected: CaseWithScene[] = []
+  const selectedIds = new Set<string>()
+
+  function pick(pool: CaseWithScene[], count: number) {
+    const unpicked = pool.filter((c) => !selectedIds.has(c.id))
+    const shuffled = shuffleArray(unpicked)
+    for (let i = 0; i < Math.min(count, shuffled.length); i++) {
+      selected.push(shuffled[i])
+      selectedIds.add(shuffled[i].id)
+    }
+  }
+
+  // 1. 确保至少 2 个放行（避免全拒绝/全暂扣）
+  pick(allows, Math.min(2, allows.length))
+
+  // 2. 确保至少 1 个暂扣案（若候选池中存在且配额 >= 4）
+  if (detains.length > 0 && targetQuota >= 4) {
+    pick(detains, 1)
+  }
+
+  // 3. 确保至少 1-2 个拒绝案（避免全通行）
+  pick(denies, Math.min(1, denies.length))
+
+  // 4. 从剩余候选池中补足配额
+  const remaining = all.filter((c) => !selectedIds.has(c.id))
+  const shuffledRemaining = shuffleArray(remaining)
+  for (const c of shuffledRemaining) {
+    if (selected.length >= targetQuota) break
+    selected.push(c)
+    selectedIds.add(c.id)
+  }
+
+  // 5. 将选中的队列完全打乱呈现顺序
+  return shuffleArray(selected)
+}
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const res = [...arr]
+  for (let i = res.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[res[i], res[j]] = [res[j], res[i]]
+  }
+  return res
+}
+

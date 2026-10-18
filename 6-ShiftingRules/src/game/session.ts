@@ -163,20 +163,23 @@ export class GameSession {
 
   /** 开始下一轮，返回本轮视图 */
   beginRound(): RoundView {
-    const targetId = this.pickTarget();
+    const justRevealed = this.pendingReveal.slice();
+    // 若上一轮刚揭示了新规则，本轮强制将新规则作为目标，确保刚向玩家展示新规则卡片后，立即出现该规则对应的题目！
+    const targetId = justRevealed.length > 0 ? justRevealed[0].id : this.pickTarget();
     const stimulus = generateStimulus(this.rng, this.activeRules, { targetRuleId: targetId });
     const ev: EvalResult = evaluate(stimulus, this.activeRules);
     if (targetId) this.featured[targetId] = (this.featured[targetId] ?? 0) + 1;
     this.round += 1;
     this.lastStimulus = stimulus;
     this.lastEval = ev;
+    this.pendingReveal = [];
     return {
       index: this.round,
       stimulus,
       correctAction: ev.action,
       deadlineMs: this.mode.timeLimitMs,
       activeRules: this.activeRules.slice(),
-      pendingReveal: this.pendingReveal.slice(),
+      pendingReveal: justRevealed,
     };
   }
 

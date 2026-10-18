@@ -31,9 +31,26 @@ interface Settings {
   muted: boolean;
 }
 
+export interface RepairHistoryRecord {
+  id: string;
+  levelId: string;
+  levelTitle: string;
+  chapter: number;
+  timestamp: string;
+  tier: 'professional' | 'temporary' | 'absurd';
+  tierLabel: string;
+  endingText: string;
+  stars: number;
+  score: number;
+  moves: number;
+  errors: number;
+  comedy: number;
+}
+
 const PROGRESS_KEY = 'rtb_progress';
 const GALLERY_KEY = 'rtb_gallery';
 const SETTINGS_KEY = 'rtb_settings';
+const HISTORY_KEY = 'rtb_history';
 
 /** 全关卡配方索引：图鉴旧存档缺少标题时，按输入标签回退生成中文标题 */
 const RECIPE_BY_ID: Record<string, import('../logic/schema').Recipe> = {};
@@ -72,9 +89,15 @@ export const useGame = defineStore('game', () => {
 
   const progress = ref<Progress>(load<Progress>(PROGRESS_KEY, { completed: [], stars: {}, best: {} }));
   const gallery = ref<Record<string, GalleryEntry>>(load<Record<string, GalleryEntry>>(GALLERY_KEY, {}));
+  const repairHistory = ref<RepairHistoryRecord[]>(load<RepairHistoryRecord[]>(HISTORY_KEY, []));
   const settings = ref<Settings>(
     load<Settings>(SETTINGS_KEY, { fontSize: 'normal', colorblind: false, noShake: false, volume: 0.6, muted: false })
   );
+
+  function clearRepairHistory(): void {
+    repairHistory.value = [];
+    save(HISTORY_KEY, []);
+  }
 
   let history = new CommandHistory();
 
@@ -181,7 +204,7 @@ export const useGame = defineStore('game', () => {
   /** 旧存档无标题时，按配方输入回退生成中文标题 */
   function fallbackTitle(recipeId: string): string {
     const r = RECIPE_BY_ID[recipeId];
-    if (!r) return recipeId;
+    if (!r) return '神秘离谱组合';
     const parts = r.inputs
       .map((inp) => {
         if (inp.item) return ITEM_DEFS[inp.item]?.name ?? inp.item;
@@ -189,7 +212,7 @@ export const useGame = defineStore('game', () => {
         return '';
       })
       .filter(Boolean);
-    return parts.length ? parts.join(' × ') : recipeId;
+    return parts.length ? parts.join(' × ') : '独特失败实验';
   }
 
   function doOperation(op: Operation): void {
@@ -259,6 +282,32 @@ export const useGame = defineStore('game', () => {
     progress.value.stars[id] = Math.max(progress.value.stars[id] ?? 0, stars);
     progress.value.best[id] = Math.max(progress.value.best[id] ?? 0, score);
     save(PROGRESS_KEY, progress.value);
+
+    // 记录维修解谜历史
+    const tierLabels: Record<string, string> = {
+      professional: '专业解法',
+      temporary: '临时解法',
+      absurd: '离谱但有效'
+    };
+    const histItem: RepairHistoryRecord = {
+      id: Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+      levelId: id,
+      levelTitle: level.value!.title,
+      chapter: level.value!.chapter,
+      timestamp: new Date().toLocaleString('zh-CN', { hour12: false }),
+      tier: sol.tier,
+      tierLabel: tierLabels[sol.tier] || sol.tier,
+      endingText: sol.endingText,
+      stars,
+      score,
+      moves: records.value.length,
+      errors: summary.errors,
+      comedy: summary.comedy
+    };
+    repairHistory.value.unshift(histItem);
+    if (repairHistory.value.length > 200) repairHistory.value.length = 200;
+    save(HISTORY_KEY, repairHistory.value);
+
     audio.play('win');
     screen.value = 'RESULT';
   }
@@ -282,5 +331,6 @@ export const useGame = defineStore('game', () => {
     inventory, scene, flags, canUndo, canRedo, solved, galleryList, galleryCount, totalLevels, completedCount,
     goMenu, goLevelSelect, openBriefing, startLevel, resetLevel, toggleSelect, clearSelect,
     combine, useOn, undo, redo, dismissResult, nextLevel, finishTutorial, persistSettings, fallbackTitle,
+    repairHistory, clearRepairHistory
   };
 });

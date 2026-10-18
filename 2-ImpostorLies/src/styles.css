@@ -56,6 +56,9 @@ body {
   margin: 0 auto;
   padding: 18px 16px 40px;
 }
+.app-root.wide-layout {
+  max-width: 1140px;
+}
 .topbar {
   display: flex;
   align-items: center;

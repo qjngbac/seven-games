@@ -1,6 +1,6 @@
-// 指控校验器：把提交映射到验收条件，不用字符串关键词判断（设计文档 §3.5/§5）。
 import type { CaseDef, Claim, ClaimVerdict, FactId, CharacterId } from './types'
 import { timeDiff, toMin } from './truth-graph'
+import { ACTION_DISPLAY_MAP } from './actions'
 
 /** 规范化字符串：去空白与标点、转小写，用于等价比对。 */
 export function norm(s: string): string {
@@ -12,6 +12,8 @@ export function norm(s: string): string {
 
 export function actionMatches(claimAction: string, acceptanceAction: string, aliases?: string[]): boolean {
   if (norm(claimAction) === norm(acceptanceAction)) return true
+  const displayLabel = ACTION_DISPLAY_MAP[acceptanceAction]
+  if (displayLabel && norm(claimAction) === norm(displayLabel)) return true
   return (aliases ?? []).some((a) => norm(claimAction) === norm(a))
 }
 
@@ -66,28 +68,38 @@ export function validateClaim(def: CaseDef, claim: Claim, discoveredFacts: FactI
     message: ''
   }
 
+  const charName = (id: CharacterId) => def.characters.find((c) => c.id === id)?.name ?? id
+  const evName = (id: string) => def.evidence.find((e) => e.id === id)?.name ?? id
+  const factName = (id: FactId) => def.factLabels?.[id] ?? id
+
+  const missingRespNames = missingResponsible.map(charName).join('、')
+  const wrongActorNames = wrongActors.map(charName).join('、')
+  const missingContriNames = missingContributory.map(charName).join('、')
+  const missingEvNames = missingEvidence.map(evName).join('、')
+  const missingFactNames = missingFacts.map(factName).join('、')
+
   if (missingResponsible.length > 0 && namedResponsible.length === 0) {
     base.outcome = 'fail'
-    base.message = `主责任人认定错误：你遗漏了 ${missingResponsible.join('、')}。指认错误的人，无法结案。`
+    base.message = `主责任人认定错误：你遗漏了 ${missingRespNames}。指认错误的人，无法结案。`
     return base
   }
   if (wrongActors.length > 0) {
     base.outcome = 'fail'
-    base.message = `你误指认了无辜者：${wrongActors.join('、')}。错怪好人会让真凶逃脱。`
+    base.message = `你误指认了无辜者：${wrongActorNames}。错怪好人会让真凶逃脱。`
     return base
   }
   if (missingResponsible.length > 0) {
     // 已经锁定了部分主责任人（多责任人案件）：允许"分别指认"，但必须补齐才算完整。
     base.outcome = 'partial'
-    base.message = `你指认了部分责任人，还遗漏了 ${missingResponsible.join('、')}。请补齐共同责任后重新提交。`
+    base.message = `你指认了部分责任人，还遗漏了 ${missingRespNames}。请补齐共同责任后重新提交。`
     return base
   }
 
   // 责任人正确，检查完整性
   const gaps: string[] = []
   if (!actionOk) gaps.push('危险行为描述不符')
-  if (!evidenceOk) gaps.push(`关键证据不足（缺少 ${missingEvidence.join('、')}）`)
-  if (!factsOk) gaps.push(`关键事实未落实（缺少 ${missingFacts.join('、')}）`)
+  if (!evidenceOk) gaps.push(`关键证据不足（缺少 ${missingEvNames}）`)
+  if (!factsOk) gaps.push(`关键事实未落实（缺少 ${missingFactNames}）`)
   if (!timeOk) gaps.push('案发时间不符')
 
   if (gaps.length > 0) {
@@ -98,7 +110,7 @@ export function validateClaim(def: CaseDef, claim: Claim, discoveredFacts: FactI
 
   if (missingContributory.length > 0) {
     base.outcome = 'partial'
-    base.message = `你锁定了主责任人，但遗漏了管理/次要责任（${missingContributory.join('、')}）。指控成立但不完整。`
+    base.message = `你锁定了主责任人，但遗漏了管理/次要责任（${missingContriNames}）。指控成立但不完整。`
     return base
   }
 
@@ -117,7 +129,16 @@ function checkTime(def: CaseDef, claimTime: string, acc: CaseDef['acceptance']):
 
 /** 导出给 UI 使用：责任行为对应的规范时间（用于时间下拉默认值）。 */
 export function canonicalTimeForAction(def: CaseDef, action: string): string | undefined {
-  const ev = def.truthEvents.find((e) => norm(e.action) === norm(action))
+  if (!action) return undefined
+  if (actionMatches(action, def.acceptance.action, def.acceptance.actionAliases)) {
+    const ev = def.truthEvents.find((e) => norm(e.action) === norm(def.acceptance.action))
+    if (ev) return ev.time
+  }
+  const ev = def.truthEvents.find((e) => {
+    if (norm(e.action) === norm(action)) return true
+    const label = ACTION_DISPLAY_MAP[e.action]
+    return label ? norm(label) === norm(action) : false
+  })
   return ev?.time
 }
 

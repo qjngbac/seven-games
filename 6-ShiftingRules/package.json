@@ -6,14 +6,18 @@
   "description": "《规则正在跑路》— 规则变化反应判断游戏 (Phaser + TypeScript + Vite)",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview --port 5173",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
-    "phaser": "^3.80.1"
+    "@vitejs/plugin-vue": "^6.0.10",
+    "phaser": "^3.80.1",
+    "pinia": "^4.1.0",
+    "vue": "^3.5.44",
+    "vue-tsc": "^3.3.13"
   },
   "devDependencies": {
     "typescript": "^5.4.5",

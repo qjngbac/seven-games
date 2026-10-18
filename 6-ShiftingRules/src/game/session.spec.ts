@@ -3,6 +3,7 @@ import { GameSession, type SubmitResult } from "./session";
 import type { Action, Stimulus } from "./rules/schema";
 import { getPack, PACKS, LOAD_ERRORS } from "../data/packs";
 import type { RoundView } from "./session";
+import { matchPredicate } from "./rules/evaluator";
 
 function wrongAction(correct: Action): Action {
   if (correct === "LEFT") return "RIGHT";
@@ -100,3 +101,67 @@ describe("重放一致性 (文档 §5.2 / §8.4：固定种子可复现)", () =>
     expect(JSON.stringify(a.stimuli)).not.toEqual(JSON.stringify(b.stimuli));
   });
 });
+
+describe("新规则入场与选择对应性审计（用户痛点专项测试）", () => {
+  it("基础颜色包：第 8 轮揭示 green_skip 后，第 9 轮必定出现绿色且动作为 SKIP", () => {
+    const pack = getPack("pack-base")!;
+    const s = new GameSession({ mode: "normal", ruleset: pack, seed: 12345 });
+    let greenAppearedAtRound9 = false;
+    let round9Action: Action | null = null;
+    let totalGreenRounds = 0;
+
+    for (let i = 1; i <= 30; i++) {
+      const v = s.beginRound();
+      if (i === 9) {
+        if (v.stimulus.color === "green") {
+          greenAppearedAtRound9 = true;
+          round9Action = v.correctAction;
+        }
+      }
+      if (v.stimulus.color === "green") {
+        totalGreenRounds++;
+        expect(v.correctAction).toBe("SKIP");
+      }
+      s.submit(v.correctAction, 300);
+    }
+
+    // 第 9 轮必须紧跟新规则，展示绿色且动作必须是 SKIP (跳过)
+    expect(greenAppearedAtRound9, "第 9 轮未出现绿色刺激！").toBe(true);
+    expect(round9Action, "第 9 轮绿色对应的操作应为 SKIP（跳过）").toBe("SKIP");
+
+    // 全局 30 轮中，第 9~30 轮绿色出现的次数应当均衡充足（至少 6 轮以上）
+    expect(totalGreenRounds).toBeGreaterThanOrEqual(6);
+  });
+
+  for (const p of PACKS) {
+    it(`${p.name}（${p.id}）：每次新规则入场后，下一轮必定出现该新规则对应的题目且动作正确`, () => {
+      const s = new GameSession({ mode: "normal", ruleset: p.ruleset, seed: 98765 });
+      let lastRevealedRuleId: string | null = null;
+
+      for (let i = 1; i <= 30; i++) {
+        const v = s.beginRound();
+
+        if (lastRevealedRuleId) {
+          // 当前轮为新规则入场后的第一轮：验证该题目命中了刚刚揭示的新规则！
+          const ev = s.getActiveRules().find((r) => r.id === lastRevealedRuleId);
+          expect(ev, `未在 activeRules 中找到刚揭示的规则 ${lastRevealedRuleId}`).toBeDefined();
+
+          const hits = s.getActiveRules().filter((r) => matchPredicate(r.predicate, v.stimulus));
+          expect(
+            hits.some((h) => h.id === lastRevealedRuleId),
+            `轮次 ${i} 刚入场规则 ${lastRevealedRuleId}，但生成的刺激未命中该规则！刺激: ${JSON.stringify(v.stimulus)}`,
+          ).toBe(true);
+
+          lastRevealedRuleId = null;
+        }
+
+        const res = s.submit(v.correctAction, 300);
+        if (res.revealed.length > 0) {
+          lastRevealedRuleId = res.revealed[0].id;
+        }
+        if (res.over) break;
+      }
+    });
+  }
+});
+

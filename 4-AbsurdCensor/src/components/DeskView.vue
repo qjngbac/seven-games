@@ -2,11 +2,13 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useGame } from '../store'
 import DocumentCard from './DocumentCard.vue'
+import HistoryModal from './HistoryModal.vue'
 import { Decision } from '../game/types'
 import { FIRE_PRESSURE } from '../game/narrative'
 
 const game = useGame()
 const selectedDoc = ref<string | null>(null)
+const showHistory = ref(false)
 
 const case_ = computed(() => game.currentCase)
 const isFeedback = computed(() => game.phase === 'feedback')
@@ -25,6 +27,16 @@ function next() {
   game.afterFeedback()
 }
 
+function goLobby(): void {
+  window.location.href = '../../index.html'
+}
+
+function isNightArrival(time?: string): boolean {
+  if (!time) return case_.value?.person?.slot === 'night'
+  const [h] = time.split(':').map(Number)
+  return h >= 22 || h < 6
+}
+
 // 换申请者时重置选中文件，避免旧 id 残留
 watch(case_, () => {
   selectedDoc.value = null
@@ -39,6 +51,7 @@ function cycleDoc(dir: 1 | -1) {
 }
 
 function onKey(e: KeyboardEvent) {
+  if (showHistory.value) return
   if (game.phase !== 'desk' && game.phase !== 'feedback') return
   if (game.phase === 'feedback') {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -71,10 +84,12 @@ const reasons = computed(() => game.lastReasons)
 const feedbackTitle = computed(() => {
   const o = game.lastOutcome
   if (!o) return ''
-  if (o.isWrongAllow) return '❌ 错误放行'
-  if (o.isWrongDeny) return '❌ 错误拒绝'
+  if (o.isCorrectDetain) return '🎯 成功查获并暂扣！'
+  if (o.isWrongDetain) return '⚠️ 滥用职权（错误暂扣守法人员）'
+  if (o.isWrongAllow) return o.expected === 'detain' ? '🚨 严重失职：违规放行了通缉/伪造分子！' : '❌ 违规放行（材料不合规）'
+  if (o.isWrongDeny) return o.expected === 'detain' ? '🚨 严重失职：放跑了通缉/伪造分子！' : '❌ 错误拒绝（合规人员遭误拒）'
   if (o.decision === 'detain') return '⏸ 暂扣调查'
-  return '✅ 合法裁定'
+  return '✅ 合法合规裁定'
 })
 </script>
 
@@ -91,20 +106,41 @@ const feedbackTitle = computed(() => {
       <div :style="{ color: game.cum.conscience >= 0 ? 'var(--ok)' : 'var(--danger)', fontWeight: 700 }">
         良心 {{ game.cum.conscience >= 0 ? '+' : '' }}{{ game.cum.conscience }}
       </div>
+      <button class="btn-history" title="查看过往裁决卷宗与档案" @click="showHistory = true">
+        📁 执勤档案 ({{ game.history.length }})
+      </button>
+      <button class="btn-history" title="返回主菜单" @click="game.toMenu()">
+        ≡ 菜单
+      </button>
+      <button class="btn-history" title="返回七款小游戏大厅" @click="goLobby()">
+        🏠 大厅
+      </button>
     </header>
 
     <div class="cols">
       <!-- 申请者 -->
       <section class="col applicant">
-        <div class="card" style="height: 100%">
+        <div class="card" style="height: 100%; display: flex; flex-direction: column">
           <div style="font-size: 54px; text-align: center">{{ case_?.portrait }}</div>
-          <h2 style="text-align: center">{{ case_?.name }}</h2>
-          <p class="muted" style="font-style: italic; line-height: 1.7">“{{ case_?.statement }}”</p>
-          <div style="margin-top: 10px">
+          <h2 style="text-align: center; margin: 4px 0 8px">{{ case_?.name }}</h2>
+
+          <!-- 抵达时间时钟标牌 -->
+          <div class="arrival-time-card" :class="isNightArrival(case_?.arrivalTime) ? 'time-night' : 'time-day'">
+            <div class="time-header">
+              <span>{{ isNightArrival(case_?.arrivalTime) ? '🌙 窗口登记时间' : '☀️ 窗口登记时间' }}</span>
+              <span class="curfew-pill" :class="isNightArrival(case_?.arrivalTime) ? 'pill-curfew' : 'pill-daylight'">
+                {{ isNightArrival(case_?.arrivalTime) ? '宵禁管制时段 22:00-06:00' : '白昼常规通行时段' }}
+              </span>
+            </div>
+            <div class="time-val">⏰ {{ case_?.arrivalTime || (case_?.person?.slot === 'night' ? '23:40' : '14:20') }}</div>
+          </div>
+
+          <p class="muted" style="font-style: italic; line-height: 1.7; margin: 10px 0">“{{ case_?.statement }}”</p>
+          <div style="margin-top: 4px">
             <span class="muted" style="font-size: 12px">携带：</span>
             <span v-for="it in case_?.items" :key="it" class="chip">{{ it }}</span>
           </div>
-          <div v-if="case_?.moral" class="hint">
+          <div v-if="case_?.moral" class="hint" style="margin-top: auto">
             💭 {{ case_?.moral.hint }}
           </div>
         </div>
@@ -112,7 +148,7 @@ const feedbackTitle = computed(() => {
 
       <!-- 文件 -->
       <section class="col docs">
-        <p class="muted" style="margin: 0 0 8px">📂 提交的文件（点击查看，再点「核验真伪」查证据）</p>
+        <p class="muted" style="margin: 0 0 8px">📂 提交的文件（点击查看，再点「核验真伪」查公文印信）</p>
         <DocumentCard
           v-for="d in case_?.documents"
           :key="d.id"
@@ -148,12 +184,12 @@ const feedbackTitle = computed(() => {
     <!-- 即时反馈覆盖层 -->
     <div v-if="isFeedback" class="overlay">
       <div class="card feedback">
-        <h2 :style="{ color: game.lastOutcome?.isWrongAllow || game.lastOutcome?.isWrongDeny ? 'var(--danger)' : 'var(--ok)' }">
+        <h2 :style="{ color: game.lastOutcome?.isWrongAllow || game.lastOutcome?.isWrongDeny || game.lastOutcome?.isWrongDetain ? 'var(--danger)' : game.lastOutcome?.isCorrectDetain ? '#c084fc' : 'var(--ok)' }">
           {{ feedbackTitle }}
         </h2>
         <p class="muted">
           你的裁定：<strong>{{ game.lastOutcome?.decision === 'allow' ? '放行' : game.lastOutcome?.decision === 'deny' ? '拒绝' : '暂扣' }}</strong>
-          ｜ 制度合法裁决：<strong>{{ game.lastOutcome?.expected === 'allow' ? '放行' : '拒绝' }}</strong>
+          ｜ 制度法定裁决：<strong>{{ game.lastOutcome?.expected === 'allow' ? '放行' : game.lastOutcome?.expected === 'detain' ? '暂扣' : '拒绝' }}</strong>
         </p>
 
         <div style="margin: 10px 0; line-height: 1.7">
@@ -169,6 +205,9 @@ const feedbackTitle = computed(() => {
         </button>
       </div>
     </div>
+
+    <!-- 历史记录档案弹窗 -->
+    <HistoryModal v-if="showHistory" @close="showHistory = false" />
   </div>
 </template>
 
@@ -268,5 +307,74 @@ const feedbackTitle = computed(() => {
   border-radius: 8px;
   font-size: 13px;
   line-height: 1.6;
+}
+.btn-history {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-history:hover {
+  border-color: var(--accent);
+  color: #fff;
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.arrival-time-card {
+  margin: 6px 0 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.arrival-time-card.time-night {
+  background: linear-gradient(135deg, rgba(30, 27, 75, 0.6), rgba(15, 23, 42, 0.8));
+  border-color: rgba(129, 140, 248, 0.4);
+}
+.arrival-time-card.time-day {
+  background: linear-gradient(135deg, rgba(254, 240, 138, 0.08), rgba(253, 224, 71, 0.03));
+  border-color: rgba(234, 179, 8, 0.3);
+}
+.time-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--ink-dim);
+}
+.curfew-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.pill-curfew {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.pill-daylight {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--ok);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+.time-val {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+.time-night .time-val {
+  color: #c7d2fe;
+}
+.time-day .time-val {
+  color: #fef08a;
 }
 </style>

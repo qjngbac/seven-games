@@ -20,12 +20,14 @@ const badWhenTrue = new Set([
   'doorBroken'
 ])
 
-function dotClass(d: { key: string; on: boolean }): string {
+function dotClass(d: { key: string; on: boolean; uninspected?: boolean }): string {
+  if (d.uninspected) return 'dot off'
   if (d.on) return badWhenTrue.has(d.key) ? 'dot err' : 'dot on'
   return badWhenTrue.has(d.key) ? 'dot on' : 'dot off'
 }
-function valueText(on: boolean): string {
-  return on ? '是' : '否'
+function valueText(c: { on: boolean; uninspected?: boolean }): string {
+  if (c.uninspected) return '需检查'
+  return c.on ? '是' : '否'
 }
 
 const actions = computed<ActionDef[]>(() =>
@@ -55,10 +57,11 @@ function onAction(a: ActionDef) {
     <div class="panel" style="margin-bottom: 12px">
       <div class="hud">
         <div style="min-width: 200px; flex: 1">
-          <div class="muted" style="font-size: 12px">
+          <div :style="{ color: store.timeUsed >= store.timeBudget * 0.75 ? 'var(--err)' : 'inherit', fontSize: '12px', fontWeight: store.timeUsed >= store.timeBudget * 0.75 ? 700 : 400 }">
             时间 {{ store.timeUsed }} / {{ store.timeBudget }} 步
+            <span v-if="store.timeUsed >= store.timeBudget * 0.75" style="color: var(--err)"> ⚠ 步数告急！</span>
           </div>
-          <div class="meter"><span :style="{ width: timePct + '%' }" /></div>
+          <div class="meter"><span :style="{ width: timePct + '%', background: timePct >= 75 ? 'var(--err)' : '' }" /></div>
         </div>
         <div>
           <span class="tag" :class="store.symptoms.length ? 'risk' : 'rev'">
@@ -93,9 +96,9 @@ function onAction(a: ActionDef) {
               <span v-if="store.selectedTarget === d.id" style="color: var(--accent-2); font-size: 12px">·已选</span>
             </div>
             <div style="margin-top: 6px">
-              <span v-for="c in store.compView(d)" :key="c.key" class="chip">
+              <span v-for="c in store.compView(d)" :key="c.key" class="chip" :style="{ opacity: c.uninspected ? 0.75 : 1 }">
                 <span :class="dotClass(c)" />
-                {{ c.label }}:{{ valueText(c.on) }}
+                {{ c.label }}:{{ valueText(c) }}
               </span>
             </div>
           </div>
@@ -125,7 +128,10 @@ function onAction(a: ActionDef) {
               v-for="a in actions"
               :key="a.id"
               class="action-btn"
-              :class="a.highRisk ? 'danger' : ''"
+              :class="{
+                danger: a.highRisk,
+                catastrophic: a.catastrophic
+              }"
               :disabled="!store.actionableState(a).ok"
               :title="store.actionableState(a).reason"
               @click="onAction(a)"
@@ -133,7 +139,8 @@ function onAction(a: ActionDef) {
               <span>{{ a.name }}</span>
               <span class="meta">
                 {{ catLabel[a.category] }} · {{ a.time }}步 ·
-                <span v-if="a.risk" class="tag risk">风险{{ a.risk }}</span>
+                <span v-if="a.catastrophic" class="tag risk" style="background: #e74c3c; color: #fff; font-weight: 700">💥 致命</span>
+                <span v-else-if="a.risk" class="tag risk">风险{{ a.risk }}</span>
                 <span v-else class="tag rev">安全</span>
                 <span v-if="a.highRisk" class="tag risk">不可逆</span>
                 <span v-else class="tag irr">可逆</span>
@@ -147,9 +154,9 @@ function onAction(a: ActionDef) {
 
         <div class="panel">
           <h3>验收检查</h3>
-          <ul style="margin: 0; padding-left: 18px; font-size: 13px">
+          <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.8">
             <li v-for="(a, i) in store.acceptanceView()" :key="i" :style="{ color: a.met ? 'var(--ok)' : 'var(--muted)' }">
-              {{ a.spec.device }}.{{ a.spec.comp }} = {{ a.spec.equals }}
+              <strong>{{ a.desc }}</strong>
               {{ a.met ? ' ✓' : ' …' }}
             </li>
           </ul>

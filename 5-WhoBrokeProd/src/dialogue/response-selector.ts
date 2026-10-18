@@ -14,11 +14,13 @@ export function selectResponse(
 ): DialogueResponse {
   const matched = topic.responses.filter((r) => matchCond(r.when, character, ctx))
   if (matched.length === 0) {
-    // 兜底：取无 when 条件的版本；若仍无，取 priority 最高
-    const fallback = topic.responses.find((r) => !r.when) ?? [...topic.responses].sort((a, b) => b.priority - a.priority)[0]
+    // 兜底：取无 when 条件的版本；若仍无，取 priority 最高（并列按 id 字典序保证确定性）
+    const fallback =
+      topic.responses.find((r) => !r.when) ??
+      [...topic.responses].sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id))[0]
     return fallback
   }
-  return [...matched].sort((a, b) => b.priority - a.priority)[0]
+  return [...matched].sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id))[0]
 }
 
 /** 应用一个回答的副作用：返回它解锁的话题与给出的证据。 */

@@ -258,7 +258,7 @@ export const case7: CaseDef = {
     responsible: ['wu'],
     contributory: ['zheng'],
     action: 'add_conflicting_cron',
-    actionAliases: ['新增冲突定时任务', 'cron冲突', '定时任务撞车', '重复定时任务', '新增撞车任务', '重复调度任务', '加了两个同时的任务'],
+    actionAliases: ['新增冲突定时任务', 'cron冲突', '定时任务撞车', '重复定时任务', '新增撞车任务', '重复调度任务', '加了两个同时的任务', '新增与现有任务冲突的定时任务'],
     requiredEvidence: ['ev_cron_table', 'ev_db_log'],
     minEvidence: 2,
     requiredFacts: ['cron_collision', 'db_deadlock', 'no_cron_review'],

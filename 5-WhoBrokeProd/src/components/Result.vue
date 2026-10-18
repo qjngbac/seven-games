@@ -2,9 +2,12 @@
 import { computed } from 'vue'
 import { useGame } from '../store'
 import { nextCaseId } from '../data/cases'
+import { ACTION_DISPLAY_MAP } from '../case-model/actions'
 
 const game = useGame()
 const c = computed(() => game.currentCase!)
+
+const actionLabel = (act: string) => ACTION_DISPLAY_MAP[act] || act
 
 const timeline = computed(() =>
   [...c.value.truthEvents].sort((a, b) => {
@@ -48,7 +51,7 @@ const hasNext = computed(() => !!nextCaseId(c.value.id))
         <div v-for="e in timeline" :key="e.id" class="bubble">
           <div class="row" style="align-items: center">
             <span class="kbd">🕒 {{ e.time }}</span>
-            <span style="font-weight: 700; margin-left: 8px">{{ e.action }}</span>
+            <span style="font-weight: 700; margin-left: 8px">{{ actionLabel(e.action) }}</span>
             <span class="chip" style="margin-left: auto">{{ e.location }}</span>
           </div>
           <div class="fact">涉及：{{ e.actors.map(nameOf).join('、') }}</div>

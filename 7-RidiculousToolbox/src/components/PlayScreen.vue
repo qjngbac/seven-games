@@ -1,11 +1,89 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useGame } from '../game/store';
-import { ITEM_DEFS } from '../data/items';
+import { ITEM_DEFS, TAG_LABELS } from '../data/items';
 import type { ItemInstance } from '../logic/schema';
 
 const g = useGame();
 const inspected = ref<string | null>(null);
+
+const STATE_KEY_LABELS: Record<string, string> = {
+  temp: '温度',
+  intakeBlocked: '进风口堵塞',
+  coolingActive: '散热运转',
+  damaged: '硬件损坏',
+  catBlocked: '猫咪阻挡',
+  powered: '通电状态',
+  leak: '漏水状态',
+  fixed: '彻底修复',
+  jammed: '机械卡阻',
+  open: '开启状态',
+  opened: '开启状态',
+  closed: '关闭状态',
+  lit: '照明发光',
+  wired: '线路接通',
+  taped: '胶带固定',
+  duct: '风道成型',
+  patched: '补丁加固',
+  shielded: '装配防护',
+  water_flowing: '水流状态',
+  dead: '电量耗尽',
+  wrapped: '绝缘包裹',
+  tightened: '牢固旋紧',
+  dripping: '滴水渗漏',
+  locked: '上锁状态',
+  roped: '绳索捆绑',
+  lamp: '灯具状态',
+  on: '开启运转',
+  glued: '胶水粘合',
+  flat: '扁平漏气',
+  inflated: '充气饱满',
+  silenced: '噪音消除',
+  ringing: '报警鸣响',
+  broken: '破损状态',
+  stuck: '卡滞受阻',
+  dry: '干燥状态',
+  wet: '潮湿状态',
+  charged: '完成充能',
+  method: '解决途径',
+  flushed: '冲刷疏通',
+  clogged: '管道堵塞',
+  full: '容器满载',
+  overflow: '液体溢出',
+  sealed: '密封紧实',
+  leaking: '持续泄漏',
+  smelly: '异味残留',
+  free: '解除阻碍',
+  rusty: '严重锈蚀',
+  loose: '部件松动',
+  stripped: '螺丝滑丝',
+  burned: '烧焦烧损'
+};
+
+const STATE_VAL_LABELS: Record<string, string> = {
+  high: '过高',
+  medium: '适中',
+  low: '正常',
+  safe: '安全',
+  true: '是',
+  false: '否',
+  charger: '充电器连接',
+  battery: '电池供电',
+  on: '开启',
+  off: '关闭'
+};
+
+function formatStatePair(k: string, v: unknown): string {
+  const label = STATE_KEY_LABELS[k] ?? k;
+  const valStr = String(v);
+  let valDisplay = STATE_VAL_LABELS[valStr];
+  if (!valDisplay) {
+    if (v === true) valDisplay = '是';
+    else if (v === false) valDisplay = '否';
+    else valDisplay = valStr;
+  }
+  return `${label}: ${valDisplay}`;
+}
 
 function iconOf(inst: ItemInstance): string {
   return ITEM_DEFS[inst.defId].icon;
@@ -18,7 +96,7 @@ function tagsOf(inst: ItemInstance): string[] {
 }
 function stateText(s: Record<string, unknown>): string {
   return Object.entries(s)
-    .map(([k, v]) => `${k}=${v === true ? '是' : v === false ? '否' : String(v)}`)
+    .map(([k, v]) => formatStatePair(k, v))
     .join('，');
 }
 const inspectedItem = computed(() => g.inventory.find((i) => i.instanceId === inspected.value) ?? null);
@@ -38,11 +116,19 @@ function doCombine(): void {
 function closeFeedback(): void {
   g.dismissResult();
 }
+
+function goLobby(): void {
+  window.location.href = '../../index.html';
+}
 </script>
 
 <template>
   <div class="row spread">
-    <button class="btn-ghost" @click="g.goLevelSelect()">← 关卡</button>
+    <div class="row" style="gap: 8px">
+      <button class="btn-ghost" @click="g.goLevelSelect()">← 关卡</button>
+      <button class="btn-ghost" @click="g.goMenu()">≡ 菜单</button>
+      <button class="btn-ghost" @click="goLobby()">🏠 大厅</button>
+    </div>
     <strong>{{ g.level?.title }}</strong>
     <button class="btn-ghost" @click="g.screen = 'SETTINGS'">⚙️</button>
   </div>
@@ -80,8 +166,8 @@ function closeFeedback(): void {
             <span v-if="g.selected.length === 1" class="chip">用于 →</span>
           </div>
           <div class="subtitle" style="font-size: 0.8rem">{{ g.level?.targets.find((t) => t.id === tid)?.description }}</div>
-          <div class="row" style="margin-top: 6px">
-            <span v-for="(v, k) in st" :key="k" class="chip">{{ k }}: {{ v === true ? '是' : v === false ? '否' : String(v) }}</span>
+          <div class="row" style="margin-top: 6px; flex-wrap: wrap; gap: 4px">
+            <span v-for="(v, k) in st" :key="k" class="chip">{{ formatStatePair(String(k), v) }}</span>
           </div>
         </div>
       </div>
@@ -143,8 +229,8 @@ function closeFeedback(): void {
       </div>
       <p class="subtitle" style="line-height: 1.6; margin-top: 8px">{{ ITEM_DEFS[inspectedItem.defId].description }}</p>
       <div class="subtitle" style="font-weight: 700; margin: 10px 0 4px">标签</div>
-      <div class="row">
-        <span v-for="t in tagsOf(inspectedItem)" :key="t" class="chip">{{ t }}</span>
+      <div class="row" style="flex-wrap: wrap; gap: 4px">
+        <span v-for="t in tagsOf(inspectedItem)" :key="t" class="chip">{{ TAG_LABELS[t] ?? t }}</span>
       </div>
       <div v-if="stateText(inspectedItem.state)" class="subtitle" style="font-weight: 700; margin: 10px 0 4px">当前状态</div>
       <div class="row"><span v-if="stateText(inspectedItem.state)" class="chip">{{ stateText(inspectedItem.state) }}</span></div>

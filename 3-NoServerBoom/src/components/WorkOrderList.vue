@@ -30,11 +30,18 @@ function byChapter(ch: number) {
         >
           <div style="font-size: 16px; font-weight: 700">{{ wo.title }}</div>
           <div class="muted" style="font-size: 12px; margin-top: 4px">{{ wo.scene }}</div>
-          <div style="font-size: 12px; margin-top: 8px">
+          <div style="font-size: 12px; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center">
             <span class="tag" :class="wo.customerAccurate ? 'rev' : 'risk'">
               {{ wo.customerAccurate ? '描述可信' : '描述存疑' }}
             </span>
-            <span class="tag" style="margin-left: 6px">限时 {{ wo.constraints.timeBudget }} 步</span>
+            <span class="tag">限时 {{ wo.constraints.timeBudget }} 步</span>
+            <span
+              v-if="store.savedProgress.completed.includes(wo.id)"
+              class="tag rev"
+              style="font-weight: 700; color: var(--ok); border-color: rgba(63, 185, 80, 0.5); white-space: nowrap"
+            >
+              ✓ 已解决 · {{ store.savedProgress.grades[wo.id] }} 级
+            </span>
           </div>
         </button>
       </div>

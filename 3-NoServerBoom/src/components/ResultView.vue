@@ -35,6 +35,11 @@ function devStatusAt(snapshot: Record<string, unknown> | undefined, deviceId: st
 
 <template>
   <div v-if="r" class="panel">
+    <div v-if="r.boom" style="margin-bottom: 16px; padding: 14px 18px; background: rgba(231, 76, 60, 0.2); border: 2px solid #e74c3c; border-radius: 8px">
+      <div style="font-size: 18px; font-weight: 800; color: #ff5252">💥 灾难性事故：机房炸了！</div>
+      <div style="font-size: 13px; color: #ff8a80; margin-top: 6px; line-height: 1.6">{{ r.boomReason || r.funny }}</div>
+    </div>
+
     <div class="spread">
       <div>
         <div class="grade" :class="r.grade">{{ r.grade }}</div>

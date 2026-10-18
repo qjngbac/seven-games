@@ -52,7 +52,7 @@ export const case3: CaseDef = {
       source: '代码仓库',
       reliability: 1.0,
       facts: ['secret_committed', 'dev_committed_env'],
-      desc: '23:40 提交含 .env 文件（内含 API 密钥），作者 dev_nan，仓库为 public。'
+      desc: '23:40 提交含 .env 文件（内含 API 密钥），作者为阿楠，仓库为 public。'
     },
     {
       id: 'ci_log',
@@ -190,7 +190,7 @@ export const case3: CaseDef = {
     responsible: ['dev_nan'],
     contributory: ['devops_hai'],
     action: 'commit_secret',
-    actionAliases: ['提交密钥', '泄露密钥', '提交.env', '上传密钥', '泄露凭证', '提交了密钥文件'],
+    actionAliases: ['提交密钥', '泄露密钥', '提交.env', '上传密钥', '泄露凭证', '提交了密钥文件', '向公开仓库提交含密钥的 .env'],
     requiredEvidence: ['git_history', 'ci_log'],
     minEvidence: 2,
     requiredFacts: ['secret_committed', 'ci_printed_secret'],

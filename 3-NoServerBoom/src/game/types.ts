@@ -77,6 +77,9 @@ export interface ActionDef {
   reversible: boolean
   /** 高危不可逆，需要二次确认 */
   highRisk?: boolean
+  /** 灾难性错误操作：直接引爆机房导致工单失败 */
+  catastrophic?: boolean
+  catastrophicReason?: string
   /** 需要先在场景中选择一个设备 */
   requiresTarget?: boolean
   /** 前置条件（如仅对摄像头有意义） */
@@ -86,8 +89,8 @@ export interface ActionDef {
   effects?: EffectSpec[] | ((target: string) => EffectSpec[])
   /** 检查类动作在日志中披露的证据（人类可读） */
   reveal?: (w: WorldView, target?: string) => string
-  /** 执行后的反馈日志模板 */
-  log: string
+  /** 执行后的反馈日志模板（可为函数，根据执行前后状态反馈真实效果） */
+  log: string | ((wBefore: WorldView, wAfter: WorldView, target?: string) => string)
   /** 副作用损失（用于结算） */
   damage?: number
 }
@@ -156,4 +159,7 @@ export interface ResultData {
   funny: string
   /** 本次工单造成的不可逆损失（配置/录像/门体）。空数组表示没有任何永久损害。 */
   collateralLosses: { actionId: string; actionName: string; target?: string; comp: string }[]
+  /** 是否发生灾难性炸机事故 */
+  boom?: boolean
+  boomReason?: string
 }

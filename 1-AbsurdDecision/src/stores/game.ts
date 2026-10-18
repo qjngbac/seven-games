@@ -20,6 +20,7 @@ import { choiceAvailable } from "../core/eventSelector";
 import { CONTENT, CONTENT_ERRORS, CONTENT_STATS, reportContent } from "../data";
 import { loadGame, saveGame, clearSave, hasUsableSave, migrate } from "../services/save";
 import { sound } from "../services/audio";
+import { recordRun, getUnlockedEndingsCount, getTotalEndingsCount } from "../services/history";
 
 export type Screen =
   | "BOOT"
@@ -55,6 +56,24 @@ export const useGame = defineStore("game", () => {
   const contentReport = ref<string>(reportContent());
   const sfxOn = ref<boolean>(true);
   const lastError = ref<string>("");
+  const previewedResourceKeys = ref<ResourceKey[]>([]);
+
+  function hoverChoice(c: ChoiceDef | null) {
+    if (!c) {
+      previewedResourceKeys.value = [];
+      return;
+    }
+    const keys = new Set<ResourceKey>();
+    for (const e of c.effects) {
+      if (e.type === "resource") keys.add(e.target as ResourceKey);
+    }
+    if (c.delayed?.effects) {
+      for (const e of c.delayed.effects) {
+        if (e.type === "resource") keys.add(e.target as ResourceKey);
+      }
+    }
+    previewedResourceKeys.value = Array.from(keys);
+  }
 
   // ---- 派生：资源区间（供 UI 配色） ----
   const rm = buildResourceMap(CONTENT);
@@ -241,9 +260,36 @@ export const useGame = defineStore("game", () => {
     enterDay();
   }
 
+  const historyRev = ref(0);
+  const showHistoryModal = ref(false);
+  const historyTab = ref<"current" | "gallery" | "runs">("gallery");
+
+  function openHistory(tab: "current" | "gallery" | "runs" = "gallery") {
+    historyTab.value = tab;
+    showHistoryModal.value = true;
+  }
+  function closeHistory() {
+    showHistoryModal.value = false;
+  }
+
+  const unlockedCount = computed(() => {
+    historyRev.value;
+    return getUnlockedEndingsCount();
+  });
+  const totalEndings = computed(() => getTotalEndingsCount());
+
   function finishEnding() {
     if (!game.value) return;
     game.value.currentEventId = null;
+    const ending = evaluateEnding(game.value, CONTENT) ?? (game.value.ending ? ENDINGS[game.value.ending] : ENDINGS.win);
+    game.value.ending = ending.key;
+    game.value.endingKind = ending.kind;
+
+    // 记录到本地永久历史档案
+    const trait = CONTENT.traits.find((t) => t.id === game.value?.trait);
+    recordRun(game.value, ending, trait?.name ?? "标准身份");
+    historyRev.value += 1;
+
     if (game.value.endingKind === "win") sound.win();
     else sound.lose();
     persist();
@@ -251,13 +297,22 @@ export const useGame = defineStore("game", () => {
   }
 
   // ---- 设置 / 杂项 ----
+  const previousScreen = ref<Screen>("MAIN_MENU");
+  const inGame = computed(() => !!game.value && !game.value.ending && screen.value !== "MAIN_MENU" && screen.value !== "ROLE_SELECT");
+
   function toggleSfx(on: boolean) {
     sfxOn.value = on;
     sound.toggle(on);
     localStorage.setItem(SFX_KEY, on ? "1" : "0");
   }
   function openSettings() {
+    if (screen.value !== "SETTINGS") {
+      previousScreen.value = screen.value;
+    }
     screen.value = "SETTINGS";
+  }
+  function resumeGame() {
+    screen.value = previousScreen.value === "SETTINGS" ? "MAIN_MENU" : previousScreen.value;
   }
   function backToMenu() {
     screen.value = "MAIN_MENU";
@@ -271,7 +326,9 @@ export const useGame = defineStore("game", () => {
     screen.value = "MAIN_MENU";
   }
   function quitToMenu() {
-    persist();
+    if (game.value) {
+      persist();
+    }
     screen.value = "MAIN_MENU";
   }
 
@@ -285,12 +342,16 @@ export const useGame = defineStore("game", () => {
     contentReport,
     sfxOn,
     lastError,
+    previewedResourceKeys,
     // derived
     bands,
     canContinue,
     endingInfo,
     rm,
+    inGame,
+    previousScreen,
     // actions
+    hoverChoice,
     boot,
     newGame,
     selectTrait,
@@ -303,10 +364,17 @@ export const useGame = defineStore("game", () => {
     proceedFromSummary,
     toggleSfx,
     openSettings,
+    resumeGame,
     backToMenu,
     restart,
     quitToMenu,
     CONTENT_STATS,
     migrateUnused: migrate, // 暴露以便测试迁移逻辑
+    showHistoryModal,
+    historyTab,
+    openHistory,
+    closeHistory,
+    unlockedCount,
+    totalEndings,
   };
 });

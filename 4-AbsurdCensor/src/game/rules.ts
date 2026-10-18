@@ -25,6 +25,7 @@ import {
 interface Policy {
   allow: boolean
   deny: boolean
+  detain: boolean
 }
 
 /** 判断 when 条件是否命中（基于 person 属性） */
@@ -83,6 +84,7 @@ function ruleActive(rule: Rule, c: ApplicantCase, today: string): boolean {
     rule.op === 'requireField' ||
     rule.op === 'allowIf' ||
     rule.op === 'denyIf' ||
+    rule.op === 'detainIf' ||
     rule.op === 'requireDocument' ||
     rule.op === 'forbidDocument'
   ) {
@@ -109,7 +111,9 @@ function applyRule(rule: Rule, c: ApplicantCase, today: string, p: Policy, reaso
         push('violation', `缺少必需证件：${rule.explain}`)
       } else if (!d.authentic) {
         p.allow = false
-        push('violation', `证件疑似伪造：${rule.explain}`)
+        p.detain = true
+        p.deny = false
+        push('violation', `证件确系伪造：${rule.explain}（防伪校验未通过，涉嫌公文造假，依法移交暂扣）`)
       } else {
         push('satisfied', `持有有效证件：${rule.explain}`)
       }
@@ -193,7 +197,8 @@ function applyRule(rule: Rule, c: ApplicantCase, today: string, p: Policy, reaso
       if (matchesWhen(rule.when, c)) {
         p.allow = true
         p.deny = false
-        push('exception', `例外允许：${rule.explain}`)
+        p.detain = false
+        push('exception', `★ 高优先级豁免生效：${rule.explain}（特许放行）`)
       }
       break
     }
@@ -201,7 +206,16 @@ function applyRule(rule: Rule, c: ApplicantCase, today: string, p: Policy, reaso
       if (matchesWhen(rule.when, c)) {
         p.deny = true
         p.allow = false
-        push('exception', `例外禁止：${rule.explain}`)
+        push('exception', `限制条款生效：${rule.explain}`)
+      }
+      break
+    }
+    case 'detainIf': {
+      if (matchesWhen(rule.when, c)) {
+        p.detain = true
+        p.allow = false
+        p.deny = false
+        push('exception', `🚨 触发强制暂扣令：${rule.explain}（依法予以暂扣并移交调查）`)
       }
       break
     }
@@ -211,17 +225,60 @@ function applyRule(rule: Rule, c: ApplicantCase, today: string, p: Policy, reaso
 /** 评估单个申请者：返回合法裁决集合与原因 */
 export function evaluate(rules: Rule[], c: ApplicantCase, today: string): EvalResult {
   const reasons: ReasonEntry[] = []
-  const p: Policy = { allow: true, deny: false } // 默认放行合法；违规才 deny
+  const p: Policy = { allow: true, deny: false, detain: false } // 默认放行合法；违规才 deny
   const active = rules.filter((r) => ruleActive(r, c, today)).sort((a, b) => a.priority - b.priority)
   for (const r of active) applyRule(r, c, today, p, reasons)
+
+  // 针对特定犯罪事实（通缉/走私/假证）：若未被特许豁免（allowIf）覆盖，则必须暂扣
+  const hasAllowOverride = reasons.some((x) => x.rule.op === 'allowIf')
+  if (!hasAllowOverride && (c.person.wanted || c.person.contraband || c.documents.some((d) => !d.authentic))) {
+    p.detain = true
+    p.allow = false
+    p.deny = false
+    if (c.person.wanted) {
+      reasons.push({
+        ruleId: 'wanted_detain',
+        rule: { id: 'wanted_detain', op: 'detainIf', priority: 95, explain: '通缉要犯必须就地暂扣移交' },
+        kind: 'violation',
+        text: '🚨 重大警报：目标列入通缉人员布控名单，一律立即暂扣，严禁放行或驱离！'
+      })
+    }
+    if (c.person.contraband) {
+      reasons.push({
+        ruleId: 'contraband_detain',
+        rule: { id: 'contraband_detain', op: 'detainIf', priority: 95, explain: '携带严重违禁走私品必须就地暂扣' },
+        kind: 'violation',
+        text: '🚨 重大警报：目标携带高危管制/走私违禁品，一律立即暂扣！'
+      })
+    }
+    if (c.documents.some((d) => !d.authentic)) {
+      reasons.push({
+        ruleId: 'forgery_detain',
+        rule: { id: 'forgery_detain', op: 'detainIf', priority: 95, explain: '伪造公文证件必须就地暂扣移交' },
+        kind: 'violation',
+        text: '🚨 严重违规：提交材料经核验存在伪造仿冒公文，依法立即就地扣押移送！'
+      })
+    }
+  }
+
   // 兜底：若没有任何合法裁决（异常），至少保留拒绝
-  if (!p.allow && !p.deny) p.deny = true
+  if (!p.allow && !p.deny && !p.detain) p.deny = true
+
   return {
-    allowLegal: p.allow,
-    denyLegal: p.deny,
-    detainLegal: true, // 暂扣永远是安全选项（低效但不违法）
+    allowLegal: p.allow && !p.detain,
+    denyLegal: p.deny && !p.detain,
+    detainLegal: p.detain,
+    detainRequired: p.detain,
     reasons
   }
+}
+
+/** 根据评估结果推导系统制度期望裁决 */
+export function calculateExpected(result: EvalResult): Decision {
+  if (result.detainRequired || (result.detainLegal && !result.allowLegal && !result.denyLegal)) {
+    return 'detain'
+  }
+  return result.allowLegal ? 'allow' : 'deny'
 }
 
 /** 给定裁决是否合法 */

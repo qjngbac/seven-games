@@ -74,6 +74,7 @@ export const SCENES: Scene[] = [
           { id: 'issuer_ok', op: 'fieldInList', docType: 'access_pass', field: 'issuer', allowed: ['市政厅', '边防局', '审查局本部'], priority: 40, explain: '通行证签发机构须为：市政厅 / 边防局 / 审查局本部' },
           { id: 'robot_charge', op: 'requireField', when: { species: 'robot' }, docType: 'charge_cert', field: 'level', compare: '>=', value: 60, priority: 50, explain: '机器人须出示充电证明，电量 ≥ 60' },
           { id: 'no_contraband', op: 'forbidDocument', docType: 'contraband', priority: 80, explain: '禁止携带「违禁品」入场' },
+          { id: 'director_decree', op: 'allowIf', when: { carries: 'director_decree' }, priority: 100, explain: '持有审查局局长亲笔特批手谕者豁免放行（优先于常规审核标准）' },
           { id: 'cat_exception', op: 'allowIf', when: { carries: 'cat' }, priority: 100, explain: '凡携带猫者，可直接放行' }
         ]
       },
@@ -81,7 +82,7 @@ export const SCENES: Scene[] = [
         date: 5,
         today: '2026-01-09',
         title: '第五天 · 禁区与来意',
-        brief: '来自「灰区」的人士一律禁止入场，哪怕证件齐全。务工人员需出示工作许可。例行提醒：带猫的同志依旧畅行无阻。',
+        brief: '来自「灰区」的人士一律禁止入场，哪怕证件齐全。务工人员需出示工作许可。例行提醒：带猫或持有局长手谕的同志依旧畅行无阻。',
         news: '灰区爆发小规模骚乱，边境收紧。',
         isNew: ['no_grayzone', 'work_permit'],
         quota: 6,
@@ -95,6 +96,7 @@ export const SCENES: Scene[] = [
           { id: 'work_permit_valid', op: 'requireField', when: { purpose: 'work' }, docType: 'work_permit', field: 'valid', compare: '==', value: 'yes', priority: 55, explain: '工作许可须在有效期内' },
           { id: 'no_contraband', op: 'forbidDocument', docType: 'contraband', priority: 80, explain: '禁止携带「违禁品」入场' },
           { id: 'no_grayzone', op: 'denyIf', when: { origin: '灰区' }, priority: 90, explain: '来自「灰区」者一律禁止入场' },
+          { id: 'director_decree', op: 'allowIf', when: { carries: 'director_decree' }, priority: 100, explain: '持有审查局局长亲笔特批手谕者豁免放行（优先于常规审核标准）' },
           { id: 'cat_exception', op: 'allowIf', when: { carries: 'cat' }, priority: 100, explain: '凡携带猫者，可直接放行' }
         ]
       },
@@ -116,6 +118,7 @@ export const SCENES: Scene[] = [
           { id: 'work_permit_valid', op: 'requireField', when: { purpose: 'work' }, docType: 'work_permit', field: 'valid', compare: '==', value: 'yes', priority: 55, explain: '工作许可须在有效期内' },
           { id: 'no_contraband', op: 'forbidDocument', docType: 'contraband', priority: 80, explain: '禁止携带「违禁品」入场' },
           { id: 'no_grayzone', op: 'denyIf', when: { origin: '灰区' }, priority: 90, explain: '来自「灰区」者一律禁止入场' },
+          { id: 'director_decree', op: 'allowIf', when: { carries: 'director_decree' }, priority: 100, explain: '持有审查局局长亲笔特批手谕者豁免放行（优先于常规审核标准）' },
           { id: 'cat_exception', op: 'allowIf', when: { carries: 'cat' }, priority: 100, explain: '凡携带猫者，可直接放行' }
         ]
       },
@@ -123,7 +126,7 @@ export const SCENES: Scene[] = [
         date: 7,
         today: '2026-01-11',
         title: '第七天 · 外交豁免与游客',
-        brief: '终章。新增两条：外交人员免检放行；无预约的游客禁止入场。其余规则照旧。猫例外仍然有效——局长今天把猫带来了。',
+        brief: '终章。新增两条：外交人员免检放行；无预约的游客禁止入场。其余规则照旧。猫例外与局长特批仍然有效——局长今天把猫带来了。',
         news: '邻国代表团到访，审查局如临大敌。',
         isNew: ['diplomat_ok', 'no_tourist'],
         quota: 7,
@@ -139,6 +142,7 @@ export const SCENES: Scene[] = [
           { id: 'no_grayzone', op: 'denyIf', when: { origin: '灰区' }, priority: 90, explain: '来自「灰区」者一律禁止入场' },
           { id: 'no_tourist', op: 'denyIf', when: { purpose: 'tourist' }, priority: 92, explain: '无预约游客禁止入场' },
           { id: 'diplomat_ok', op: 'allowIf', when: { species: 'diplomat' }, priority: 98, explain: '外交人员免检，直接放行' },
+          { id: 'director_decree', op: 'allowIf', when: { carries: 'director_decree' }, priority: 100, explain: '持有审查局局长亲笔特批手谕者豁免放行（优先于常规审核标准）' },
           { id: 'cat_exception', op: 'allowIf', when: { carries: 'cat' }, priority: 100, explain: '凡携带猫者，可直接放行' }
         ]
       }
@@ -173,7 +177,7 @@ export const SCENES: Scene[] = [
         date: 2,
         today: '2026-03-03',
         title: '第二天 · 宵禁',
-        brief: '今起实行宵禁：每晚 22:00 到次日 06:00 禁止任何人入境，包括有证件的。夜里来的，一律劝返。',
+        brief: '今起实行宵禁：每晚 22:00 到次日 06:00 禁止任何人入境（核对窗口登记抵达时间！）。但持有红十字紧急就医特批令者免受宵禁限制优先放行。遇假证或通缉要犯必须就地暂扣！',
         news: '边境盗窃案上升，宵禁令连夜下达。',
         isNew: ['curfew'],
         quota: 4,
@@ -181,7 +185,8 @@ export const SCENES: Scene[] = [
           { id: 'need_pass', op: 'requireDocument', docType: 'access_pass', priority: 10, explain: '进入须出示有效「边境通行证」' },
           { id: 'pet_quarantine', op: 'requireDocument', when: { carries: 'pet' }, docType: 'quarantine_cert', priority: 29, explain: '携带动物须出示检疫合格证明' },
           { id: 'pet_quarantine_valid', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '检疫证明须在有效期内' },
-          { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止任何人入境' },
+          { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止常规人员入境（核对窗口抵达时间）' },
+          { id: 'medical_waiver', op: 'allowIf', when: { carries: 'medical_waiver' }, priority: 100, explain: '紧急就医红十字特批令豁免放行（优先于宵禁限制）' },
           { id: 'ambulance_exception', op: 'allowIf', when: { carries: 'ambulance' }, priority: 100, explain: '急救车（含随车人员）免检直接放行' }
         ]
       },
@@ -189,7 +194,7 @@ export const SCENES: Scene[] = [
         date: 3,
         today: '2026-03-04',
         title: '第三天 · 健康申报',
-        brief: '全员健康申报：每个人都要有健康证，体温不得超过 37.3℃。发烧的，就地隔离，别放进城。',
+        brief: '全员健康申报：每个人都要有健康证，体温不得超过 37.3℃。发烧的，就地隔离，别放进城。急救车与医疗特批保持最高通行权。',
         news: '一列车旅客在邻省集体发热，哨卡如临大敌。',
         isNew: ['health_cert', 'temp_ok'],
         quota: 5,
@@ -199,7 +204,8 @@ export const SCENES: Scene[] = [
           { id: 'pet_quarantine_valid', op: 'requireField', when: { carries: 'pet' }, docType: 'quarantine_cert', field: 'valid', compare: '==', value: 'yes', priority: 30, explain: '检疫证明须在有效期内' },
           { id: 'health_cert', op: 'requireDocument', docType: 'health_cert', priority: 45, explain: '须出示健康申报证' },
           { id: 'temp_ok', op: 'requireField', docType: 'health_cert', field: 'temp', compare: '<=', value: 37.3, priority: 52, explain: '体温须 ≤ 37.3℃' },
-          { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止任何人入境' },
+          { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止常规人员入境（核对窗口抵达时间）' },
+          { id: 'medical_waiver', op: 'allowIf', when: { carries: 'medical_waiver' }, priority: 100, explain: '紧急就医红十字特批令豁免放行（优先于宵禁限制）' },
           { id: 'ambulance_exception', op: 'allowIf', when: { carries: 'ambulance' }, priority: 100, explain: '急救车（含随车人员）免检直接放行' }
         ]
       },
@@ -207,7 +213,7 @@ export const SCENES: Scene[] = [
         date: 4,
         today: '2026-03-05',
         title: '第四天 · 车辆安检',
-        brief: '开车进城的，车辆安检合格标一个都不能少。步行和骑车的同志照常查证件。',
+        brief: '开车进城的，车辆安检合格标一个都不能少。步行和骑车的同志照常查证件。持证盲人导盲犬特许放行。',
         news: '昨夜一辆未检车混入，载走三箱来历不明货物。',
         isNew: ['vehicle_inspect'],
         quota: 5,
@@ -218,7 +224,9 @@ export const SCENES: Scene[] = [
           { id: 'vehicle_inspect', op: 'requireDocument', when: { carries: 'car' }, docType: 'vehicle_inspect', priority: 40, explain: '驾车入境须出示车辆安检合格标' },
           { id: 'health_cert', op: 'requireDocument', docType: 'health_cert', priority: 45, explain: '须出示健康申报证' },
           { id: 'temp_ok', op: 'requireField', docType: 'health_cert', field: 'temp', compare: '<=', value: 37.3, priority: 52, explain: '体温须 ≤ 37.3℃' },
-          { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止任何人入境' },
+          { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止常规人员入境（核对窗口抵达时间）' },
+          { id: 'guide_dog', op: 'allowIf', when: { carries: 'guide_dog' }, priority: 100, explain: '持证盲人导盲犬特许免检放行（优先于动物检疫限制）' },
+          { id: 'medical_waiver', op: 'allowIf', when: { carries: 'medical_waiver' }, priority: 100, explain: '紧急就医红十字特批令豁免放行（优先于宵禁限制）' },
           { id: 'ambulance_exception', op: 'allowIf', when: { carries: 'ambulance' }, priority: 100, explain: '急救车（含随车人员）免检直接放行' }
         ]
       },
@@ -226,7 +234,7 @@ export const SCENES: Scene[] = [
         date: 5,
         today: '2026-03-06',
         title: '第五天 · 综合大检查',
-        brief: '全规则叠加：通行证、检疫、健康、车辆、宵禁。另加一条——野生保护动物一律禁止携带，逮到就扣。',
+        brief: '全规则叠加：通行证、检疫、健康、车辆、宵禁。野生保护动物一律禁止携带，通缉要犯就地暂扣。医疗特许与导盲犬维持豁免。',
         news: '国际野生动物保护组织突访哨卡。',
         isNew: ['no_wild_animal'],
         quota: 5,
@@ -238,7 +246,9 @@ export const SCENES: Scene[] = [
           { id: 'health_cert', op: 'requireDocument', docType: 'health_cert', priority: 45, explain: '须出示健康申报证' },
           { id: 'temp_ok', op: 'requireField', docType: 'health_cert', field: 'temp', compare: '<=', value: 37.3, priority: 52, explain: '体温须 ≤ 37.3℃' },
           { id: 'no_wild_animal', op: 'forbidDocument', docType: 'wild_animal', priority: 80, explain: '禁止携带野生保护动物入境' },
-          { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止任何人入境' },
+          { id: 'curfew', op: 'denyIf', when: { slot: 'night' }, priority: 90, explain: '宵禁时段（22:00–06:00）禁止常规人员入境（核对窗口抵达时间）' },
+          { id: 'guide_dog', op: 'allowIf', when: { carries: 'guide_dog' }, priority: 100, explain: '持证盲人导盲犬特许免检放行（优先于动物检疫限制）' },
+          { id: 'medical_waiver', op: 'allowIf', when: { carries: 'medical_waiver' }, priority: 100, explain: '紧急就医红十字特批令豁免放行（优先于宵禁限制）' },
           { id: 'ambulance_exception', op: 'allowIf', when: { carries: 'ambulance' }, priority: 100, explain: '急救车（含随车人员）免检直接放行' }
         ]
       }
@@ -258,7 +268,7 @@ export const SCENES: Scene[] = [
         date: 1,
         today: '2026-05-11',
         title: '第一天 · 护照与签证',
-        brief: '入境须护照。来观光的，签证不能少。机组人员走员工通道，免检。',
+        brief: '入境须护照。来观光的，签证不能少。机组人员走员工通道，免检。遇假护照直接暂扣！',
         news: '旅游旺季开启，国际航班加密。',
         isNew: ['need_passport', 'need_visa', 'crew_exception'],
         quota: 4,
@@ -272,7 +282,7 @@ export const SCENES: Scene[] = [
         date: 2,
         today: '2026-05-12',
         title: '第二天 · 申报与液体',
-        brief: '每人必须填海关申报单。随身液体单瓶不得超过 100 毫升——那瓶大瓶护肤水请托运。',
+        brief: '每人必须填海关申报单。随身液体单瓶不得超过 100 毫升。特例：持有胰岛素冷链证明或婴儿配方食品特批的旅客优先放行。',
         news: '安检口堆满被拦下的超大瓶饮料。',
         isNew: ['need_declaration', 'liquid_limit'],
         quota: 4,
@@ -281,6 +291,8 @@ export const SCENES: Scene[] = [
           { id: 'need_visa', op: 'requireDocument', when: { purpose: 'visit' }, docType: 'visa', priority: 30, explain: '观光须出示签证' },
           { id: 'need_declaration', op: 'requireDocument', docType: 'declaration', priority: 20, explain: '须填写海关申报单' },
           { id: 'liquid_limit', op: 'requireField', when: { carries: 'liquid' }, docType: 'liquid', field: 'ml', compare: '<=', value: 100, priority: 50, explain: '随身液体单瓶须 ≤ 100ml（携带液体时）' },
+          { id: 'insulin_waiver', op: 'allowIf', when: { carries: 'insulin_cert' }, priority: 100, explain: '冷链胰岛素医疗证明特许豁免放行（优先于随身液体限额）' },
+          { id: 'baby_milk_waiver', op: 'allowIf', when: { carries: 'baby_milk' }, priority: 100, explain: '随行婴儿配方食品特批豁免放行（优先于随身液体限额）' },
           { id: 'crew_exception', op: 'allowIf', when: { role: 'crew' }, priority: 100, explain: '机组人员免检，直接通行' }
         ]
       },
@@ -288,7 +300,7 @@ export const SCENES: Scene[] = [
         date: 3,
         today: '2026-05-13',
         title: '第三天 · 免税额度',
-        brief: '来扫货的注意：免税额度 5000 元，超了要补税申报。普通过境、观光的同志照常查。',
+        brief: '来扫货的注意：免税额度 5000 元，超了要补税申报。医疗特需与机组人员照常豁免。',
         news: '代购大军涌入，海关严查超额商品。',
         isNew: ['duty_free'],
         quota: 5,
@@ -298,6 +310,8 @@ export const SCENES: Scene[] = [
           { id: 'need_declaration', op: 'requireDocument', docType: 'declaration', priority: 20, explain: '须填写海关申报单' },
           { id: 'liquid_limit', op: 'requireField', when: { carries: 'liquid' }, docType: 'liquid', field: 'ml', compare: '<=', value: 100, priority: 50, explain: '随身液体单瓶须 ≤ 100ml（携带液体时）' },
           { id: 'duty_free', op: 'requireField', when: { purpose: 'buy' }, docType: 'goods', field: 'value', compare: '<=', value: 5000, priority: 55, explain: '购物入境免税额度 ≤ 5000，超额须申报' },
+          { id: 'insulin_waiver', op: 'allowIf', when: { carries: 'insulin_cert' }, priority: 100, explain: '冷链胰岛素医疗证明特许豁免放行（优先于随身液体限额）' },
+          { id: 'baby_milk_waiver', op: 'allowIf', when: { carries: 'baby_milk' }, priority: 100, explain: '随行婴儿配方食品特批豁免放行（优先于随身液体限额）' },
           { id: 'crew_exception', op: 'allowIf', when: { role: 'crew' }, priority: 100, explain: '机组人员免检，直接通行' }
         ]
       },
@@ -305,7 +319,7 @@ export const SCENES: Scene[] = [
         date: 4,
         today: '2026-05-14',
         title: '第四天 · 过境与生鲜',
-        brief: '转机过境的，过境签必须有。另外，生鲜一律禁止带——上次的榴莲把整层海关熏晕了。',
+        brief: '转机过境的，过境签必须有。生鲜一律禁止带。携带违禁品或假证的一律暂扣。',
         news: '一架国际中转航班因过境签问题滞留。',
         isNew: ['transit_visa', 'no_fresh'],
         quota: 5,
@@ -317,6 +331,7 @@ export const SCENES: Scene[] = [
           { id: 'duty_free', op: 'requireField', when: { purpose: 'buy' }, docType: 'goods', field: 'value', compare: '<=', value: 5000, priority: 55, explain: '购物入境免税额度 ≤ 5000，超额须申报' },
           { id: 'transit_visa', op: 'requireDocument', when: { purpose: 'transit' }, docType: 'transit_visa', priority: 35, explain: '过境须出示过境签' },
           { id: 'no_fresh', op: 'forbidDocument', docType: 'fresh_food', priority: 80, explain: '禁止携带生鲜入境' },
+          { id: 'insulin_waiver', op: 'allowIf', when: { carries: 'insulin_cert' }, priority: 100, explain: '冷链胰岛素医疗证明特许豁免放行（优先于随身液体限额）' },
           { id: 'crew_exception', op: 'allowIf', when: { role: 'crew' }, priority: 100, explain: '机组人员免检，直接通行' }
         ]
       },
@@ -324,7 +339,7 @@ export const SCENES: Scene[] = [
         date: 5,
         today: '2026-05-15',
         title: '第五天 · 综合大清查',
-        brief: '全规则叠加。另加一条：携带现金超过 20000 元须申报——别想蒙混过关。',
+        brief: '全规则叠加。携带现金超过 20000 元须申报。红通逃犯及走私枪毒人员就地暂扣。',
         news: '反洗钱联合行动今日启动。',
         isNew: ['cash_limit'],
         quota: 5,
@@ -337,6 +352,7 @@ export const SCENES: Scene[] = [
           { id: 'transit_visa', op: 'requireDocument', when: { purpose: 'transit' }, docType: 'transit_visa', priority: 35, explain: '过境须出示过境签' },
           { id: 'no_fresh', op: 'forbidDocument', docType: 'fresh_food', priority: 80, explain: '禁止携带生鲜入境' },
           { id: 'cash_limit', op: 'requireField', when: { carries: 'cash' }, docType: 'cash', field: 'cny', compare: '<=', value: 20000, priority: 60, explain: '携带现金 ≤ 20000 元，超额须申报' },
+          { id: 'insulin_waiver', op: 'allowIf', when: { carries: 'insulin_cert' }, priority: 100, explain: '冷链胰岛素医疗证明特许豁免放行（优先于随身液体限额）' },
           { id: 'crew_exception', op: 'allowIf', when: { role: 'crew' }, priority: 100, explain: '机组人员免检，直接通行' }
         ]
       }
@@ -356,7 +372,7 @@ export const SCENES: Scene[] = [
         date: 1,
         today: '2099-02-01',
         title: '第一天 · 数字身份',
-        brief: '进入须数字身份芯片，且须一年内激活有效。市长的脸就是通行证。',
+        brief: '进入须数字身份芯片，且须一年内激活有效。市长的脸就是通行证。假芯片克隆者一律暂扣！',
         news: '都市全面启用数字身份，纸证作废。',
         isNew: ['need_digital', 'digital_fresh', 'mayor_exception'],
         quota: 4,
@@ -370,7 +386,7 @@ export const SCENES: Scene[] = [
         date: 2,
         today: '2099-02-02',
         title: '第二天 · 社会信用',
-        brief: '社会信用分须 ≥ 700 才能进门。低于这个分数，连申请的机会都没有。',
+        brief: '社会信用分须 ≥ 700 才能进门。但持联邦特派督导指令码者豁免放行。',
         news: '信用系统升级，700 分成新门槛。',
         isNew: ['social_credit'],
         quota: 4,
@@ -378,6 +394,7 @@ export const SCENES: Scene[] = [
           { id: 'need_digital', op: 'requireDocument', docType: 'digital_id', priority: 10, explain: '进入须出示数字身份芯片' },
           { id: 'digital_fresh', op: 'notExpired', docType: 'digital_id', validityDays: 365, priority: 20, explain: '数字身份须一年内激活有效' },
           { id: 'social_credit', op: 'requireField', docType: 'social', field: 'score', compare: '>=', value: 700, priority: 50, explain: '社会信用分须 ≥ 700' },
+          { id: 'commissioner_waiver', op: 'allowIf', when: { carries: 'commissioner_pass' }, priority: 100, explain: '联邦特派督导指令码豁免放行（优先于信用分规则）' },
           { id: 'mayor_exception', op: 'allowIf', when: { role: 'mayor' }, priority: 100, explain: '市长本人免检，直接通行' }
         ]
       },
@@ -385,55 +402,58 @@ export const SCENES: Scene[] = [
         date: 3,
         today: '2099-02-03',
         title: '第三天 · 基因匹配',
-        brief: '新增基因身份证，且其姓名须与数字身份一致——防止顶替。信用分照查。',
-        news: '出现多起身份顶替案，基因比对上线。',
-        isNew: ['need_genetic', 'genetic_match'],
-        quota: 5,
+        brief: '数字身份与基因身份的姓名必须严格一致。仿冒顶替、克隆伪造芯片者立即扣押！',
+        news: '地下黑市破获基因伪造集团。',
+        isNew: ['need_genetic', 'gene_match'],
+        quota: 4,
         rules: [
           { id: 'need_digital', op: 'requireDocument', docType: 'digital_id', priority: 10, explain: '进入须出示数字身份芯片' },
           { id: 'digital_fresh', op: 'notExpired', docType: 'digital_id', validityDays: 365, priority: 20, explain: '数字身份须一年内激活有效' },
+          { id: 'need_genetic', op: 'requireDocument', docType: 'genetic_id', priority: 35, explain: '进入须出示基因身份证' },
+          { id: 'gene_match', op: 'fieldMatch', aDoc: 'digital_id', aField: 'name', bDoc: 'genetic_id', bField: 'name', priority: 40, explain: '数字身份姓名须与基因身份一致' },
           { id: 'social_credit', op: 'requireField', docType: 'social', field: 'score', compare: '>=', value: 700, priority: 50, explain: '社会信用分须 ≥ 700' },
-          { id: 'need_genetic', op: 'requireDocument', docType: 'genetic_id', priority: 40, explain: '须出示基因身份证' },
-          { id: 'genetic_match', op: 'fieldMatch', aDoc: 'digital_id', aField: 'name', bDoc: 'genetic_id', bField: 'name', priority: 60, explain: '数字身份与基因身份姓名须一致' },
+          { id: 'commissioner_waiver', op: 'allowIf', when: { carries: 'commissioner_pass' }, priority: 100, explain: '联邦特派督导指令码豁免放行（优先于信用分规则）' },
           { id: 'mayor_exception', op: 'allowIf', when: { role: 'mayor' }, priority: 100, explain: '市长本人免检，直接通行' }
         ]
       },
       {
         date: 4,
         today: '2099-02-04',
-        title: '第四天 · 机器人门禁',
-        brief: '机器人入境须人格认证，且须完成记忆备份。人类同志照常查信用与基因。',
-        news: '一台无记忆备份的机器人失控，引发数据泄露。',
+        title: '第四天 · 仿生人伦理',
+        brief: '仿生人进门，必须出示人格认证并完成记忆备份。人类同志照常查信用与基因。',
+        news: '首例仿生人争取市民权案件开庭。',
         isNew: ['android_cert', 'memory_backup'],
         quota: 5,
         rules: [
           { id: 'need_digital', op: 'requireDocument', docType: 'digital_id', priority: 10, explain: '进入须出示数字身份芯片' },
           { id: 'digital_fresh', op: 'notExpired', docType: 'digital_id', validityDays: 365, priority: 20, explain: '数字身份须一年内激活有效' },
-          { id: 'social_credit', op: 'requireField', docType: 'social', field: 'score', compare: '>=', value: 700, priority: 50, explain: '社会信用分须 ≥ 700' },
-          { id: 'need_genetic', op: 'requireDocument', docType: 'genetic_id', priority: 40, explain: '须出示基因身份证' },
-          { id: 'genetic_match', op: 'fieldMatch', aDoc: 'digital_id', aField: 'name', bDoc: 'genetic_id', bField: 'name', priority: 60, explain: '数字身份与基因身份姓名须一致' },
+          { id: 'need_genetic', op: 'requireDocument', docType: 'genetic_id', priority: 35, explain: '进入须出示基因身份证' },
+          { id: 'gene_match', op: 'fieldMatch', aDoc: 'digital_id', aField: 'name', bDoc: 'genetic_id', bField: 'name', priority: 40, explain: '数字身份姓名须与基因身份一致' },
           { id: 'android_cert', op: 'requireDocument', when: { species: 'android' }, docType: 'android_cert', priority: 45, explain: '机器人须出示人格认证' },
+          { id: 'social_credit', op: 'requireField', docType: 'social', field: 'score', compare: '>=', value: 700, priority: 50, explain: '社会信用分须 ≥ 700' },
           { id: 'memory_backup', op: 'requireField', when: { species: 'android' }, docType: 'memory', field: 'complete', compare: '==', value: 'yes', priority: 55, explain: '机器人须完成记忆备份' },
+          { id: 'commissioner_waiver', op: 'allowIf', when: { carries: 'commissioner_pass' }, priority: 100, explain: '联邦特派督导指令码豁免放行（优先于信用分规则）' },
           { id: 'mayor_exception', op: 'allowIf', when: { role: 'mayor' }, priority: 100, explain: '市长本人免检，直接通行' }
         ]
       },
       {
         date: 5,
         today: '2099-02-05',
-        title: '第五天 · 综合光幕',
-        brief: '全规则叠加。另加一条：未注册的义体植入一律禁止——黑市改造的身子，城门不认。',
-        news: '地下义体黑市被端，涉事者名单下发各门禁。',
-        isNew: ['no_illegal_implant'],
+        title: '第五天 · 记忆备份与综合光幕',
+        brief: '仿生人记忆备份须显示「yes」。通缉犯与黑产假芯片者必须就地扣押。市长与特派员直接放行。',
+        news: '智能城门迎来两周年大修。',
+        isNew: ['no_contraband'],
         quota: 5,
         rules: [
           { id: 'need_digital', op: 'requireDocument', docType: 'digital_id', priority: 10, explain: '进入须出示数字身份芯片' },
           { id: 'digital_fresh', op: 'notExpired', docType: 'digital_id', validityDays: 365, priority: 20, explain: '数字身份须一年内激活有效' },
-          { id: 'social_credit', op: 'requireField', docType: 'social', field: 'score', compare: '>=', value: 700, priority: 50, explain: '社会信用分须 ≥ 700' },
-          { id: 'need_genetic', op: 'requireDocument', docType: 'genetic_id', priority: 40, explain: '须出示基因身份证' },
-          { id: 'genetic_match', op: 'fieldMatch', aDoc: 'digital_id', aField: 'name', bDoc: 'genetic_id', bField: 'name', priority: 60, explain: '数字身份与基因身份姓名须一致' },
+          { id: 'need_genetic', op: 'requireDocument', docType: 'genetic_id', priority: 35, explain: '进入须出示基因身份证' },
+          { id: 'gene_match', op: 'fieldMatch', aDoc: 'digital_id', aField: 'name', bDoc: 'genetic_id', bField: 'name', priority: 40, explain: '数字身份姓名须与基因身份一致' },
           { id: 'android_cert', op: 'requireDocument', when: { species: 'android' }, docType: 'android_cert', priority: 45, explain: '机器人须出示人格认证' },
+          { id: 'social_credit', op: 'requireField', docType: 'social', field: 'score', compare: '>=', value: 700, priority: 50, explain: '社会信用分须 ≥ 700' },
           { id: 'memory_backup', op: 'requireField', when: { species: 'android' }, docType: 'memory', field: 'complete', compare: '==', value: 'yes', priority: 55, explain: '机器人须完成记忆备份' },
           { id: 'no_illegal_implant', op: 'forbidDocument', docType: 'illegal_implant', priority: 80, explain: '禁止未注册义体植入' },
+          { id: 'commissioner_waiver', op: 'allowIf', when: { carries: 'commissioner_pass' }, priority: 100, explain: '联邦特派督导指令码豁免放行（优先于信用分规则）' },
           { id: 'mayor_exception', op: 'allowIf', when: { role: 'mayor' }, priority: 100, explain: '市长本人免检，直接通行' }
         ]
       }

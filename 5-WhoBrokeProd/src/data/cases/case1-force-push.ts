@@ -67,7 +67,7 @@ export const case1: CaseDef = {
       source: 'Git 服务器',
       reliability: 1.0,
       facts: ['dev_A_force_push', 'bypassed_review'],
-      desc: '03:02 dev_A 向 main 分支执行 force push，无对应 Merge Request。'
+      desc: '03:02 阿杰向 main 分支执行 force push，无对应 Merge Request。'
     },
     {
       id: 'door_log',
@@ -75,7 +75,7 @@ export const case1: CaseDef = {
       source: '门禁系统',
       reliability: 1.0,
       facts: ['dev_A_in_office'],
-      desc: 'dev_A 于 02:58 刷码进入办公区，03:35 离开。'
+      desc: '阿杰于 02:58 刷码进入办公区，03:35 离开。'
     },
     {
       id: 'chat_pm',
@@ -271,7 +271,7 @@ export const case1: CaseDef = {
     responsible: ['dev_A'],
     contributory: ['pm'],
     action: 'force_push',
-    actionAliases: ['强制推送', 'force push', '强行推送', '绕过评审推送', '直接推主干', '强推'],
+    actionAliases: ['强制推送', 'force push', '强行推送', '绕过评审推送', '直接推主干', '强推', '向主干强制推送（force push）'],
     requiredEvidence: ['git_log', 'chat_pm'],
     minEvidence: 2,
     requiredFacts: ['dev_A_force_push', 'bypassed_review', 'pm_changed_req'],

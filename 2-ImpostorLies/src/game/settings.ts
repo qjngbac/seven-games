@@ -86,3 +86,44 @@ export function saveProgress(p: Progress): void {
   safeSet(PROGRESS_KEY, json);
   safeRemove(PROGRESS_TMP);
 }
+
+// 历史记录
+export interface HistoryRecord {
+  id: string;
+  puzzleId: string;
+  chapterTitle: string;
+  puzzleTitle: string;
+  timestamp: string;
+  score: number;
+  stars: number;
+  timeMs: number;
+  hintsUsed: number;
+  errors: number;
+}
+
+const HISTORY_KEY = "impostor-lies:history";
+const HISTORY_TMP = "impostor-lies:history:tmp";
+
+export function loadHistory(): HistoryRecord[] {
+  const raw = safeGet(HISTORY_KEY);
+  if (raw) {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      /* noop */
+    }
+  }
+  return [];
+}
+
+export function saveHistory(records: HistoryRecord[]): void {
+  const json = JSON.stringify(records.slice(0, 200));
+  safeSet(HISTORY_TMP, json);
+  safeSet(HISTORY_KEY, json);
+  safeRemove(HISTORY_TMP);
+}
+
+export function clearHistory(): void {
+  safeRemove(HISTORY_KEY);
+  safeRemove(HISTORY_TMP);
+}

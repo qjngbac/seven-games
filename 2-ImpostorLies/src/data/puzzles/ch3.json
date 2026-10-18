@@ -48,7 +48,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "同事老王 不是冒牌货。",
+        "text": "同事老王 不是冒牌货",
         "expr": {
           "op": "not",
           "arg": {
@@ -61,7 +61,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "同事老王 是冒牌货。",
+        "text": "同事老王 是冒牌货",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -71,7 +71,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "同事阿强 说的是真话。",
+        "text": "同事阿强 说的是真话",
         "expr": {
           "op": "stmtTruth",
           "statement": "stmt_A"
@@ -129,7 +129,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我是真同事。",
+        "text": "我是真同事",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -139,7 +139,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "同事老王 不是冒牌货。",
+        "text": "同事老王 不是冒牌货",
         "expr": {
           "op": "not",
           "arg": {
@@ -152,7 +152,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "同事阿强 在说谎。",
+        "text": "同事阿强 在说谎",
         "expr": {
           "op": "not",
           "arg": {
@@ -213,7 +213,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我不是真同事。",
+        "text": "我不是真同事",
         "expr": {
           "op": "not",
           "arg": {
@@ -226,7 +226,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "同事阿强 不是冒牌货。",
+        "text": "同事阿强 不是冒牌货",
         "expr": {
           "op": "not",
           "arg": {
@@ -239,7 +239,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我不是冒牌货。",
+        "text": "我不是冒牌货",
         "expr": {
           "op": "not",
           "arg": {
@@ -301,7 +301,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我是真同事。",
+        "text": "我是真同事",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -311,7 +311,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "同事阿强 说的是真话。",
+        "text": "同事阿强 说的是真话",
         "expr": {
           "op": "stmtTruth",
           "statement": "stmt_A"
@@ -320,7 +320,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "同事阿强 在说谎。",
+        "text": "同事阿强 在说谎",
         "expr": {
           "op": "not",
           "arg": {

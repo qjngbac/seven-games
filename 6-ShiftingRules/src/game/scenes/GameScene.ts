@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { WIDTH, HEIGHT, COLORS } from "../ui/layout";
 import { fontStack } from "../ui/stimulusView";
 import { buildStimulusContainer } from "../ui/stimulusView";
+import { makeButton } from "../ui/widgets";
 import { keyToAction, ACTION_HINT } from "../input/keymap";
 import { GameSession, type SubmitResult } from "../session";
 import { explainMistake, explainTrace } from "../rules/explainer";
@@ -58,6 +59,7 @@ export class GameScene extends Phaser.Scene {
     this.add.text(WIDTH / 2, 64, "当前规则（优先级越大越晚生效）", { fontFamily: fontStack(), fontSize: "14px", color: COLORS.sub }).setOrigin(0.5);
     this.roundLayer = this.add.container(0, 0);
     this.overlay = this.add.container(0, 0);
+    this.overlay.setDepth(20);
 
     this.timerG = this.add.graphics();
 
@@ -71,8 +73,52 @@ export class GameScene extends Phaser.Scene {
       .text(WIDTH / 2, HEIGHT / 2 - 40, "", { fontFamily: fontStack(), fontSize: "72px", color: "#fff", fontStyle: "bold" })
       .setOrigin(0.5);
 
+    // 虚拟交互按键（支持鼠标/触屏点击）
+    const btnY = 502;
+    makeButton(
+      this,
+      WIDTH / 2 - 230,
+      btnY,
+      "← 偏左 (A)",
+      () => {
+        if (this.phase === "active" && !this.locked) this.handleInput("LEFT");
+      },
+      { w: 190, h: 48, fontSize: 18, fill: 0x242a3f, fillHover: 0x3d4766 }
+    );
+
+    makeButton(
+      this,
+      WIDTH / 2,
+      btnY,
+      "↓ 跳过 (空格)",
+      () => {
+        if (this.phase === "active" && !this.locked) this.handleInput("SKIP");
+      },
+      { w: 190, h: 48, fontSize: 18, fill: 0x242a3f, fillHover: 0x3d4766 }
+    );
+
+    makeButton(
+      this,
+      WIDTH / 2 + 230,
+      btnY,
+      "偏右 (D) →",
+      () => {
+        if (this.phase === "active" && !this.locked) this.handleInput("RIGHT");
+      },
+      { w: 190, h: 48, fontSize: 18, fill: 0x242a3f, fillHover: 0x3d4766 }
+    );
+
+    makeButton(
+      this,
+      WIDTH - 65,
+      HEIGHT - 22,
+      "退出 ✕",
+      () => this.quitGame(),
+      { w: 80, h: 28, fontSize: 13, fill: 0x2b324c, fillHover: 0x3e4766 }
+    );
+
     this.add
-      .text(WIDTH / 2, HEIGHT - 22, `${ACTION_HINT}　·　ESC 退出本局`, { fontFamily: fontStack(), fontSize: "15px", color: COLORS.sub })
+      .text(WIDTH / 2 - 40, HEIGHT - 22, `${ACTION_HINT}　·　ESC 退出本局`, { fontFamily: fontStack(), fontSize: "15px", color: COLORS.sub })
       .setOrigin(0.5);
 
     // 输入
@@ -150,14 +196,18 @@ export class GameScene extends Phaser.Scene {
     this.timerG.clear();
   }
 
+  private quitGame(): void {
+    if (this.phase !== "result") {
+      const result = this.session.quit();
+      this.scene.start("Result", { result, meta: this.meta });
+    }
+  }
+
   private onKey(ev: KeyboardEvent): void {
     // ESC：随时退出本局（禅/练习模式没有自然结束点）
     if (ev.key === "Escape") {
       ev.preventDefault();
-      if (this.phase !== "result") {
-        const result = this.session.quit();
-        this.scene.start("Result", { result, meta: this.meta });
-      }
+      this.quitGame();
       return;
     }
     if (this.phase !== "active" || this.locked) return;

@@ -67,7 +67,7 @@ export const case2: CaseDef = {
       source: '数据库审计',
       reliability: 1.0,
       facts: ['db_truncated', 'dev_ran_script'],
-      desc: '02:20 账号 dev_qiang 对 orders 表执行 TRUNCATE。'
+      desc: '02:20 开发阿强对 orders 表执行 TRUNCATE。'
     },
     {
       id: 'conn_log',
@@ -75,7 +75,7 @@ export const case2: CaseDef = {
       source: '配置中心',
       reliability: 1.0,
       facts: ['env_prod', 'config_changed_by_intern'],
-      desc: '02:00 环境变量 env 由 staging 改为 prod，修改人 intern_wu。'
+      desc: '02:00 环境变量 env 由 staging 改为 prod，修改人为实习生小吴。'
     },
     {
       id: 'script_file',
@@ -223,7 +223,7 @@ export const case2: CaseDef = {
     responsible: ['dev_qiang'],
     contributory: ['intern_wu'],
     action: 'truncate',
-    actionAliases: ['清空', 'truncate', 'truncate table', '删除表数据', '清表', '清空订单表'],
+    actionAliases: ['清空', 'truncate', 'truncate table', '删除表数据', '清表', '清空订单表', '清空表数据（TRUNCATE）'],
     requiredEvidence: ['db_audit', 'conn_log'],
     minEvidence: 2,
     requiredFacts: ['db_truncated', 'env_prod', 'config_changed_by_intern'],

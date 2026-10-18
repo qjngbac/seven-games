@@ -144,8 +144,8 @@ Copy-Item .\release\Seven-Games-Windows-Portable-2026-08-14.zip .\release\Games.
 提交源码与新的 `RELEASE_NOTES_vX.Y.Z.md`，推送后创建标签与 Release：
 
 ```powershell
-$version = 'v1.2.0'
-git add --all; git commit -m '发布 v1.2.0'; git push origin main
+$version = 'v1.3.0'
+git add --all; git commit -m '发布 v1.3.0'; git push origin main
 git tag -a $version -m "七款小游戏 Windows 便携版 $version"; git push origin $version
 
 gh release create $version `
@@ -163,5 +163,4 @@ gh release create $version `
 
 版权所有（C）2026 qjngbac。
 
-本项目采用 GNU 通用公共许可证第 3 版（`GPL-3.0-only`）发布，详见
-[`LICENSE`](LICENSE)。
+本项目采用 MIT 许可证发布，详见 [`LICENSE`](LICENSE)。

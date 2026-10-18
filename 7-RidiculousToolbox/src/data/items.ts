@@ -80,7 +80,7 @@ export const TAG_LABELS: Record<string, string> = {
   cable: '线缆',
   clean: '清洁物',
   cloth: '布料',
-  cold: '冰淇淋',
+  cold: '低温冷物',
   container: '容器',
   electronic: '电器',
   fan: '风扇',

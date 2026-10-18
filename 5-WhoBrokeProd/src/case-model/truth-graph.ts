@@ -87,9 +87,9 @@ export class TruthGraph {
   }
 }
 
-/** "03:02" -> 分钟数。 */
+/** "03:02" -> 分钟数。支持 03:02、3:02、03：02、03点02分 等多种格式。 */
 export function toMin(t: string): number {
-  const m = /^(\d{1,2}):(\d{2})$/.exec(t.trim())
+  const m = /^(\d{1,2})\s*[:：点]\s*(\d{1,2})(?:分)?$/.exec(t.trim())
   if (!m) return Number.MAX_SAFE_INTEGER
   return Number(m[1]) * 60 + Number(m[2])
 }

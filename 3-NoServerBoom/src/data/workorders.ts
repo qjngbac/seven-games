@@ -11,12 +11,12 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: 'A 摄像头没了画面',
     chapter: 1,
     scene: '小办公室',
-    customer: 'A 摄像头黑屏了，是不是彻底坏了？急！',
-    customerAccurate: true,
-    constraints: { timeBudget: 30 },
+    customer: 'A 摄像头黑屏了，是不是镜头被雷劈烂了？急死我了，不行就换新的！',
+    customerAccurate: false,
+    constraints: { timeBudget: 10 },
     devices: ['sw_core', 'cam1'],
     faults: [{ fault: 'cam_port_loose', target: 'cam1' }],
-    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'restart_camera', 'clean_lens', 'factory_reset'],
+    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'clean_lens', 'replace_adapter', 'fix_ip', 'restart_camera', 'shake_device', 'blow_dust', 'poe_overvolt', 'factory_reset'],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
       { device: 'cam1', comp: 'videoAvailable', equals: true }
@@ -27,20 +27,20 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'test_cable', target: 'cam1' },
       { action: 'replug_cable', target: 'cam1' }
     ],
-    customerMessages: [{ atTime: 12, text: '师傅还在吗？A 点看不见人影啊！' }],
-    tutorial: '先看指示灯判断链路，再用测线仪找松动的接头，最后插紧即可。别一上来就恢复出厂。'
+    customerMessages: [{ atTime: 6, text: '师傅还在吗？A 点看不见人影啊！' }],
+    tutorial: '先看指示灯判断链路，再用测线仪找松动的接头，最后插紧即可。切勿盲目注入高压或恢复出厂。'
   },
   {
     id: 'wo_four_cam',
     title: '四路摄像头同时离线',
     chapter: 1,
     scene: '小办公室',
-    customer: '四个摄像头全黑了！是不是被黑客攻击了？！',
-    customerAccurate: true,
-    constraints: { timeBudget: 35, noFactoryReset: true },
+    customer: '四个摄像头全黑了！黑客攻击了机房！快把四个摄像头全部恢复出厂抹掉病毒！',
+    customerAccurate: false,
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4'],
     faults: [{ fault: 'switch_plug_loose' }],
-    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'restart_camera', 'clean_lens', 'factory_reset'],
+    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'clean_lens', 'replace_adapter', 'shake_device', 'magic_reboot', 'short_power_pins', 'factory_reset'],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
       { device: 'cam1', comp: 'videoAvailable', equals: true },
@@ -55,8 +55,8 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'replug_cable', target: 'sw_core' }
     ],
     customerMessages: [
-      { atTime: 10, text: '报警公司说我全盲了，快点啊！' },
-      { atTime: 25, text: '不会真要挨个重设摄像头吧？那太崩溃了。' }
+      { atTime: 5, text: '报警公司说我全盲了，快点啊！' },
+      { atTime: 9, text: '不会真要挨个重设摄像头吧？那太崩溃了。' }
     ]
   },
   {
@@ -64,19 +64,19 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '台式机黑屏开不了机',
     chapter: 1,
     scene: '办公位',
-    customer: '电脑按了没反应，显示器也不亮，急用！',
-    customerAccurate: true,
-    constraints: { timeBudget: 30 },
+    customer: '电脑开不了机，显示器也不亮！我昨天刚插了个来路不明的U盘，肯定是主板中毒了！',
+    customerAccurate: false,
+    constraints: { timeBudget: 10 },
     devices: ['pc1'],
     faults: [{ fault: 'pc_ram_loose', target: 'pc1' }],
-    availableActions: ['check_pc', 'pc_reseat_plug', 'pc_reseat_ram', 'pc_swap_monitor', 'pc_reboot', 'pc_clear_disk'],
+    availableActions: ['check_pc', 'pc_reseat_plug', 'pc_reseat_ram', 'pc_swap_monitor', 'pc_reboot', 'pc_clear_disk', 'shake_device', 'blow_dust', 'reinstall_driver', 'short_power_pins', 'format_system_drive'],
     acceptance: [{ device: 'pc1', comp: 'usable', equals: true }],
     funnyFeedback: '你重插内存时掉出一颗螺丝，客户说那是他上周丢的。',
     referencePath: [
       { action: 'check_pc', target: 'pc1' },
       { action: 'pc_reseat_ram', target: 'pc1' }
     ],
-    customerMessages: [{ atTime: 10, text: '会不会是显示器坏了？要不要直接换台新的？' }],
+    customerMessages: [{ atTime: 6, text: '会不会是显示器坏了？要不要直接换台新的？' }],
     tutorial: '先看电脑状态：供电/显示/系统/网络。内存松动会让系统起不来，重插内存条即可。'
   },
   {
@@ -84,19 +84,19 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '感应门不自动开',
     chapter: 1,
     scene: '门厅',
-    customer: '人走过去门不开，得手动推，太丢人了。',
-    customerAccurate: true,
-    constraints: { timeBudget: 30 },
+    customer: '人走过去门不开，非要手动推！门电机肯定是彻底报废了，帮我换个电机或者砸开！',
+    customerAccurate: false,
+    constraints: { timeBudget: 10 },
     devices: ['sdoor1'],
     faults: [{ fault: 'sd_sensor_dirty' }],
-    availableActions: ['check_sdoor', 'sd_clean_sensor', 'sd_align_sensor', 'sd_reset_controller', 'sd_lube'],
+    availableActions: ['check_sdoor', 'sd_clean_sensor', 'sd_align_sensor', 'sd_reset_controller', 'sd_lube', 'reopen_door', 'shake_device', 'short_power_pins', 'force_break'],
     acceptance: [{ device: 'sdoor1', comp: 'openOk', equals: true }],
     funnyFeedback: '你擦完传感器，门“唰”地开了，把客户吓一跳。',
     referencePath: [
       { action: 'check_sdoor', target: 'sdoor1' },
       { action: 'sd_clean_sensor', target: 'sdoor1' }
     ],
-    customerMessages: [{ atTime: 8, text: '是不是门坏了？直接换新门贵不贵？' }],
+    customerMessages: [{ atTime: 6, text: '是不是门坏了？直接砸开算了！' }],
     tutorial: '看感应门状态：传感器脏/错位、控制器死、门体卡阻都会失灵。先清洁传感器试试。'
   },
   // ===== 第二章：多设备、网线、服务器网络 =====
@@ -107,17 +107,17 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '服务器一直嗡嗡报警，吵死了，帮我弄静就行！',
     customerAccurate: false,
-    constraints: { timeBudget: 30, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['server'],
     faults: [{ fault: 'server_overheat' }],
-    availableActions: ['inspect_power', 'inspect_thermal', 'inspect_link', 'clean_fan', 'mute_alarm', 'restart_service', 'reset_nic'],
+    availableActions: ['inspect_power', 'inspect_thermal', 'inspect_link', 'clean_fan', 'mute_alarm', 'restart_service', 'reset_nic', 'clear_disk', 'shake_device', 'magic_reboot', 'short_power_pins', 'format_system_drive'],
     acceptance: [{ device: 'server', comp: 'alarmActive', equals: false }],
     funnyFeedback: '你把告警静音了，服务器感动得继续发烧。',
     referencePath: [
       { action: 'inspect_thermal', target: 'server' },
       { action: 'clean_fan', target: 'server' }
     ],
-    customerMessages: [{ atTime: 8, text: '静音就行，别动别的，我赶时间。' }]
+    customerMessages: [{ atTime: 6, text: '静音就行，别动别的，我赶时间。' }]
   },
   {
     id: 'wo_nvr_disk',
@@ -126,14 +126,14 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '回放找不到最近录像，NVR 灯红了。',
     customerAccurate: true,
-    constraints: { timeBudget: 30 },
+    constraints: { timeBudget: 10 },
     devices: ['nvr'],
     faults: [{ fault: 'nvr_disk_full' }],
-    availableActions: ['inspect_power', 'clear_disk', 'delete_recordings', 'factory_reset'],
+    availableActions: ['inspect_power', 'clear_disk', 'delete_recordings', 'shake_device', 'hot_unplug_raid', 'factory_reset'],
     acceptance: [{ device: 'nvr', comp: 'recording', equals: true }],
     funnyFeedback: '你格式化了盘，客户三年前的“重要”录像没了，他其实只想要昨天的。',
     referencePath: [{ action: 'clear_disk', target: 'nvr' }],
-    customerMessages: [{ atTime: 15, text: '实在不行把盘格了也行，反正旧的不看。' }]
+    customerMessages: [{ atTime: 7, text: '实在不行把盘格了也行，反正旧的不看。' }]
   },
   {
     id: 'wo_printer_jam',
@@ -142,10 +142,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '办公区',
     customer: '打印机卡纸了，财务急着打报表！',
     customerAccurate: true,
-    constraints: { timeBudget: 25, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['printer'],
     faults: [{ fault: 'printer_jam' }],
-    availableActions: ['inspect_power', 'inspect_link', 'clear_paper_jam'],
+    availableActions: ['inspect_power', 'inspect_link', 'clear_paper_jam', 'reinstall_driver', 'shake_device', 'blow_dust', 'poe_overvolt'],
     acceptance: [{ device: 'printer', comp: 'printingOk', equals: true }],
     funnyFeedback: '你掏出半张被卡住的报表，上面写着“机密”。',
     referencePath: [
@@ -160,10 +160,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '小办公室',
     customer: 'A 摄像头又黑了，这次好像不是接头松，是线有问题。',
     customerAccurate: true,
-    constraints: { timeBudget: 35, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cab_cam1'],
     faults: [{ fault: 'cab_cut', target: 'cab_cam1' }],
-    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'cab_replug', 'cab_swap', 'restart_camera', 'clean_lens', 'factory_reset'],
+    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'cab_replug', 'cab_swap', 'clean_lens', 'tape_fix', 'shake_device', 'poe_overvolt', 'factory_reset'],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
       { device: 'cam1', comp: 'videoAvailable', equals: true }
@@ -173,7 +173,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'test_cable', target: 'cab_cam1' },
       { action: 'cab_swap', target: 'cab_cam1' }
     ],
-    customerMessages: [{ atTime: 12, text: '别又让我重设摄像头啊，上回折腾半天。' }],
+    customerMessages: [{ atTime: 7, text: '别又让我重设摄像头啊，上回折腾半天。' }],
     tutorial: '用测线仪查网线：断裂要整根换，接头松只需重插两端。'
   },
   {
@@ -183,10 +183,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '四个摄像头又黑了！是不是交换机插头又松了？',
     customerAccurate: false,
-    constraints: { timeBudget: 40, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'cab_trunk'],
     faults: [{ fault: 'cab_trunk_cut' }],
-    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'cab_replug', 'cab_swap', 'restart_camera', 'clean_lens', 'factory_reset'],
+    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'cab_replug', 'cab_swap', 'tape_fix', 'shake_device', 'short_power_pins', 'factory_reset'],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
       { device: 'cam2', comp: 'online', equals: true },
@@ -200,8 +200,8 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'cab_swap', target: 'cab_trunk' }
     ],
     customerMessages: [
-      { atTime: 10, text: '肯定又是交换机松了，老毛病！' },
-      { atTime: 28, text: '不会要我逐台重设吧？' }
+      { atTime: 5, text: '肯定又是交换机松了，老毛病！' },
+      { atTime: 9, text: '不会要我逐台重设吧？' }
     ]
   },
   {
@@ -211,17 +211,17 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '业务系统上不去了，Ping 不通服务器，是不是网线松了？',
     customerAccurate: true,
-    constraints: { timeBudget: 30 },
+    constraints: { timeBudget: 10 },
     devices: ['server'],
     faults: [{ fault: 'server_net_down' }],
-    availableActions: ['inspect_power', 'inspect_thermal', 'inspect_link', 'clean_fan', 'mute_alarm', 'restart_service', 'reset_nic'],
+    availableActions: ['inspect_power', 'inspect_thermal', 'inspect_link', 'clean_fan', 'restart_service', 'reset_nic', 'flush_dns_blindly', 'short_power_pins'],
     acceptance: [{ device: 'server', comp: 'netUp', equals: true }],
     funnyFeedback: '你复位网卡，网络通了，服务器长舒一口气。',
     referencePath: [
       { action: 'inspect_link', target: 'server' },
       { action: 'reset_nic', target: 'server' }
     ],
-    customerMessages: [{ atTime: 10, text: '先别重启服务，万一是网络的事呢？' }]
+    customerMessages: [{ atTime: 6, text: '先别重启服务，万一是网络的事呢？' }]
   },
   // ===== 第三章：错误客户描述、并发、摄像头差异化、蓝屏 =====
   {
@@ -231,10 +231,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '门厅',
     customer: '这门彻底坏了，干脆砸开吧！',
     customerAccurate: false,
-    constraints: { timeBudget: 30 },
+    constraints: { timeBudget: 10 },
     devices: ['door1'],
     faults: [{ fault: 'door_lock_jam' }],
-    availableActions: ['inspect_power', 'reopen_door', 'force_break'],
+    availableActions: ['inspect_power', 'reopen_door', 'replug_cable', 'shake_device', 'tape_fix', 'short_power_pins', 'force_break'],
     acceptance: [{ device: 'door1', comp: 'openOk', equals: true }],
     funnyFeedback: '你真砸了门。物业看着你，默默记下了工号。',
     referencePath: [
@@ -250,10 +250,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '小办公室',
     customer: 'B 摄像头离线了，重连一下就行吧？',
     customerAccurate: false,
-    constraints: { timeBudget: 30, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['sw_core', 'cam2'],
     faults: [{ fault: 'cam_lens_blocked', target: 'cam2' }],
-    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'restart_camera', 'clean_lens', 'factory_reset'],
+    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'clean_lens', 'replug_cable', 'restart_camera', 'reload_cam_config', 'shake_device', 'poe_overvolt', 'factory_reset'],
     acceptance: [
       { device: 'cam2', comp: 'online', equals: true },
       { device: 'cam2', comp: 'videoAvailable', equals: true }
@@ -263,7 +263,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'inspect_link', target: 'cam2' },
       { action: 'clean_lens', target: 'cam2' }
     ],
-    customerMessages: [{ atTime: 10, text: '肯定离线了，我老经验了。' }]
+    customerMessages: [{ atTime: 6, text: '肯定离线了，我老经验了。' }]
   },
   {
     id: 'wo_server_double',
@@ -272,10 +272,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '服务器又报警又提示服务不可用，我忙疯了。',
     customerAccurate: true,
-    constraints: { timeBudget: 40, noFactoryReset: true },
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['server'],
     faults: [{ fault: 'server_overheat' }, { fault: 'server_service_down' }],
-    availableActions: ['inspect_power', 'inspect_thermal', 'inspect_link', 'clean_fan', 'mute_alarm', 'restart_service', 'reset_nic'],
+    availableActions: ['inspect_power', 'inspect_thermal', 'inspect_link', 'clean_fan', 'mute_alarm', 'restart_service', 'reset_nic', 'clear_disk', 'magic_reboot', 'short_power_pins', 'format_system_drive'],
     acceptance: [
       { device: 'server', comp: 'alarmActive', equals: false },
       { device: 'server', comp: 'serviceRunning', equals: true }
@@ -294,10 +294,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '小办公室',
     customer: 'C 摄像头在线但回放找不到录像，重启一下？',
     customerAccurate: false,
-    constraints: { timeBudget: 30, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['sw_core', 'cam3'],
     faults: [{ fault: 'cam_ip_conflict', target: 'cam3' }],
-    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'restart_camera', 'fix_ip', 'clean_lens', 'factory_reset'],
+    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'restart_camera', 'fix_ip', 'clean_lens', 'flush_dns_blindly', 'poe_overvolt', 'factory_reset'],
     acceptance: [
       { device: 'cam3', comp: 'online', equals: true },
       { device: 'cam3', comp: 'recording', equals: true }
@@ -307,7 +307,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'check_cam', target: 'cam3' },
       { action: 'fix_ip', target: 'cam3' }
     ],
-    customerMessages: [{ atTime: 10, text: '重启肯定好，别整那些花的。' }],
+    customerMessages: [{ atTime: 6, text: '重启肯定好，别整那些花的。' }],
     tutorial: '在线却不录像，多半是 IP 冲突而非离线。看状态里的“IP冲突”，释放续租即可。'
   },
   {
@@ -317,17 +317,17 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '办公位',
     customer: '电脑蓝屏了，重启有用吗？',
     customerAccurate: true,
-    constraints: { timeBudget: 30, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['pc1'],
     faults: [{ fault: 'pc_bsod', target: 'pc1' }],
-    availableActions: ['check_pc', 'pc_reseat_plug', 'pc_reseat_ram', 'pc_swap_monitor', 'pc_reboot', 'pc_clear_disk'],
+    availableActions: ['check_pc', 'pc_reseat_plug', 'pc_reseat_ram', 'pc_swap_monitor', 'pc_reboot', 'pc_clear_disk', 'reinstall_driver', 'short_power_pins', 'format_system_drive'],
     acceptance: [{ device: 'pc1', comp: 'usable', equals: true }],
     funnyFeedback: '重启后蓝屏没了，桌面上还留着半杯没洒的咖啡。',
     referencePath: [
       { action: 'check_pc', target: 'pc1' },
       { action: 'pc_reboot', target: 'pc1' }
     ],
-    customerMessages: [{ atTime: 8, text: '重启能好就别修，我赶报告。' }]
+    customerMessages: [{ atTime: 6, text: '重启能好就别修，我赶报告。' }]
   },
   {
     id: 'wo_cam_focus',
@@ -336,10 +336,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '小办公室',
     customer: 'D 摄像头在线但画面糊得像打了马赛克。',
     customerAccurate: true,
-    constraints: { timeBudget: 30, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['sw_core', 'cam4'],
     faults: [{ fault: 'cam_focus_lost', target: 'cam4' }],
-    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'replug_cable', 'restart_camera', 'refocus', 'clean_lens', 'factory_reset'],
+    availableActions: ['inspect_power', 'inspect_link', 'test_cable', 'check_cam', 'clean_lens', 'refocus', 'restart_camera', 'shake_device', 'poe_overvolt', 'factory_reset'],
     acceptance: [
       { device: 'cam4', comp: 'online', equals: true },
       { device: 'cam4', comp: 'videoAvailable', equals: true }
@@ -349,7 +349,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'check_cam', target: 'cam4' },
       { action: 'refocus', target: 'cam4' }
     ],
-    customerMessages: [{ atTime: 10, text: '是不是镜头脏了？擦擦呗。' }],
+    customerMessages: [{ atTime: 6, text: '是不是镜头脏了？擦擦呗。' }],
     tutorial: '在线但画面异常，可能是失焦（而非遮挡）。看清状态再动手。'
   },
   // ===== 第四章：荒诞并发、四路差异化、感应门双重 =====
@@ -358,9 +358,9 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '猫把光纤啃了',
     chapter: 4,
     scene: '荒诞机房',
-    customer: '监控全黑，机房里还有猫叫！',
-    customerAccurate: true,
-    constraints: { timeBudget: 40, noFactoryReset: true },
+    customer: '监控全黑，机房里还有猫叫！肯定是猫把主光纤咬断了，快去接光纤！',
+    customerAccurate: false,
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4'],
     faults: [
       { fault: 'switch_plug_loose' },
@@ -374,6 +374,11 @@ export const WORK_ORDERS: WorkOrder[] = [
       'replug_cable',
       'restart_camera',
       'clean_lens',
+      'shake_device',
+      'tape_fix',
+      'blow_dust',
+      'short_power_pins',
+      'poe_overvolt',
       'factory_reset'
     ],
     acceptance: [
@@ -383,12 +388,12 @@ export const WORK_ORDERS: WorkOrder[] = [
       { device: 'cam3', comp: 'videoAvailable', equals: true },
       { device: 'cam4', comp: 'online', equals: true }
     ],
-    funnyFeedback: '你把猫请出机房，它回头叼走了你的螺丝刀。',
+    funnyFeedback: '你把猫请出机房，插紧电源并擦净 cam3 镜头。猫回头叼走了你的螺丝刀。',
     referencePath: [
       { action: 'replug_cable', target: 'sw_core' },
       { action: 'clean_lens', target: 'cam3' }
     ],
-    customerMessages: [{ atTime: 12, text: '猫是我养的，别伤它啊！' }]
+    customerMessages: [{ atTime: 6, text: '猫是我养的，别伤它啊！光纤真断了吗？' }]
   },
   {
     id: 'wo_cam_quad_diff',
@@ -397,7 +402,7 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '四路摄像头毛病都不一样：A 没画面、B 被挡、C 不录像、D 进水，救救我！',
     customerAccurate: true,
-    constraints: { timeBudget: 52, noFactoryReset: true },
+    constraints: { timeBudget: 22, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'cab_cam1', 'cab_cam2', 'cab_cam3', 'cab_cam4'],
     faults: [
       { fault: 'cam_port_loose', target: 'cam1' },
@@ -418,6 +423,10 @@ export const WORK_ORDERS: WorkOrder[] = [
       'dry_camera',
       'replace_adapter',
       'replace_ir',
+      'shake_device',
+      'tape_fix',
+      'pray_totem',
+      'poe_overvolt',
       'factory_reset'
     ],
     acceptance: [
@@ -440,8 +449,8 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'dry_camera', target: 'cam4' }
     ],
     customerMessages: [
-      { atTime: 15, text: 'A 肯定是线松了！' },
-      { atTime: 35, text: 'C 是不是该重启？' }
+      { atTime: 10, text: 'A 肯定是线松了！' },
+      { atTime: 18, text: 'C 是不是该重启？千万别按错！' }
     ],
     tutorial: '四路根因各不相同：A 网口松、B 镜头挡、C IP 冲突、D 进水。逐个诊断、对症下药，别一刀切恢复出厂。'
   },
@@ -450,29 +459,29 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '感应门双重失灵',
     chapter: 4,
     scene: '门厅',
-    customer: '感应门有时开有时不开，摸不着头脑。',
-    customerAccurate: true,
-    constraints: { timeBudget: 35, noFactoryReset: true },
+    customer: '感应门有时开有时不开，摸不着头脑，是不是主控板要烧了？',
+    customerAccurate: false,
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['sdoor1'],
     faults: [{ fault: 'sd_sensor_dirty' }, { fault: 'sd_sensor_misalign' }],
-    availableActions: ['check_sdoor', 'sd_clean_sensor', 'sd_align_sensor', 'sd_reset_controller', 'sd_lube'],
+    availableActions: ['check_sdoor', 'sd_clean_sensor', 'sd_align_sensor', 'sd_reset_controller', 'sd_lube', 'shake_device', 'tape_fix', 'blow_dust', 'short_power_pins'],
     acceptance: [{ device: 'sdoor1', comp: 'openOk', equals: true }],
-    funnyFeedback: '你擦又校，门终于老老实实感应了。',
+    funnyFeedback: '你擦又校，门终于老老实实感应了。主控板毫无问题。',
     referencePath: [
       { action: 'check_sdoor', target: 'sdoor1' },
       { action: 'sd_clean_sensor', target: 'sdoor1' },
       { action: 'sd_align_sensor', target: 'sdoor1' }
     ],
-    customerMessages: [{ atTime: 10, text: '该不会要换门吧？' }]
+    customerMessages: [{ atTime: 7, text: '该不会要换整樘门吧？' }]
   },
   {
     id: 'wo_final',
     title: '全栈崩溃',
     chapter: 4,
     scene: '综合机房',
-    customer: '摄像头全黑，录像也停了。今天别把机房炸了！',
-    customerAccurate: true,
-    constraints: { timeBudget: 44, noFactoryReset: true },
+    customer: '摄像头全黑，录像也停了。肯定是硬盘烧坏带着整网崩溃了，今天别把机房炸了！',
+    customerAccurate: false,
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'nvr'],
     faults: [{ fault: 'switch_plug_loose' }, { fault: 'nvr_disk_full' }],
     availableActions: [
@@ -484,6 +493,12 @@ export const WORK_ORDERS: WorkOrder[] = [
       'restart_camera',
       'clear_disk',
       'delete_recordings',
+      'shake_device',
+      'pray_totem',
+      'blow_dust',
+      'short_power_pins',
+      'format_system_drive',
+      'poe_overvolt',
       'factory_reset'
     ],
     acceptance: [
@@ -493,12 +508,12 @@ export const WORK_ORDERS: WorkOrder[] = [
       { device: 'cam4', comp: 'online', equals: true },
       { device: 'nvr', comp: 'recording', equals: true }
     ],
-    funnyFeedback: '你修完全栈，客户给你点了杯奶茶，备注“别炸机房”。',
+    funnyFeedback: '你插好交换机并清理了 NVR 磁盘，客户给你点了杯奶茶，备注“别炸机房”。',
     referencePath: [
       { action: 'replug_cable', target: 'sw_core' },
       { action: 'clear_disk', target: 'nvr' }
     ],
-    customerMessages: [{ atTime: 20, text: '稳住，我们老板在看着监控……可惜监控也黑了。' }]
+    customerMessages: [{ atTime: 8, text: '稳住，我们老板在看着监控……可惜监控也黑了。' }]
   },
   // ===== 第五章：综合多机（最难） =====
   {
@@ -506,9 +521,9 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '综合故障大乱斗',
     chapter: 5,
     scene: '综合机房',
-    customer: '摄像头黑、电脑死、门不感应，三个毛病一起来的，稳住！',
-    customerAccurate: true,
-    constraints: { timeBudget: 54, noFactoryReset: true },
+    customer: '摄像头黑、电脑死、门不感应，三个毛病一起来的，肯定总线雷击全烧了！',
+    customerAccurate: false,
+    constraints: { timeBudget: 18, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cab_cam1', 'pc1', 'sdoor1'],
     faults: [
       { fault: 'cab_cut', target: 'cab_cam1' },
@@ -535,7 +550,14 @@ export const WORK_ORDERS: WorkOrder[] = [
       'sd_clean_sensor',
       'sd_align_sensor',
       'sd_reset_controller',
-      'sd_lube'
+      'sd_lube',
+      'shake_device',
+      'tape_fix',
+      'reinstall_driver',
+      'magic_reboot',
+      'short_power_pins',
+      'poe_overvolt',
+      'format_system_drive'
     ],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
@@ -543,14 +565,14 @@ export const WORK_ORDERS: WorkOrder[] = [
       { device: 'pc1', comp: 'usable', equals: true },
       { device: 'sdoor1', comp: 'openOk', equals: true }
     ],
-    funnyFeedback: '你三件事一次搞定，客户怀疑你有没有分身。',
+    funnyFeedback: '你三件事一次搞定，网线换了、内存插紧、门传感器擦亮。客户怀疑你有没有分身。',
     referencePath: [
       { action: 'test_cable', target: 'cab_cam1' },
       { action: 'cab_swap', target: 'cab_cam1' },
       { action: 'pc_reseat_ram', target: 'pc1' },
       { action: 'sd_clean_sensor', target: 'sdoor1' }
     ],
-    customerMessages: [{ atTime: 20, text: '三样都要修？那我请你吃饭吧。' }],
+    customerMessages: [{ atTime: 9, text: '三样都要修？那我请你吃饭吧。' }],
     tutorial: '跨设备综合题：网线断→换线；内存松→重插；传感器脏→清洁。逐台诊断，别慌。'
   },
   {
@@ -558,9 +580,9 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '机房与工位双线告急',
     chapter: 5,
     scene: '机房+办公区',
-    customer: '服务器狂叫，工位电脑又蓝屏，今天活该加班。',
-    customerAccurate: true,
-    constraints: { timeBudget: 44, noFactoryReset: true },
+    customer: '服务器狂叫，工位电脑又蓝屏，肯定中毒了！把硬盘都格式化吧！',
+    customerAccurate: false,
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['server', 'pc1'],
     faults: [{ fault: 'server_overheat' }, { fault: 'pc_bsod', target: 'pc1' }],
     availableActions: [
@@ -576,20 +598,27 @@ export const WORK_ORDERS: WorkOrder[] = [
       'pc_reseat_ram',
       'pc_swap_monitor',
       'pc_reboot',
-      'pc_clear_disk'
+      'pc_clear_disk',
+      'blow_dust',
+      'shake_device',
+      'reinstall_driver',
+      'flush_dns_blindly',
+      'hot_unplug_raid',
+      'short_power_pins',
+      'format_system_drive'
     ],
     acceptance: [
       { device: 'server', comp: 'alarmActive', equals: false },
       { device: 'pc1', comp: 'usable', equals: true }
     ],
-    funnyFeedback: '你两头跑，服务器安静了，电脑也醒了，自己累趴了。',
+    funnyFeedback: '你两头跑，服务器清灰降温，电脑重启脱离蓝屏，自己累趴了。',
     referencePath: [
       { action: 'inspect_thermal', target: 'server' },
       { action: 'clean_fan', target: 'server' },
       { action: 'check_pc', target: 'pc1' },
       { action: 'pc_reboot', target: 'pc1' }
     ],
-    customerMessages: [{ atTime: 15, text: '服务器别静音了事啊，根因要除！' }]
+    customerMessages: [{ atTime: 7, text: '千万别乱格式化，里面有重要数据！' }]
   },
   {
     id: 'wo_cam_config',
@@ -598,13 +627,24 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '收银台+仓库',
     customer: '我就按了一下摄像头后面那个小孔说是能修卡顿，现在 A 摄像头不录像了，B 摄像头也时有时无……',
     customerAccurate: true,
-    constraints: { timeBudget: 30, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['nvr', 'cam1', 'cam2'],
     faults: [
       { fault: 'cam_config_lost', target: 'cam1' },
       { fault: 'cam_ip_conflict', target: 'cam2' }
     ],
-    availableActions: ['inspect_power', 'inspect_link', 'check_cam', 'restart_camera', 'reload_cam_config'],
+    availableActions: [
+      'inspect_power',
+      'inspect_link',
+      'check_cam',
+      'restart_camera',
+      'reload_cam_config',
+      'shake_device',
+      'blow_dust',
+      'flush_dns_blindly',
+      'poe_overvolt',
+      'factory_reset'
+    ],
     acceptance: [
       { device: 'cam1', comp: 'recording', equals: true },
       { device: 'cam2', comp: 'recording', equals: true }
@@ -615,7 +655,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'reload_cam_config', target: 'cam1' },
       { action: 'restart_camera', target: 'cam2' }
     ],
-    customerMessages: [{ atTime: 12, text: '那个小孔我再按一下能复原吗？——别！' }],
+    customerMessages: [{ atTime: 6, text: '那个小孔我再按一下能复原吗？——千万别！' }],
     tutorial: '"恢复出厂"会抹掉摄像头配置：链路正常但永远不录像。用"重新下发配置"找回参数；IP 冲突则重启摄像头刷新。'
   },
   // ===== 第六章：一环扣一环（连环故障） =====
@@ -626,17 +666,31 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '服务器一直报警，风扇我上周刚清过，怎么又热了？要不你再清一遍？',
     customerAccurate: false,
-    constraints: { timeBudget: 30, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['server', 'ac1'],
     faults: [{ fault: 'ac_off' }],
-    availableActions: ['inspect_power', 'inspect_thermal', 'check_ac', 'clean_fan', 'restart_ac', 'mute_alarm', 'restart_service', 'reset_nic'],
+    availableActions: [
+      'inspect_power',
+      'inspect_thermal',
+      'check_ac',
+      'clean_fan',
+      'restart_ac',
+      'mute_alarm',
+      'restart_service',
+      'reset_nic',
+      'blow_dust',
+      'shake_device',
+      'pray_totem',
+      'hot_unplug_raid',
+      'short_power_pins'
+    ],
     acceptance: [{ device: 'server', comp: 'alarmActive', equals: false }],
     funnyFeedback: '你复位空调，冷风一吹，服务器不叫了，客户愣是没反应过来空调才是真凶。',
     referencePath: [
       { action: 'check_ac', target: 'ac1' },
       { action: 'restart_ac', target: 'ac1' }
     ],
-    customerMessages: [{ atTime: 8, text: '清风扇就行，别动别的，我赶时间。' }],
+    customerMessages: [{ atTime: 6, text: '清风扇就行，别动别的，我赶时间。' }],
     tutorial: '服务器过热 ≠ 风扇坏。本关空调停机导致升温，清风扇无效——必须复位空调（根因）才能消除告警。'
   },
   {
@@ -646,7 +700,7 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '综合机房',
     customer: '全楼监控黑了，NVR 也说断电，是不是交换机又松了？',
     customerAccurate: false,
-    constraints: { timeBudget: 45, noFactoryReset: true },
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['pw_main', 'ups1', 'sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'nvr'],
     faults: [{ fault: 'mains_out' }, { fault: 'ups_battery_dead' }],
     availableActions: [
@@ -662,7 +716,11 @@ export const WORK_ORDERS: WorkOrder[] = [
       'restart_camera',
       'clean_lens',
       'cab_replug',
-      'cab_swap'
+      'cab_swap',
+      'shake_device',
+      'tape_fix',
+      'pray_totem',
+      'short_power_pins'
     ],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
@@ -678,8 +736,8 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'replace_ups_battery', target: 'ups1' }
     ],
     customerMessages: [
-      { atTime: 10, text: '肯定交换机松了，老毛病！' },
-      { atTime: 30, text: 'UPS 灯怎么也红着？' }
+      { atTime: 6, text: '肯定交换机松了，老毛病！' },
+      { atTime: 11, text: 'UPS 灯怎么也红着？' }
     ],
     tutorial: '市电跳闸 + UPS 电池耗尽 → 交换机/服务器/NVR 全部断电（连环）。合电闸恢复供电；换电池解除隐患。别只折腾摄像头。'
   },
@@ -690,10 +748,26 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '服务器上不了外网，是不是网卡又坏了？还有 WiFi 也没了，两台毛病？',
     customerAccurate: false,
-    constraints: { timeBudget: 30, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['router1', 'server', 'ap1'],
     faults: [{ fault: 'router_cfg_lost' }],
-    availableActions: ['inspect_power', 'inspect_link', 'check_router', 'reset_router', 'inspect_thermal', 'clean_fan', 'mute_alarm', 'restart_service', 'reset_nic', 'check_ap', 'repair_ap'],
+    availableActions: [
+      'inspect_power',
+      'inspect_link',
+      'check_router',
+      'reset_router',
+      'inspect_thermal',
+      'clean_fan',
+      'mute_alarm',
+      'restart_service',
+      'reset_nic',
+      'check_ap',
+      'repair_ap',
+      'flush_dns_blindly',
+      'reinstall_driver',
+      'magic_reboot',
+      'short_power_pins'
+    ],
     acceptance: [
       { device: 'server', comp: 'wanUp', equals: true },
       { device: 'ap1', comp: 'apUp', equals: true }
@@ -703,7 +777,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'check_router', target: 'router1' },
       { action: 'reset_router', target: 'router1' }
     ],
-    customerMessages: [{ atTime: 8, text: '先复位网卡试试？' }],
+    customerMessages: [{ atTime: 6, text: '先复位网卡试试？' }],
     tutorial: '服务器本地网通但外网断，且无线 AP 同掉——根因在网关（配置丢失），并非网卡。复位网卡/重启 AP 都治标。'
   },
   {
@@ -711,9 +785,9 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '交换机松了连 WiFi 也没',
     chapter: 6,
     scene: '综合机房',
-    customer: '监控黑了，WiFi 也连不上，两台毛病一起的？',
-    customerAccurate: true,
-    constraints: { timeBudget: 35, noFactoryReset: true },
+    customer: '监控黑了，WiFi 也连不上，肯定是网线让老鼠咬烂了，快重新布线！',
+    customerAccurate: false,
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'ap1'],
     faults: [{ fault: 'switch_plug_loose' }],
     availableActions: [
@@ -727,7 +801,12 @@ export const WORK_ORDERS: WorkOrder[] = [
       'check_ap',
       'repair_ap',
       'cab_replug',
-      'cab_swap'
+      'cab_swap',
+      'shake_device',
+      'tape_fix',
+      'blow_dust',
+      'short_power_pins',
+      'poe_overvolt'
     ],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
@@ -742,7 +821,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'test_cable', target: 'sw_core' },
       { action: 'replug_cable', target: 'sw_core' }
     ],
-    customerMessages: [{ atTime: 10, text: '监控和 WiFi 是不是两套系统啊？' }]
+    customerMessages: [{ atTime: 6, text: '监控和 WiFi 是不是两套系统啊？' }]
   },
   {
     id: 'wo_chain_fiber',
@@ -751,7 +830,7 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '四路监控又黑了！是不是又交换机松？',
     customerAccurate: false,
-    constraints: { timeBudget: 40, noFactoryReset: true },
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'nvr', 'fiber1', 'cab_trunk'],
     faults: [{ fault: 'fiber_cut' }],
     availableActions: [
@@ -764,7 +843,11 @@ export const WORK_ORDERS: WorkOrder[] = [
       'cab_swap',
       'restart_camera',
       'clean_lens',
-      'replace_fiber'
+      'replace_fiber',
+      'shake_device',
+      'tape_fix',
+      'blow_dust',
+      'short_power_pins'
     ],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
@@ -779,7 +862,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'inspect_link', target: 'fiber1' },
       { action: 'replace_fiber', target: 'fiber1' }
     ],
-    customerMessages: [{ atTime: 12, text: '交换机肯定松了，去插紧啊！' }],
+    customerMessages: [{ atTime: 6, text: '交换机肯定松了，去插紧啊！' }],
     tutorial: '交换机亮、网线完好，但主干链路仍断——查光纤收发模块。测线仪看不出光纤，用“查看指示灯”点光纤模块即可定位。'
   },
   {
@@ -787,24 +870,39 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '又热又断网',
     chapter: 6,
     scene: '机房',
-    customer: '服务器又报警又上不了内网（Ping 不通），今天啥都坏。',
-    customerAccurate: true,
-    constraints: { timeBudget: 40, noFactoryReset: true },
+    customer: '服务器又报警又上不了内网（Ping 不通），肯定是主板电容爆浆了。',
+    customerAccurate: false,
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['server', 'ac1'],
     faults: [{ fault: 'ac_off' }, { fault: 'server_net_down' }],
-    availableActions: ['inspect_power', 'inspect_thermal', 'check_ac', 'clean_fan', 'restart_ac', 'mute_alarm', 'inspect_link', 'reset_nic', 'restart_service'],
+    availableActions: [
+      'inspect_power',
+      'inspect_thermal',
+      'check_ac',
+      'clean_fan',
+      'restart_ac',
+      'mute_alarm',
+      'inspect_link',
+      'reset_nic',
+      'restart_service',
+      'blow_dust',
+      'shake_device',
+      'flush_dns_blindly',
+      'hot_unplug_raid',
+      'short_power_pins'
+    ],
     acceptance: [
       { device: 'server', comp: 'alarmActive', equals: false },
       { device: 'server', comp: 'netUp', equals: true }
     ],
-    funnyFeedback: '空调一开网卡一复位，服务器终于安分了。',
+    funnyFeedback: '空调一开网卡一复位，服务器终于安分了。主板好得很。',
     referencePath: [
       { action: 'check_ac', target: 'ac1' },
       { action: 'restart_ac', target: 'ac1' },
       { action: 'inspect_link', target: 'server' },
       { action: 'reset_nic', target: 'server' }
     ],
-    customerMessages: [{ atTime: 12, text: '热和断网是两件事吧？' }]
+    customerMessages: [{ atTime: 6, text: '热和断网是两件事吧？别把服务器拆了！' }]
   },
   {
     id: 'wo_chain_blackout',
@@ -813,7 +911,7 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '综合机房',
     customer: '全楼都没电了！监控黑、录像停、服务器叫、还热，这是要炸？',
     customerAccurate: true,
-    constraints: { timeBudget: 55, noFactoryReset: true },
+    constraints: { timeBudget: 18, noFactoryReset: true },
     devices: ['pw_main', 'ups1', 'ac1', 'sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'nvr', 'server'],
     faults: [{ fault: 'mains_out' }, { fault: 'ac_off' }, { fault: 'ups_battery_dead' }],
     availableActions: [
@@ -836,7 +934,12 @@ export const WORK_ORDERS: WorkOrder[] = [
       'mute_alarm',
       'clear_disk',
       'restart_service',
-      'reset_nic'
+      'reset_nic',
+      'shake_device',
+      'tape_fix',
+      'pray_totem',
+      'short_power_pins',
+      'hot_unplug_raid'
     ],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
@@ -853,7 +956,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'replace_ups_battery', target: 'ups1' },
       { action: 'restart_ac', target: 'ac1' }
     ],
-    customerMessages: [{ atTime: 15, text: '先别慌，一步步来！' }],
+    customerMessages: [{ atTime: 9, text: '先别慌，一步步来！' }],
     tutorial: '连环三因：市电跳闸→全断电、UPS 电池耗尽→无冗余、空调停机→服务器过热。合电闸恢复供电、换电池除隐患、开空调降温度。'
   },
   {
@@ -863,7 +966,7 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '综合机房',
     customer: '全完了：监控黑、录像停、服务器又热又上不了外网、WiFi 也没了，还闻到糊味！',
     customerAccurate: true,
-    constraints: { timeBudget: 70, noFactoryReset: true },
+    constraints: { timeBudget: 24, noFactoryReset: true },
     devices: ['pw_main', 'ups1', 'ac1', 'router1', 'sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'nvr', 'server', 'ap1', 'fiber1', 'cab_trunk'],
     faults: [
       { fault: 'fiber_cut' },
@@ -897,7 +1000,14 @@ export const WORK_ORDERS: WorkOrder[] = [
       'mute_alarm',
       'clear_disk',
       'restart_service',
-      'reset_nic'
+      'reset_nic',
+      'shake_device',
+      'tape_fix',
+      'pray_totem',
+      'flush_dns_blindly',
+      'short_power_pins',
+      'hot_unplug_raid',
+      'poe_overvolt'
     ],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
@@ -917,7 +1027,7 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'restart_ac', target: 'ac1' },
       { action: 'reset_router', target: 'router1' }
     ],
-    customerMessages: [{ atTime: 20, text: '你……还搞得定吧？' }],
+    customerMessages: [{ atTime: 12, text: '你……还搞得定吧？' }],
     tutorial: '五条根因连环：光纤断→主干断、市电跳闸+UPS 电池耗尽→全断电、空调停机→服务器过热、网关配置丢→外网/WiFi 断。逐一复位对应设备即可。'
   },
   {
@@ -927,7 +1037,7 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '综合机房',
     customer: '监控黑了我就把每个摄像头都恢复出厂、还把交换机拔下来吹了吹灰，结果全黑了，是不是设备坏了？',
     customerAccurate: false,
-    constraints: { timeBudget: 45, noFactoryReset: true },
+    constraints: { timeBudget: 14, noFactoryReset: true },
     devices: ['sw_core', 'cam1', 'cam2', 'cam3', 'cam4', 'nvr'],
     faults: [{ fault: 'switch_plug_loose' }, { fault: 'cam_config_lost', target: 'cam1' }],
     availableActions: [
@@ -940,7 +1050,12 @@ export const WORK_ORDERS: WorkOrder[] = [
       'cab_swap',
       'restart_camera',
       'reload_cam_config',
-      'clean_lens'
+      'clean_lens',
+      'shake_device',
+      'blow_dust',
+      'tape_fix',
+      'poe_overvolt',
+      'short_power_pins'
     ],
     acceptance: [
       { device: 'cam1', comp: 'recording', equals: true },
@@ -955,8 +1070,8 @@ export const WORK_ORDERS: WorkOrder[] = [
       { action: 'reload_cam_config', target: 'cam1' }
     ],
     customerMessages: [
-      { atTime: 10, text: '设备是不是该换了？我这就下单。' },
-      { atTime: 28, text: '哦对，我还按了摄像头的小孔……要紧吗？' }
+      { atTime: 6, text: '设备是不是该换了？我这就下单。' },
+      { atTime: 11, text: '哦对，我还按了摄像头的小孔……要紧吗？' }
     ],
     tutorial: '双重人为事故：交换机被拔松→全楼离线（共因）；恢复出厂→cam1 链路恢复后仍不录像。先复电，再"重新下发配置"。'
   },
@@ -970,10 +1085,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '办公区',
     customer: 'Wi-Fi 全没了，是不是路由器坏了？你顺便帮我换个路由吧。',
     customerAccurate: false,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['sw_core', 'ap1'],
     faults: [{ fault: 'ap_off' }],
-    availableActions: ['inspect_link', 'inspect_power', 'repair_ap'],
+    availableActions: ['inspect_link', 'inspect_power', 'repair_ap', 'flush_dns_blindly', 'shake_device', 'blow_dust', 'poe_overvolt', 'short_power_pins'],
     acceptance: [{ device: 'ap1', comp: 'apUp', equals: true }],
     funnyFeedback: '你没换路由器，只是重启了 AP。客户表示"早知道我也重启一下"。',
     referencePath: [
@@ -989,10 +1104,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '财务室',
     customer: '电脑按开机键一点反应都没有，肯定是主板烧了，我这就下单换主板。',
     customerAccurate: false,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['pc1'],
     faults: [{ fault: 'pc_plug_loose', target: 'pc1' }],
-    availableActions: ['inspect_power', 'pc_reseat_plug'],
+    availableActions: ['inspect_power', 'pc_reseat_plug', 'magic_reboot', 'blow_dust', 'reinstall_driver', 'short_power_pins'],
     acceptance: [{ device: 'pc1', comp: 'usable', equals: true }],
     funnyFeedback: '插头松了。你替主板洗清了罪名，客户把新主板退了。',
     referencePath: [
@@ -1008,10 +1123,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '财务室',
     customer: '屏幕黑的，但主机风扇在转、灯也亮，是不是显卡坏了？',
     customerAccurate: false,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['pc1'],
     faults: [{ fault: 'pc_monitor_bad', target: 'pc1' }],
-    availableActions: ['inspect_power', 'pc_swap_monitor'],
+    availableActions: ['inspect_power', 'pc_swap_monitor', 'magic_reboot', 'tape_fix', 'reinstall_driver', 'short_power_pins'],
     acceptance: [{ device: 'pc1', comp: 'usable', equals: true }],
     funnyFeedback: '换了显示器就好了。显卡松了一口气。',
     referencePath: [
@@ -1025,19 +1140,19 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '台式机卡在开机画面',
     chapter: 7,
     scene: '财务室',
-    customer: '开机一直转圈圈，进不去系统，重要合同都在里面！',
-    customerAccurate: true,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    customer: '开机一直转圈圈，进不去系统，重要合同都在里面！要不格式化重装系统？',
+    customerAccurate: false,
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['pc1'],
     faults: [{ fault: 'pc_disk_full', target: 'pc1' }],
-    availableActions: ['inspect_power', 'pc_clear_disk'],
+    availableActions: ['inspect_power', 'pc_clear_disk', 'reinstall_driver', 'shake_device', 'magic_reboot', 'format_system_drive'],
     acceptance: [{ device: 'pc1', comp: 'usable', equals: true }],
     funnyFeedback: '清了 40G 缓存，系统顺利进入。合同还在，客户发出了灵魂感叹。',
     referencePath: [
       { action: 'inspect_power', target: 'pc1' },
       { action: 'pc_clear_disk', target: 'pc1' }
     ],
-    tutorial: '系统盘写满会导致无法启动；清理系统盘即可恢复，无需重装。'
+    tutorial: '系统盘写满会导致无法启动；清理系统盘即可恢复，千万不要格式化。'
   },
   {
     id: 'wo_server_disk',
@@ -1046,10 +1161,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '业务全挂了！是不是内存又漏了？上次重启一下就好了。',
     customerAccurate: false,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['server'],
     faults: [{ fault: 'server_disk_full' }],
-    availableActions: ['inspect_power', 'restart_service', 'clear_disk'],
+    availableActions: ['inspect_power', 'restart_service', 'clear_disk', 'flush_dns_blindly', 'reinstall_driver', 'shake_device', 'format_system_drive', 'hot_unplug_raid'],
     acceptance: [{ device: 'server', comp: 'serviceRunning', equals: true }],
     funnyFeedback: '重启服务没用——磁盘满了。清完日志，服务自己就起来了。',
     referencePath: [
@@ -1065,10 +1180,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '写字楼大堂',
     customer: '门一点反应都没有，推也推不开，是不是停电了？',
     customerAccurate: false,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['sdoor1'],
     faults: [{ fault: 'sd_controller_dead' }],
-    availableActions: ['inspect_power', 'sd_reset_controller'],
+    availableActions: ['inspect_power', 'sd_reset_controller', 'shake_device', 'tape_fix', 'blow_dust', 'short_power_pins'],
     acceptance: [{ device: 'sdoor1', comp: 'openOk', equals: true }],
     funnyFeedback: '控制器死机了，复位后门"叮"地开了。客户尴尬地收回了"停电论"。',
     referencePath: [
@@ -1084,10 +1199,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '写字楼大堂',
     customer: '感应到了但门只开一条缝，像被什么卡住了。',
     customerAccurate: true,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    constraints: { timeBudget: 10, noFactoryReset: true },
     devices: ['sdoor1'],
     faults: [{ fault: 'sd_door_jam' }],
-    availableActions: ['inspect_power', 'sd_lube'],
+    availableActions: ['inspect_power', 'sd_lube', 'shake_device', 'tape_fix', 'pray_totem', 'short_power_pins'],
     acceptance: [{ device: 'sdoor1', comp: 'openOk', equals: true }],
     funnyFeedback: '门体导轨干涩卡阻，润滑之后顺畅开合。客户当场给它报了保养。',
     referencePath: [
@@ -1103,10 +1218,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '园区',
     customer: '白天画面好好的，一到晚上就一片黑，是不是被人黑了？',
     customerAccurate: false,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['sw_core', 'cam2'],
     faults: [{ fault: 'cam_ir_broken', target: 'cam2' }],
-    availableActions: ['inspect_link', 'check_cam', 'replace_ir'],
+    availableActions: ['inspect_link', 'check_cam', 'replace_ir', 'clean_lens', 'shake_device', 'blow_dust', 'poe_overvolt'],
     acceptance: [{ device: 'cam2', comp: 'nightVision', equals: true }],
     funnyFeedback: '红外灯板老化，换上新的夜视灯板，黑夜重新"亮"了。',
     referencePath: [
@@ -1123,10 +1238,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '园区',
     customer: '这个摄像头彻底不亮了，灯都不闪，肯定得换整机。',
     customerAccurate: false,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['sw_core', 'cam1'],
     faults: [{ fault: 'cam_power_adapter', target: 'cam1' }],
-    availableActions: ['inspect_link', 'check_cam', 'replace_adapter'],
+    availableActions: ['inspect_link', 'check_cam', 'replace_adapter', 'clean_lens', 'restart_camera', 'shake_device', 'poe_overvolt', 'short_power_pins'],
     acceptance: [
       { device: 'cam1', comp: 'online', equals: true },
       { device: 'cam1', comp: 'videoAvailable', equals: true }
@@ -1144,12 +1259,12 @@ export const WORK_ORDERS: WorkOrder[] = [
     title: '一路摄像头掉线：网线接头松',
     chapter: 7,
     scene: '园区',
-    customer: 'C 点这个摄像头突然就离线了，其他的都好。',
-    customerAccurate: true,
-    constraints: { timeBudget: 20, noFactoryReset: true },
+    customer: 'C 点这个摄像头突然就离线了，其他的都好。肯定是交换机炸了！',
+    customerAccurate: false,
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['sw_core', 'cam3', 'cab_cam3'],
     faults: [{ fault: 'cab_plug_loose', target: 'cab_cam3' }],
-    availableActions: ['inspect_link', 'test_cable', 'cab_replug', 'cab_swap'],
+    availableActions: ['inspect_link', 'test_cable', 'cab_replug', 'cab_swap', 'tape_fix', 'shake_device', 'blow_dust', 'poe_overvolt'],
     acceptance: [
       { device: 'cam3', comp: 'online', equals: true },
       { device: 'cam3', comp: 'videoAvailable', equals: true }
@@ -1169,10 +1284,10 @@ export const WORK_ORDERS: WorkOrder[] = [
     scene: '机房',
     customer: '整层楼都没电了！UPS 应该有电的吧，怎么也全断了？',
     customerAccurate: false,
-    constraints: { timeBudget: 25, noFactoryReset: true },
+    constraints: { timeBudget: 12, noFactoryReset: true },
     devices: ['pw_main', 'ups1', 'sw_core', 'server', 'nvr'],
     faults: [{ fault: 'mains_out' }, { fault: 'ups_fault' }],
-    availableActions: ['inspect_link', 'check_ups', 'reset_breaker', 'fix_ups'],
+    availableActions: ['inspect_link', 'check_ups', 'reset_breaker', 'fix_ups', 'shake_device', 'tape_fix', 'pray_totem', 'short_power_pins'],
     acceptance: [
       { device: 'sw_core', comp: 'powered', equals: true },
       { device: 'nvr', comp: 'recording', equals: true }

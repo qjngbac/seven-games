@@ -25,9 +25,9 @@
         "text": "监控正常就当没闻到",
         "effects": [
           { "type": "resource", "target": "spirit", "value": 1 },
-          { "type": "resource", "target": "techDebt", "value": 3 }
+          { "type": "resource", "target": "techDebt", "value": 6 }
         ],
-        "resultText": "你安慰自己监控没事。精神 +1，技术债 +3。",
+        "resultText": "你安慰自己监控没事。精神 +1，技术债 +6。",
         "delayed": {
           "daysLater": 2,
           "effects": [
@@ -272,10 +272,10 @@
         "id": "agree_excel",
         "text": "先凑合用 Excel",
         "effects": [
-          { "type": "resource", "target": "money", "value": 2 },
-          { "type": "resource", "target": "techDebt", "value": 4 }
+          { "type": "resource", "target": "money", "value": 3 },
+          { "type": "resource", "target": "techDebt", "value": 8 }
         ],
-        "resultText": "上线飞快。金钱 +2，技术债 +4。你听见未来的自己在尖叫。",
+        "resultText": "上线飞快。金钱 +3，技术债 +8。你听见未来的自己在尖叫。",
         "hidden": "埋雷"
       },
       {

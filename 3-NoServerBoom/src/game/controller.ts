@@ -1,4 +1,4 @@
-import { ActionDef, DeviceDef, FaultDef, ResultData, SymptomInstance, TimelineEntry, WorkOrder, bv } from './types'
+import { ActionDef, DeviceDef, FaultDef, ResultData, SymptomInstance, TimelineEntry, WorkOrder, WorldView, bv } from './types'
 import { SimulationWorld } from './simulation'
 import { deviceSymptoms, sceneInsight } from './symptoms'
 import { DEVICE_BY_ID } from '../data/devices'
@@ -42,6 +42,9 @@ export class WorkOrderController {
   timeline: TimelineEntry[] = []
   log: string[] = []
   violated = false
+  /** 是否发生灾难性炸机事故 */
+  boom = false
+  boomReason = ''
   /** 已造成的不可逆损失（配置/录像/门体等永久损害） */
   collateral: CollateralLoss[] = []
   /** 结算结果缓存：保证 submit() 幂等，重复提交不会重复计分 */
@@ -122,6 +125,13 @@ export class WorkOrderController {
     // 记录执行前的不可逆损失状态，用于识别"本次操作是否新增了永久损害"
     const lossBefore = new Map<string, boolean>()
     for (const comp of IRREVERSIBLE_LOSS_COMPS) lossBefore.set(comp, bv(this.world.View, target, comp))
+    
+    // 拍摄执行前快照，供动态 log 逻辑对比
+    const snapBefore = this.world.snapshot()
+    const beforeView: WorldView = {
+      get: (d: string, c: string) => snapBefore[`${d}.${c}`]
+    }
+
     this.world.applyActionEffects(fx, target)
     for (const comp of IRREVERSIBLE_LOSS_COMPS) {
       if (!lossBefore.get(comp) && bv(this.world.View, target, comp)) {
@@ -131,8 +141,23 @@ export class WorkOrderController {
 
     const step = this.timeline.length + 1
     this.timeUsed += a.time
-    const reveal = a.reveal ? a.reveal(this.world.View, target) : a.log
-    const displayLog = a.category === 'inspect' ? `🔍 ${reveal}` : `🔧 ${a.log}`
+
+    // 灾难性错误操作：直接引爆机房
+    if (a.catastrophic) {
+      this.boom = true
+      this.boomReason = a.catastrophicReason ?? '高危错误操作引发机房重大灾难'
+    }
+
+    let displayLog: string
+    if (a.catastrophic) {
+      displayLog = `💥 ${a.catastrophicReason ?? a.log}`
+    } else if (a.category === 'inspect') {
+      const reveal = a.reveal ? a.reveal(this.world.View, target) : (typeof a.log === 'function' ? a.log(beforeView, this.world.View, target) : a.log)
+      displayLog = `🔍 ${reveal}`
+    } else {
+      const logText = typeof a.log === 'function' ? a.log(beforeView, this.world.View, target) : a.log
+      displayLog = `🔧 ${logText}`
+    }
     this.log.unshift(displayLog)
 
     const entry: TimelineEntry = {
@@ -169,7 +194,7 @@ export class WorkOrderController {
     if (this.lastResult) return this.lastResult
     this.phase = 'result'
     const lost = this.collateral.length > 0
-    const cleared = this.acceptanceMet() && !this.violated && !this.timeOverdue()
+    let cleared = this.acceptanceMet() && !this.violated && !this.timeOverdue() && !this.boom
     const rootFixed = this.rootCauseFixed()
 
     let score = 100
@@ -184,10 +209,10 @@ export class WorkOrderController {
       }
       score -= e.damage
     }
-    if (this.timeOverdue()) score -= (this.timeUsed - (this.wo.constraints.timeBudget ?? 0)) * 2
+    if (this.timeOverdue()) score -= (this.timeUsed - (this.wo.constraints.timeBudget ?? 0)) * 5
     if (this.violated) score -= 40
     if (!rootFixed) score -= 20
-    // 不可逆损失额外扣分（与 damage 不重复：damage 计"操作代价"，此处计"永久损害"）
+    // 不可逆损失额外扣分
     score -= 10 * this.collateral.length
     // 高效奖励
     if (cleared && !this.timeOverdue()) score += 5
@@ -195,12 +220,20 @@ export class WorkOrderController {
 
     let satisfaction = 100 - damageCount - riskyCount * 15
     if (this.violated) satisfaction -= 40
-    // 永久损害对客户满意度是硬伤
     satisfaction -= 15 * this.collateral.length
     satisfaction = Math.max(0, Math.min(100, satisfaction))
 
+    if (satisfaction <= 0) {
+      cleared = false
+    }
+
     let grade: ResultData['grade'] = 'F'
-    if (cleared) {
+    if (this.boom) {
+      cleared = false
+      score = 0
+      satisfaction = 0
+      grade = 'F'
+    } else if (cleared) {
       if (score >= 95) grade = 'S'
       else if (score >= 80) grade = 'A'
       else if (score >= 65) grade = 'B'
@@ -211,7 +244,10 @@ export class WorkOrderController {
     }
 
     let title: string
-    if (!cleared) title = '工单失败'
+    if (this.boom) title = '💥 机房炸了！重大事故'
+    else if (this.timeOverdue()) title = '⏰ 严重超时！工单取消'
+    else if (satisfaction <= 0) title = '💢 客户暴怒！解除合同'
+    else if (!cleared) title = '工单失败'
     else if (lost) title = rootFixed ? '根因已消除（但造成不可逆损失）' : '临时修好（根因仍在，且造成不可逆损失）'
     else title = rootFixed ? '根因已消除' : '临时修好（根因仍在）'
 
@@ -224,7 +260,7 @@ export class WorkOrderController {
       score,
       timeUsed: this.timeUsed,
       timeBudget: this.wo.constraints.timeBudget ?? 0,
-      budgetUsed: damageCount,
+      budgetUsed: 0,
       damageCount,
       riskyCount,
       absurdCount,
@@ -232,8 +268,10 @@ export class WorkOrderController {
       satisfaction,
       deviation,
       timeline: this.timeline,
-      funny: this.wo.funnyFeedback,
-      collateralLosses: [...this.collateral]
+      funny: this.boom ? `【灾难事故】${this.boomReason}` : this.wo.funnyFeedback,
+      collateralLosses: this.collateral,
+      boom: this.boom,
+      boomReason: this.boomReason
     }
     this.lastResult = result
     return result

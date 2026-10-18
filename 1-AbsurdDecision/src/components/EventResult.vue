@@ -47,7 +47,8 @@ onUnmounted(() => window.removeEventListener("keydown", onKey));
       ⏳ 后续：{{ game.result.delayedNote }}
     </div>
 
-    <div class="row" style="justify-content: flex-end; margin-top: 14px">
+    <div class="row" style="justify-content: space-between; align-items: center; margin-top: 14px">
+      <button class="btn ghost" @click="game.quitToMenu()">保存并回主菜单</button>
       <button class="btn" @click="game.advanceFromResult()">继续 (Enter)</button>
     </div>
   </div>

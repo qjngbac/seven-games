@@ -189,6 +189,9 @@ h3 {
   padding: 1px 7px;
   border-radius: 6px;
   border: 1px solid var(--line);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
 }
 .tag.risk {
   color: var(--risk);

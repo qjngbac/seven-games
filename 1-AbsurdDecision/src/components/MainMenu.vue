@@ -1,20 +1,28 @@
 <script setup lang="ts">
 import { useGame } from "../stores/game";
 const game = useGame();
+
+function goLobby(): void {
+  window.location.href = "../../index.html";
+}
 </script>
 
 <template>
   <div class="card center menu">
     <div class="title-xl">今天也要做决定</div>
-    <div class="subtitle">搞笑叙事选择 · 轻度数值管理 · 一个荒诞的工作日</div>
-    <div class="row" style="justify-content: center; margin-top: 18px">
+    <div class="subtitle">搞笑叙事选择 · 轻度数值管理 · 职场与生活奇遇记</div>
+    <div class="row" style="justify-content: center; margin-top: 18px; gap: 12px; flex-wrap: wrap">
       <button class="btn" @click="game.newGame()">新游戏</button>
       <button class="btn blue" v-if="game.canContinue" @click="game.continueGame()">
         继续
       </button>
+      <button class="btn ghost" @click="game.openHistory('gallery')" title="查看已解锁结局与历史战绩">
+        🏆 结局图鉴与历史 ({{ game.unlockedCount }}/{{ game.totalEndings }})
+      </button>
+      <button class="btn ghost" @click="goLobby()">🏠 游戏大厅</button>
     </div>
     <div class="subtitle" style="margin-top: 14px">
-      内容：{{ game.CONTENT_STATS.kept }} 个事件 · 共 {{ game.CONTENT_STATS.total }} 条
+      内容：{{ game.CONTENT_STATS.kept }} 个事件 · 覆盖职场、通勤、家庭、租房、社交与摸鱼
     </div>
     <p class="tip">
       每个选择都有代价。你会「明知合理答案，却忍不住选那个更好笑的」——这就是今天的主题。

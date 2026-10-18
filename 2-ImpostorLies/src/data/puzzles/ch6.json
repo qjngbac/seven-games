@@ -53,7 +53,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我不是真人。",
+        "text": "我不是真人",
         "expr": {
           "op": "not",
           "arg": {
@@ -66,7 +66,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "红衣玩家 在说谎。",
+        "text": "红衣玩家 在说谎",
         "expr": {
           "op": "not",
           "arg": {
@@ -78,7 +78,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "黄衣玩家 是伪装者。",
+        "text": "黄衣玩家 是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "D",
@@ -88,7 +88,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "绿衣玩家 在说谎。",
+        "text": "绿衣玩家 在说谎",
         "expr": {
           "op": "not",
           "arg": {
@@ -100,7 +100,7 @@
       {
         "id": "stmt_E",
         "speaker": "E",
-        "text": "绿衣玩家 说的是真话。",
+        "text": "绿衣玩家 说的是真话",
         "expr": {
           "op": "stmtTruth",
           "statement": "stmt_C"
@@ -163,7 +163,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我是伪装者。",
+        "text": "我是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -173,7 +173,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "黄衣玩家 不是伪装者。",
+        "text": "黄衣玩家 不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -186,7 +186,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我是伪装者。",
+        "text": "我是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -196,7 +196,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "蓝衣玩家 在说谎。",
+        "text": "蓝衣玩家 在说谎",
         "expr": {
           "op": "not",
           "arg": {
@@ -208,7 +208,7 @@
       {
         "id": "stmt_E",
         "speaker": "E",
-        "text": "红衣玩家 不是伪装者。",
+        "text": "红衣玩家 不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -275,7 +275,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我不是伪装者。",
+        "text": "我不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -288,7 +288,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "红衣玩家 在说谎。",
+        "text": "红衣玩家 在说谎",
         "expr": {
           "op": "not",
           "arg": {
@@ -300,7 +300,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我不是真人。",
+        "text": "我不是真人",
         "expr": {
           "op": "not",
           "arg": {
@@ -313,7 +313,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "红衣玩家 说的是真话。",
+        "text": "红衣玩家 说的是真话",
         "expr": {
           "op": "stmtTruth",
           "statement": "stmt_A"
@@ -322,7 +322,7 @@
       {
         "id": "stmt_E",
         "speaker": "E",
-        "text": "我是真人。",
+        "text": "我是真人",
         "expr": {
           "op": "roleIs",
           "character": "E",
@@ -386,7 +386,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "绿衣玩家 是伪装者。",
+        "text": "绿衣玩家 是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -396,7 +396,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "红衣玩家 和 红衣玩家 说的真假不一样。",
+        "text": "红衣玩家 和 红衣玩家 说的真假不一样",
         "expr": {
           "op": "xorTruth",
           "left": "stmt_A",
@@ -406,7 +406,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "蓝衣玩家 和 红衣玩家 说的真假不一样。",
+        "text": "蓝衣玩家 和 红衣玩家 说的真假不一样",
         "expr": {
           "op": "xorTruth",
           "left": "stmt_B",
@@ -416,7 +416,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "红衣玩家 和 蓝衣玩家 说的真假不一样。",
+        "text": "红衣玩家 和 蓝衣玩家 说的真假不一样",
         "expr": {
           "op": "xorTruth",
           "left": "stmt_A",
@@ -426,7 +426,7 @@
       {
         "id": "stmt_E",
         "speaker": "E",
-        "text": "绿衣玩家 在说谎。",
+        "text": "绿衣玩家 在说谎",
         "expr": {
           "op": "not",
           "arg": {

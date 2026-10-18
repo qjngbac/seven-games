@@ -52,7 +52,7 @@ export const case4: CaseDef = {
       source: '配置中心',
       reliability: 1.0,
       facts: ['timeout_tightened', 'oncall_changed_config'],
-      desc: '22:00 网关 timeout 由 30s 改为 3s，修改人 oncall_feng。'
+      desc: '22:00 网关 timeout 由 30s 改为 3s，修改人为阿峰。'
     },
     {
       id: 'pay_deploy',
@@ -60,7 +60,7 @@ export const case4: CaseDef = {
       source: '发布平台',
       reliability: 1.0,
       facts: ['pay_deployed', 'retry_storm'],
-      desc: '22:30 支付 v2.3 上线，引入调用重试×5，发布人 pay_lead_zhen。'
+      desc: '22:30 支付 v2.3 上线，引入调用重试×5，发布人为阿珍。'
     },
     {
       id: 'monitor',
@@ -197,7 +197,7 @@ export const case4: CaseDef = {
     responsible: ['oncall_feng', 'pay_lead_zhen'],
     contributory: [],
     action: 'tighten_timeout',
-    actionAliases: ['调短超时并叠加重试', '超时过短加重试风暴', '缩短超时', '超短超时叠加重试', '两份变更叠加'],
+    actionAliases: ['调短超时并叠加重试', '超时过短加重试风暴', '缩短超时', '超短超时叠加重试', '两份变更叠加', '激进调短网关超时（30s→3s）'],
     requiredEvidence: ['gateway_cfg', 'pay_deploy'],
     minEvidence: 2,
     requiredFacts: ['timeout_tightened', 'retry_storm', 'cascade_outage'],

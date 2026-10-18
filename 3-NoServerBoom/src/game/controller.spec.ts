@@ -101,9 +101,9 @@ describe('症状由状态推导（非写死）', () => {
 })
 
 describe('操作前置条件不可绕过', () => {
-  it('服务未崩溃时“重启服务”不可用', () => {
+  it('设备类型不匹配时动作不可用（如在服务器上执行擦拭摄像头镜头）', () => {
     const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_server_alarm')!)
-    expect(c.canApply('restart_service', 'server').ok).toBe(false)
+    expect(c.canApply('clean_lens', 'server').ok).toBe(false)
   })
   it('未选目标设备时需要目标的动作不可用', () => {
     const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_cam1_loose')!)
@@ -307,12 +307,16 @@ describe('一环扣一环：供电主干（市电+UPS）', () => {
 })
 
 describe('一环扣一环：空调停机 → 服务器过热', () => {
-  it('空调停机导致服务器过热告警；清风扇无效，复位空调才治本', () => {
+  it('空调停机导致服务器过热告警；盲目清理风扇无法解决问题，复位空调才治本', () => {
     const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_chain_ac')!)
     expect(c.world.get('server', 'tempHigh')).toBe(true)
     expect(c.world.get('server', 'alarmActive')).toBe(true)
-    // 风扇本就正常，清洁动作不可用（前置不满足）
-    expect(c.canApply('clean_fan', 'server').ok).toBe(false)
+    // 玩家可以尝试清洁风扇，但由于风扇本身正常，告警依然存在
+    const r = c.apply('clean_fan', 'server')
+    expect(r.ok).toBe(true)
+    expect(r.log).toContain('并非灰尘引起')
+    expect(c.world.get('server', 'alarmActive')).toBe(true)
+    // 真正排查到空调停机并复位，告警消除
     c.apply('restart_ac', 'ac1')
     expect(c.world.get('server', 'alarmActive')).toBe(false)
     expect(c.rootCauseFixed()).toBe(true)
@@ -373,4 +377,57 @@ describe('场景洞察：连环故障提示', () => {
     expect(insight).toContain('网关')
   })
 })
+
+describe('灾难机制：机房炸了（BOOM）与高危误操作', () => {
+  it('短接引脚引发爆闪跳闸：机房炸了，工单立即以 0 分 F 级失败结算', () => {
+    const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_server_alarm')!)
+    const r = c.apply('short_power_pins', 'server')
+    expect(r.ok).toBe(true)
+    expect(c.boom).toBe(true)
+    const res = c.submit()
+    expect(res.cleared).toBe(false)
+    expect(res.grade).toBe('F')
+    expect(res.score).toBe(0)
+    expect(res.title).toContain('机房炸了')
+    expect(res.boom).toBe(true)
+  })
+
+  it('48V 强电注入普通网口烧毁设备：机房炸了，导致工单失败', () => {
+    const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_cam1_loose')!)
+    c.apply('poe_overvolt', 'cam1')
+    expect(c.boom).toBe(true)
+    const res = c.submit()
+    expect(res.cleared).toBe(false)
+    expect(res.grade).toBe('F')
+    expect(res.score).toBe(0)
+  })
+
+  it('盲目格式化系统分区使机器变砖：导致工单直接失败', () => {
+    const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_pc_blackscreen')!)
+    c.apply('format_system_drive', 'pc1')
+    expect(c.boom).toBe(true)
+    const res = c.submit()
+    expect(res.cleared).toBe(false)
+    expect(res.score).toBe(0)
+  })
+
+  it('无用项与安慰剂操作：消耗有限步数但无法解决故障', () => {
+    const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_cam1_loose')!)
+    const tBefore = c.timeUsed
+    const r = c.apply('shake_device', 'cam1')
+    expect(r.ok).toBe(true)
+    expect(r.log).toContain('拍打')
+    expect(c.timeUsed).toBe(tBefore + 1)
+    expect(c.acceptanceMet()).toBe(false)
+  })
+
+  it('动态日志反馈：在干净镜头上擦拭镜头明确提示无用功', () => {
+    const c = new WorkOrderController(WORK_ORDERS.find((w) => w.id === 'wo_cam1_loose')!)
+    const r = c.apply('clean_lens', 'cam1')
+    expect(r.ok).toBe(true)
+    expect(r.log).toContain('一尘不染')
+    expect(c.acceptanceMet()).toBe(false)
+  })
+})
+
 

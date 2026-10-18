@@ -5,7 +5,7 @@ import { fontStack } from "../ui/stimulusView";
 import { GameSession, type RunResult } from "../session";
 import { getPack } from "../../data/packs";
 import { MODES, type ModeId } from "../modes/types";
-import { recordBest, markDailyDone, getBest } from "../settings";
+import { recordBest, markDailyDone, getBest, addHistoryRecord } from "../settings";
 import type { RunMeta } from "../ui/runMeta";
 
 /** 结算场景：准确率/速度/连击/最常错规则 + 表现标签（文档 §4 GAME_RESULT / §2.3）。 */
@@ -86,9 +86,31 @@ export class ResultScene extends Phaser.Scene {
         .setOrigin(0.5);
     }
 
-    makeButton(this, WIDTH / 2 - 250, HEIGHT - 70, "再来一局", () => this.replay(), { w: 200, h: 54, fontSize: 20 });
-    makeButton(this, WIDTH / 2, HEIGHT - 70, "练习室", () => this.practice(), { w: 180, h: 54, fontSize: 20, fill: 0x4b5168 });
-    makeButton(this, WIDTH / 2 + 250, HEIGHT - 70, "返回菜单", () => this.scene.start("Menu"), { w: 200, h: 54, fontSize: 20, fill: 0x4b5168 });
+    // 归档战绩记录
+    addHistoryRecord({
+      id: Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+      modeId: meta.modeId,
+      modeName: modeName,
+      packId: meta.packId,
+      packName: pack?.name ?? meta.packId,
+      timestamp: new Date().toLocaleString("zh-CN", { hour12: false }),
+      score: r.score,
+      accuracy: r.accuracy,
+      rounds: r.rounds,
+      correct: r.correct,
+      maxCombo: r.maxCombo,
+      reactionAvg: r.reaction.avg,
+      reason: r.reason,
+      tags,
+    });
+
+    makeButton(this, 120, HEIGHT - 55, "再来一局", () => this.replay(), { w: 140, h: 48, fontSize: 18 });
+    makeButton(this, 280, HEIGHT - 55, "练习室", () => this.practice(), { w: 130, h: 48, fontSize: 18, fill: 0x4b5168 });
+    makeButton(this, 460, HEIGHT - 55, "📜 战绩历史", () => this.scene.start("History"), { w: 160, h: 48, fontSize: 18, fill: 0x4b5168 });
+    makeButton(this, 650, HEIGHT - 55, "返回菜单", () => this.scene.start("Menu"), { w: 150, h: 48, fontSize: 18, fill: 0x4b5168 });
+    makeButton(this, 840, HEIGHT - 55, "🏠 游戏大厅", () => {
+      window.location.href = "../../index.html";
+    }, { w: 150, h: 48, fontSize: 18, fill: 0x4b5168 });
   }
 
   private tags(r: RunResult): string[] {

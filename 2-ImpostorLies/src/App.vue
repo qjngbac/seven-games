@@ -15,7 +15,10 @@ const rootClass = computed(() => ({
 </script>
 
 <template>
-  <div class="app-root" :class="rootClass">
+  <div
+    class="app-root"
+    :class="[rootClass, { 'wide-layout': game.screen === 'PLAYING' || game.screen === 'CHAPTER_SELECT' }]"
+  >
     <Transition name="fade" mode="out-in">
       <MainMenu v-if="game.screen === 'MAIN_MENU'" />
       <ChapterSelect v-else-if="game.screen === 'CHAPTER_SELECT'" />

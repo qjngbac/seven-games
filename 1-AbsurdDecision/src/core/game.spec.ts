@@ -109,4 +109,63 @@ describe("Game 流程", () => {
       b.choiceLog.map((c) => c.eventId + "/" + c.choiceId)
     );
   });
+
+  it("多元结局判定：金钱富裕达成财务自由", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.day = s.maxDays + 1;
+    s.resources.money = 68;
+    s.resources.techDebt = 15;
+    const e = evaluateEnding(s, CONTENT);
+    expect(e?.key).toBe("win_wealth");
+    expect(e?.honor).toBe("暴富神仙");
+  });
+
+  it("多元结局判定：技术债≥30达成屎山舞者", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.day = s.maxDays + 1;
+    s.resources.techDebt = 32;
+    const e = evaluateEnding(s, CONTENT);
+    expect(e?.key).toBe("win_magician");
+    expect(e?.honor).toBe("屎山守护神");
+  });
+
+  it("多元结局判定：技术债≤5达成架构宗师", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.day = s.maxDays + 1;
+    s.resources.techDebt = 3;
+    const e = evaluateEnding(s, CONTENT);
+    expect(e?.key).toBe("win_clean");
+    expect(e?.honor).toBe("代码圣徒");
+  });
+
+  it("多元结局判定：高精神低声誉达成摸鱼宗师", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.day = s.maxDays + 1;
+    s.resources.spirit = 65;
+    s.resources.reputation = 40;
+    s.resources.techDebt = 15;
+    const e = evaluateEnding(s, CONTENT);
+    expect(e?.key).toBe("win_slacker");
+    expect(e?.honor).toBe("薪水收割机");
+  });
+
+  it("多元结局判定：精神≥80达成赛博飞升", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.day = s.maxDays + 1;
+    s.resources.spirit = 82;
+    s.resources.reputation = 50;
+    s.resources.techDebt = 15;
+    const e = evaluateEnding(s, CONTENT);
+    expect(e?.key).toBe("win_zen");
+    expect(e?.honor).toBe("工位佛陀");
+  });
+
+  it("多元结局判定：极度身心俱疲触发躺平结局", () => {
+    const s = createInitialState(1, CONTENT, null);
+    s.resources.money = 0;
+    s.resources.spirit = 0;
+    const e = evaluateEnding(s, CONTENT);
+    expect(e?.key).toBe("burnout");
+    expect(e?.kind).toBe("lose");
+  });
 });

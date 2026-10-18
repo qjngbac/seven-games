@@ -1,6 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useGame } from '../game/store';
+import HistoryModal from './HistoryModal.vue';
+
 const g = useGame();
+const showHistory = ref(false);
+
+function goLobby(): void {
+  window.location.href = '../../index.html';
+}
 </script>
 
 <template>
@@ -12,9 +20,11 @@ const g = useGame();
       <button class="btn-primary" @click="g.goLevelSelect()">开始游戏</button>
       <button @click="g.startLevel('l1')">直接试玩第一章</button>
     </div>
-    <div class="row" style="justify-content: center; margin-top: 10px">
+    <div class="row" style="justify-content: center; margin-top: 10px; gap: 8px; flex-wrap: wrap">
+      <button @click="showHistory = true">📜 维修历史（{{ g.repairHistory.length }}）</button>
       <button @click="g.screen = 'GALLERY'">📒 离谱图鉴（{{ g.galleryCount }}）</button>
       <button @click="g.screen = 'SETTINGS'">⚙️ 设置</button>
+      <button @click="goLobby()">🏠 游戏大厅</button>
     </div>
     <p class="subtitle" style="margin-top: 18px">
       进度：已通关 {{ g.completedCount }} / {{ g.totalLevels }} 关
@@ -24,4 +34,7 @@ const g = useGame();
     💡 玩法提示：先看右上角「目标」和场景里的热点；选中背包物品可<b>组合</b>或<b>用于</b>热点。
     同一问题往往有多种解法，失败也会留下有趣记录。所有操作可<b>撤销</b>。
   </div>
+
+  <!-- 维修历史档案弹窗 -->
+  <HistoryModal v-if="showHistory" @close="showHistory = false" />
 </template>

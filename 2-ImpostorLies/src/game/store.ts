@@ -12,8 +12,12 @@ import {
   saveSettings,
   loadProgress,
   saveProgress,
+  loadHistory,
+  saveHistory,
+  clearHistory,
   type Settings,
   type Progress,
+  type HistoryRecord,
 } from "./settings";
 import { sound } from "./audio";
 
@@ -61,6 +65,7 @@ export const useGame = defineStore("game", () => {
 
   const settings = ref<Settings>(loadSettings());
   const progress = ref<Progress>(loadProgress());
+  const history = ref<HistoryRecord[]>(loadHistory());
 
   function persistSettings(): void {
     saveSettings(settings.value);
@@ -68,6 +73,10 @@ export const useGame = defineStore("game", () => {
   }
   function persistProgress(): void {
     saveProgress(progress.value);
+  }
+  function clearAllHistory(): void {
+    history.value = [];
+    clearHistory();
   }
 
   const chapters = computed(() => CHAPTERS);
@@ -196,6 +205,24 @@ export const useGame = defineStore("game", () => {
       const prevBest = progress.value.bestScore[pid] ?? 0;
       if (res.score > prevBest) progress.value.bestScore[pid] = res.score;
       persistProgress();
+
+      // 记录历史档案
+      const historyItem: HistoryRecord = {
+        id: Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+        puzzleId: pid,
+        chapterTitle: currentChapter.value?.title ?? '',
+        puzzleTitle: puzzle.value.title ?? pid,
+        timestamp: new Date().toLocaleString('zh-CN', { hour12: false }),
+        score: res.score,
+        stars: res.stars,
+        timeMs: elapsedMs.value,
+        hintsUsed: hintsUsed.value,
+        errors: errors.value,
+      };
+      history.value.unshift(historyItem);
+      if (history.value.length > 200) history.value.length = 200;
+      saveHistory(history.value);
+
       sound.win();
       screen.value = "RESULT";
     } else {
@@ -278,5 +305,7 @@ export const useGame = defineStore("game", () => {
     toggleLargeFont,
     toggleReduceShake,
     setVolume,
+    history,
+    clearAllHistory,
   };
 });

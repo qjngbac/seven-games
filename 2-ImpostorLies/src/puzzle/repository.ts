@@ -20,15 +20,15 @@ export interface Chapter {
 
 /** 章节顺序（与生成器一致）。 */
 export const CHAPTERS: Chapter[] = [
-  { id: "ch1", title: "第一章 · 机房疑云", mechanic: "基础：恰好 1 个伪装者，且只有若干句话为真。", puzzleIds: [] },
-  { id: "ch2", title: "第二章 · 外星食堂", mechanic: "进阶：角色会引用彼此的真假（「我和他说的相同/不同」）。", puzzleIds: [] },
-  { id: "ch3", title: "第三章 · 办公室政治", mechanic: "规则：伪装者永远说假话（身份决定说话规则）。", puzzleIds: [] },
-  { id: "ch4", title: "第四章 · 侦探事务所", mechanic: "量词：可能有多个伪装者，且「恰好 N 人说真话」。", puzzleIds: [] },
-  { id: "ch5", title: "第五章 · 全员身份谜", mechanic: "身份谜：每人身份各不相同，伪装者混在其中。", puzzleIds: [] },
-  { id: "ch6", title: "第六章 · 密室逃脱", mechanic: "五人剧本杀：恰好 1 个伪装者，且「恰好 N 人说真话」。", puzzleIds: [] },
-  { id: "ch7", title: "第七章 · 双重间谍", mechanic: "量词升级：可能有 2 个伪装者，且「恰好 N 人说真话」。", puzzleIds: [] },
-  { id: "ch8", title: "第八章 · 末日方舟", mechanic: "身份谜·四人版：每人身份各不相同（船长/领航/工程师/伪装者）。", puzzleIds: [] },
-  { id: "ch9", title: "第九章 · 深空法庭", mechanic: "身份谜·进阶：四人身份各不相同，且证词会引用彼此的真假（「我和他的话同真/同假」）。", puzzleIds: [] },
+  { id: "ch1", title: "第一章 · 机房疑云", mechanic: "基础：恰好 1 个伪装者，且只有若干句话为真", puzzleIds: [] },
+  { id: "ch2", title: "第二章 · 外星食堂", mechanic: "进阶：角色会引用彼此的真假（「我和他说的相同/不同」）", puzzleIds: [] },
+  { id: "ch3", title: "第三章 · 办公室政治", mechanic: "规则：伪装者永远说假话（身份决定说话规则）", puzzleIds: [] },
+  { id: "ch4", title: "第四章 · 侦探事务所", mechanic: "量词：可能有多个伪装者，且「恰好 N 人说真话」", puzzleIds: [] },
+  { id: "ch5", title: "第五章 · 全员身份谜", mechanic: "身份谜：每人身份各不相同，伪装者混在其中", puzzleIds: [] },
+  { id: "ch6", title: "第六章 · 密室逃脱", mechanic: "五人剧本杀：恰好 1 个伪装者，且「恰好 N 人说真话」", puzzleIds: [] },
+  { id: "ch7", title: "第七章 · 双重间谍", mechanic: "量词升级：可能有 2 个伪装者，且「恰好 N 人说真话」", puzzleIds: [] },
+  { id: "ch8", title: "第八章 · 末日方舟", mechanic: "身份谜·四人版：每人身份各不相同（船长/领航/工程师/伪装者）", puzzleIds: [] },
+  { id: "ch9", title: "第九章 · 深空法庭", mechanic: "身份谜·进阶：四人身份各不相同，且证词会引用彼此的真假（「我和他的话同真/同假」）", puzzleIds: [] },
 ];
 
 const rawPacks = [ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9] as Puzzle[][];

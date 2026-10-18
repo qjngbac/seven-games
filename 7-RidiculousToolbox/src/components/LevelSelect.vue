@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { useGame } from '../game/store';
 const g = useGame();
+
+function goLobby(): void {
+  window.location.href = '../../index.html';
+}
 </script>
 
 <template>
   <div class="row spread">
-    <button class="btn-ghost" @click="g.goMenu()">← 返回</button>
+    <div class="row" style="gap: 8px">
+      <button class="btn-ghost" @click="g.goMenu()">← 菜单</button>
+      <button class="btn-ghost" @click="goLobby()">🏠 游戏大厅</button>
+    </div>
     <strong>选择关卡</strong>
     <button class="btn-ghost" @click="g.screen = 'SETTINGS'">⚙️</button>
   </div>

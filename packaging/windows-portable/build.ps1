@@ -87,14 +87,20 @@ if (-not (Test-Path -LiteralPath $releaseBase -PathType Container)) {
   New-Item -ItemType Directory -Path $releaseBase | Out-Null
 }
 if (Test-Path -LiteralPath $releaseRoot) {
-  Remove-Item -LiteralPath $releaseRoot -Recurse -Force
+  try {
+    Remove-Item -LiteralPath $releaseRoot -Recurse -Force -ErrorAction Stop
+  } catch {
+    Get-ChildItem -LiteralPath $releaseRoot | Remove-Item -Recurse -Force
+  }
 }
 if (Test-Path -LiteralPath $zipPath) {
   Remove-Item -LiteralPath $zipPath -Force
 }
 
-New-Item -ItemType Directory -Path $releaseRoot | Out-Null
-$releaseGames = New-Item -ItemType Directory -Path (Join-Path $releaseRoot 'games')
+if (-not (Test-Path -LiteralPath $releaseRoot)) {
+  New-Item -ItemType Directory -Path $releaseRoot | Out-Null
+}
+$releaseGames = New-Item -ItemType Directory -Path (Join-Path $releaseRoot 'games') -Force
 
 foreach ($templateFile in @('server.ps1', '开始游戏.cmd', 'README.txt', 'index.html')) {
   $templatePath = Join-Path $templateRoot $templateFile

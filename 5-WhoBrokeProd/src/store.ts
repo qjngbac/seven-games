@@ -18,6 +18,7 @@ import { topicsWithState } from './dialogue/topic-engine'
 import { validateClaim } from './case-model/claim-validator'
 import { EvidenceBoard, type BoardState } from './evidence/board'
 import type { InvestigationContext } from './case-model/conditions'
+import { sound } from './audio'
 
 export type Screen = 'case_select' | 'briefing' | 'investigation' | 'dialogue' | 'board' | 'accusation' | 'result'
 
@@ -60,6 +61,45 @@ interface SaveData {
   } | null
 }
 
+export interface CaseHistoryRecord {
+  id: string
+  caseId: string
+  caseTitle: string
+  chapter: number
+  timestamp: string
+  outcome: 'success' | 'partial' | 'fail'
+  reputationChange: number
+  totalReputation: number
+  actionsUsed: number
+  maxActions: number
+  accusedActors: string[]
+  reason: string
+}
+
+const HISTORY_KEY = 'whobrokeprod.history.v1'
+const HISTORY_TMP = 'whobrokeprod.history.v1.tmp'
+
+export function loadHistory(): CaseHistoryRecord[] {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY)
+    if (raw) return JSON.parse(raw)
+  } catch {
+    /* ignore */
+  }
+  return []
+}
+
+export function saveHistory(records: CaseHistoryRecord[]) {
+  try {
+    const data = JSON.stringify(records.slice(0, 200))
+    localStorage.setItem(HISTORY_TMP, data)
+    localStorage.setItem(HISTORY_KEY, data)
+    localStorage.removeItem(HISTORY_TMP)
+  } catch {
+    /* ignore */
+  }
+}
+
 export const useGame = defineStore('game', () => {
   // ---- 全局 / 跨案 ----
   const screen = ref<Screen>('case_select')
@@ -67,6 +107,17 @@ export const useGame = defineStore('game', () => {
   const settings = reactive<Settings>({ fontSize: 16, colorblind: false, noShake: false, sound: true })
   const solvedCases = ref<string[]>([])
   const verdicts = reactive<Record<string, ClaimVerdict['outcome']>>({})
+  const history = ref<CaseHistoryRecord[]>(loadHistory())
+
+  function clearAllHistory() {
+    history.value = []
+    try {
+      localStorage.removeItem(HISTORY_KEY)
+      localStorage.removeItem(HISTORY_TMP)
+    } catch {
+      /* ignore */
+    }
+  }
 
   // ---- 当前案件进度 ----
   const currentCaseId = ref<string | null>(null)
@@ -157,6 +208,7 @@ export const useGame = defineStore('game', () => {
     const ev = c.evidence.find((e) => e.id === evId)
     if (!ev) return false
     const firstTime = !examinedEvidence.value.includes(evId)
+    if (settings.sound) sound.playEvidence()
     if (firstTime) {
       examinedEvidence.value.push(evId)
       discoverMany(ev.facts)
@@ -168,6 +220,7 @@ export const useGame = defineStore('game', () => {
 
   function openDialogue(char: CharacterId) {
     if (!currentCase.value?.characters.some((x) => x.id === char)) return
+    if (settings.sound) sound.playClick()
     dialogueChar.value = char
     lastResponse.value = null
     screen.value = 'dialogue'
@@ -208,6 +261,7 @@ export const useGame = defineStore('game', () => {
     // 记录已问
     if (!askedTopics[char]) askedTopics[char] = []
     if (!askedTopics[char].includes(topicId)) askedTopics[char].push(topicId)
+    if (settings.sound) sound.playDialogue()
     actionsUsed.value += 1
 
     const res = selectResponse(topic, char, ctx.value)
@@ -268,11 +322,13 @@ export const useGame = defineStore('game', () => {
     accusation[key] = value
   }
   function toggleAccusationEvidence(evId: EvidenceId) {
+    if (settings.sound) sound.playClick()
     const i = accusation.evidence.indexOf(evId)
     if (i >= 0) accusation.evidence.splice(i, 1)
     else accusation.evidence.push(evId)
   }
   function toggleAccusationActor(char: CharacterId) {
+    if (settings.sound) sound.playClick()
     const i = accusation.actors.indexOf(char)
     if (i >= 0) accusation.actors.splice(i, 1)
     else accusation.actors.push(char)
@@ -288,6 +344,12 @@ export const useGame = defineStore('game', () => {
     const claim: Claim = { ...accusation, facts: discoveredFacts.value.slice() }
     const v = validateClaim(c, claim, discoveredFacts.value)
     verdict.value = v
+
+    if (settings.sound) {
+      if (v.outcome === 'success') sound.playSuccess()
+      else sound.playFail()
+    }
+
     // 声誉影响：仅首次结算时计入
     if (!alreadySettled) {
       if (v.outcome === 'success') reputation.value += 10
@@ -298,6 +360,26 @@ export const useGame = defineStore('game', () => {
       }
       verdicts[c.id] = v.outcome
     }
+
+    const repDelta = v.outcome === 'success' ? 10 : v.outcome === 'partial' ? 3 : -5
+    const histItem: CaseHistoryRecord = {
+      id: Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+      caseId: c.id,
+      caseTitle: c.title,
+      chapter: c.chapter,
+      timestamp: new Date().toLocaleString('zh-CN', { hour12: false }),
+      outcome: v.outcome,
+      reputationChange: repDelta,
+      totalReputation: reputation.value,
+      actionsUsed: actionsUsed.value,
+      maxActions: maxActions.value,
+      accusedActors: accusation.actors.map((aid) => c.characters.find((ch) => ch.id === aid)?.name ?? aid),
+      reason: v.message
+    }
+    history.value.unshift(histItem)
+    if (history.value.length > 200) history.value.length = 200
+    saveHistory(history.value)
+
     screen.value = 'result'
     save()
     return v
@@ -484,7 +566,9 @@ export const useGame = defineStore('game', () => {
     clearSave,
     applySettings,
     resetProgress,
-    setError
+    setError,
+    history,
+    clearAllHistory
   }
 })
 

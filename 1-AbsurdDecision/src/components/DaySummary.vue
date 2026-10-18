@@ -144,7 +144,8 @@ const chart = computed(() => {
       </div>
     </div>
 
-    <div class="row" style="justify-content: flex-end; margin-top: 14px">
+    <div class="row" style="justify-content: space-between; align-items: center; margin-top: 14px">
+      <button class="btn ghost" @click="game.quitToMenu()">保存并回主菜单</button>
       <button class="btn" @click="game.proceedFromSummary()">
         {{ game.game.day >= game.game.maxDays ? "查看结局 (Enter)" : "进入第 " + (game.game.day + 1) + " 天 (Enter)" }}
       </button>

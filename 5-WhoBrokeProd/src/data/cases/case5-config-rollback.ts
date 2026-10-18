@@ -236,7 +236,7 @@ export const case5: CaseDef = {
     responsible: ['zhao'],
     contributory: ['qian'],
     action: 'rollback_wrong_config',
-    actionAliases: ['错误回滚', '回滚错误配置', '误用staging配置', '回滚到错误版本', '选错配置版本', '回滚了错误配置'],
+    actionAliases: ['错误回滚', '回滚错误配置', '误用staging配置', '回滚到错误版本', '选错配置版本', '回滚了错误配置', '回滚时误用测试环境（staging）配置'],
     requiredEvidence: ['ev_audit', 'ev_config_diff'],
     minEvidence: 2,
     requiredFacts: ['zhao_rollback_wrong', 'used_staging_config', 'config_no_env_label'],

@@ -53,7 +53,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我是双重间谍。",
+        "text": "我是双重间谍",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -63,7 +63,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我和 特工T 不是同一类人。",
+        "text": "我和 特工T 不是同一类人",
         "expr": {
           "op": "not",
           "arg": {
@@ -76,7 +76,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我是双重间谍。",
+        "text": "我是双重间谍",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -86,7 +86,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "我是双重间谍。",
+        "text": "我是双重间谍",
         "expr": {
           "op": "roleIs",
           "character": "D",
@@ -96,7 +96,7 @@
       {
         "id": "stmt_E",
         "speaker": "E",
-        "text": "我是双重间谍。",
+        "text": "我是双重间谍",
         "expr": {
           "op": "roleIs",
           "character": "E",
@@ -160,7 +160,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "特工V 是双重间谍。",
+        "text": "特工V 是双重间谍",
         "expr": {
           "op": "roleIs",
           "character": "E",
@@ -170,7 +170,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我不是双重间谍。",
+        "text": "我不是双重间谍",
         "expr": {
           "op": "not",
           "arg": {
@@ -183,7 +183,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "特工V 不是双重间谍。",
+        "text": "特工V 不是双重间谍",
         "expr": {
           "op": "not",
           "arg": {
@@ -196,7 +196,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "特工R 不是双重间谍。",
+        "text": "特工R 不是双重间谍",
         "expr": {
           "op": "not",
           "arg": {
@@ -209,7 +209,7 @@
       {
         "id": "stmt_E",
         "speaker": "E",
-        "text": "我和 特工R 是同一类人。",
+        "text": "我和 特工R 是同一类人",
         "expr": {
           "op": "sameRole",
           "a": "E",
@@ -273,7 +273,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我和 特工V 不是同一类人。",
+        "text": "我和 特工V 不是同一类人",
         "expr": {
           "op": "not",
           "arg": {
@@ -286,7 +286,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我是忠诚干员。",
+        "text": "我是忠诚干员",
         "expr": {
           "op": "roleIs",
           "character": "B",
@@ -296,7 +296,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "特工K 在说谎。",
+        "text": "特工K 在说谎",
         "expr": {
           "op": "not",
           "arg": {
@@ -308,7 +308,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "我和 特工R 不是同一类人。",
+        "text": "我和 特工R 不是同一类人",
         "expr": {
           "op": "not",
           "arg": {
@@ -321,7 +321,7 @@
       {
         "id": "stmt_E",
         "speaker": "E",
-        "text": "特工S 是双重间谍。",
+        "text": "特工S 是双重间谍",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -385,7 +385,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我和 特工T 不是同一类人。",
+        "text": "我和 特工T 不是同一类人",
         "expr": {
           "op": "not",
           "arg": {
@@ -398,7 +398,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "特工T 不是双重间谍。",
+        "text": "特工T 不是双重间谍",
         "expr": {
           "op": "not",
           "arg": {
@@ -411,7 +411,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "特工V 是双重间谍。",
+        "text": "特工V 是双重间谍",
         "expr": {
           "op": "roleIs",
           "character": "E",
@@ -421,7 +421,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "特工V 是双重间谍。",
+        "text": "特工V 是双重间谍",
         "expr": {
           "op": "roleIs",
           "character": "E",
@@ -431,7 +431,7 @@
       {
         "id": "stmt_E",
         "speaker": "E",
-        "text": "我和 特工R 不是同一类人。",
+        "text": "我和 特工R 不是同一类人",
         "expr": {
           "op": "not",
           "arg": {

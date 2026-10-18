@@ -255,7 +255,7 @@ export const case6: CaseDef = {
     responsible: ['sun2'],
     contributory: ['zhou'],
     action: 'wrong_canary_config',
-    actionAliases: ['灰度配置错误', '灰度比例错误', '全量灰度发布', '误发全量', '发布配置错误', '灰度写成100', '灰度比例写成100'],
+    actionAliases: ['灰度配置错误', '灰度比例错误', '全量灰度发布', '误发全量', '发布配置错误', '灰度写成100', '灰度比例写成100', '全量发布带有内存泄漏的新版本'],
     requiredEvidence: ['ev_release_log', 'ev_approval'],
     minEvidence: 2,
     requiredFacts: ['canary_100pct', 'mem_leak', 'canary_not_reviewed'],

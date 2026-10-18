@@ -22,14 +22,22 @@ const game = useGame();
       <pre>{{ game.contentReport }}</pre>
     </div>
 
-    <div class="row" style="margin-top: 14px">
-      <button class="btn ghost" @click="game.backToMenu()">返回</button>
-      <button class="btn ghost" @click="game.restart()">清空存档并回主菜单</button>
+    <div class="row" style="margin-top: 16px; flex-wrap: wrap; gap: 10px">
+      <button class="btn" v-if="game.inGame" @click="game.resumeGame()">返回游戏</button>
+      <button class="btn ghost" @click="game.quitToMenu()">保存并回主菜单</button>
+      <button class="btn ghost danger" @click="game.restart()">清空存档并回主菜单</button>
     </div>
   </div>
 </template>
 
 <style scoped>
+.danger {
+  color: var(--crit);
+  border-color: #f7d2cf;
+}
+.danger:hover {
+  background: #fdf2f1;
+}
 .line {
   display: flex;
   justify-content: space-between;

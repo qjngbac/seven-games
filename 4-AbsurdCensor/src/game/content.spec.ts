@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { SCENES, sceneById } from '../data/scenes'
 import { CASES, casesForSceneDay } from '../data/cases'
-import { evaluate } from './rules'
+import { evaluate, calculateExpected } from './rules'
 import { Decision } from './types'
 
 // 「作者意图 == 引擎结果」全量自校验：新增场景绝不能引入逻辑 bug。
@@ -14,7 +14,7 @@ describe('内容意图一致性（新增场景无 bug 校验）', () => {
         const cases = casesForSceneDay(s.id, d.date)
         for (const c of cases) {
           const r = evaluate(d.rules, c, d.today)
-          const engine: Decision = r.allowLegal ? 'allow' : 'deny'
+          const engine: Decision = calculateExpected(r)
           expect(engine, `场景「${s.name}」第${d.date}天 案件 ${c.id}：作者意图(${c.intent}) 与引擎(${engine}) 不一致`).toBe(c.intent)
           checked++
         }

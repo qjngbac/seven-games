@@ -45,6 +45,17 @@ describe('response-selector', () => {
     }
     expect(selectResponse(t2, 'x', base).id).toBe('b')
   })
+
+  it('优先级相同并列时确定性按 id 字典序排序', () => {
+    const tEqual: Topic = {
+      ...topic,
+      responses: [
+        { id: 'resp_b', priority: 50, facts: [], text: 'b' },
+        { id: 'resp_a', priority: 50, facts: [], text: 'a' }
+      ]
+    }
+    expect(selectResponse(tEqual, 'x', base).id).toBe('resp_a')
+  })
 })
 
 describe('topic-engine 解锁', () => {

@@ -25,7 +25,7 @@ const g = useGame();
       </span>
     </div>
     <div class="subtitle" style="font-size: 0.82rem; margin-top: 12px">
-      提示：每件物品有固定标签（如 fan / adhesive / liquid），组合与场景反馈都从标签解释，多观察就能推理出解法。
+      提示：每件物品有固定属性标签（如「吹风」「粘性」「液体」等），组合与场景反馈都由属性决定，多观察推理就能找到解法。
     </div>
     <div class="row" style="margin-top: 16px">
       <button class="btn-primary" @click="g.startLevel(g.level!.id)">开始解谜</button>

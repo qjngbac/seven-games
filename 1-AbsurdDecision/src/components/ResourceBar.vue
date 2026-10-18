@@ -24,7 +24,7 @@ function bandLabel(key: ResourceKey): string {
       v-for="d in CONTENT.resources"
       :key="d.key"
       class="pill"
-      :class="bandClass(d.key)"
+      :class="[bandClass(d.key), { 'preview-impact': game.previewedResourceKeys.includes(d.key) }]"
       :title="bandLabel(d.key)"
     >
       <span class="ic">{{ d.icon }}</span>
@@ -51,6 +51,17 @@ function bandLabel(key: ResourceKey): string {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.pill.preview-impact {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(78, 161, 255, 0.45);
+  transform: translateY(-2px);
+  animation: pulse-border 1.2s infinite alternate;
+}
+@keyframes pulse-border {
+  from { box-shadow: 0 0 0 2px rgba(78, 161, 255, 0.3); }
+  to { box-shadow: 0 0 0 4px rgba(78, 161, 255, 0.7); }
 }
 .ic {
   font-size: 16px;

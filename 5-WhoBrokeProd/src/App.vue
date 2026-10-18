@@ -9,9 +9,15 @@ import EvidenceBoard from './components/EvidenceBoard.vue'
 import Accusation from './components/Accusation.vue'
 import Result from './components/Result.vue'
 import SettingsPanel from './components/SettingsPanel.vue'
+import HistoryModal from './components/HistoryModal.vue'
 
 const game = useGame()
 const showSettings = ref(false)
+const showHistory = ref(false)
+
+function goLobby(): void {
+  window.location.href = '../../index.html'
+}
 
 const screenComp = computed(() => {
   switch (game.screen) {
@@ -73,6 +79,8 @@ const canResume = computed(() => !!game.currentCaseId && game.screen !== 'case_s
       <span class="chip">声誉 {{ game.reputation }}</span>
       <span v-if="game.currentCase" class="chip">{{ game.currentCase.title }} · {{ screenLabel }}</span>
       <span class="spacer"></span>
+      <button class="btn-ghost" @click="showHistory = true" title="查阅案件调查历史">📜 历史档案</button>
+      <button class="btn-ghost" @click="goLobby()" title="返回七款小游戏大厅">🏠 游戏大厅</button>
       <button class="btn-ghost" @click="showSettings = true">⚙ 设置</button>
       <button v-if="canResume" class="btn-ghost" @click="game.toCaseSelect()">≡ 案件</button>
     </header>
@@ -82,5 +90,6 @@ const canResume = computed(() => !!game.currentCaseId && game.screen !== 'case_s
     </main>
 
     <SettingsPanel v-if="showSettings" @close="showSettings = false" />
+    <HistoryModal v-if="showHistory" @close="showHistory = false" />
   </div>
 </template>

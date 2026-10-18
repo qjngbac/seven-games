@@ -108,7 +108,7 @@ export function applyEffects(
     const appliedTags: string[] = [];
     for (const e of effects) {
       const d = commitOne(state, e, rm);
-      if (e.type === "tag") appliedTags.push(e.target);
+      if (e.type === "tag" && e.value === true) appliedTags.push(e.target);
       for (const k of Object.keys(d) as ResourceKey[]) {
         resourceDelta[k] = (resourceDelta[k] ?? 0) + (d[k] ?? 0);
       }
@@ -162,6 +162,9 @@ export function resolveDueScheduled(state: GameState, content: ContentPack): Eff
     } else {
       for (const k of Object.keys(r.resourceDelta) as ResourceKey[]) {
         merged.resourceDelta[k] = (merged.resourceDelta[k] ?? 0) + (r.resourceDelta[k] ?? 0);
+      }
+      for (const t of r.appliedTags) {
+        if (!merged.appliedTags.includes(t)) merged.appliedTags.push(t);
       }
     }
     notes.push(s.note);

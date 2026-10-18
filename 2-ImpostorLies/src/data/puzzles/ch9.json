@@ -55,7 +55,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "铁徽证人 不是伪装者。",
+        "text": "铁徽证人 不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -68,7 +68,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我不是领航员。",
+        "text": "我不是领航员",
         "expr": {
           "op": "not",
           "arg": {
@@ -81,7 +81,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "银徽证人 和 金徽证人 说的真假不一样。",
+        "text": "银徽证人 和 金徽证人 说的真假不一样",
         "expr": {
           "op": "xorTruth",
           "left": "stmt_A",
@@ -91,7 +91,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "我是工程师。",
+        "text": "我是工程师",
         "expr": {
           "op": "roleIs",
           "character": "D",
@@ -157,7 +157,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "金徽证人 不是伪装者。",
+        "text": "金徽证人 不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -170,7 +170,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "银徽证人 和 银徽证人 说的真假相同。",
+        "text": "银徽证人 和 银徽证人 说的真假相同",
         "expr": {
           "op": "eqTruth",
           "left": "stmt_A",
@@ -180,7 +180,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我不是领航员。",
+        "text": "我不是领航员",
         "expr": {
           "op": "not",
           "arg": {
@@ -193,7 +193,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "我是工程师。",
+        "text": "我是工程师",
         "expr": {
           "op": "roleIs",
           "character": "D",
@@ -259,7 +259,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "铁徽证人 不是伪装者。",
+        "text": "铁徽证人 不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -272,7 +272,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我是工程师。",
+        "text": "我是工程师",
         "expr": {
           "op": "roleIs",
           "character": "B",
@@ -282,7 +282,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我不是领航员。",
+        "text": "我不是领航员",
         "expr": {
           "op": "not",
           "arg": {
@@ -295,7 +295,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "我不是伪装者。",
+        "text": "我不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -364,7 +364,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "铜徽证人 不是伪装者。",
+        "text": "铜徽证人 不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -377,7 +377,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我不是船长。",
+        "text": "我不是船长",
         "expr": {
           "op": "not",
           "arg": {
@@ -390,7 +390,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我是领航员。",
+        "text": "我是领航员",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -400,7 +400,7 @@
       {
         "id": "stmt_D",
         "speaker": "D",
-        "text": "我不是船长。",
+        "text": "我不是船长",
         "expr": {
           "op": "not",
           "arg": {

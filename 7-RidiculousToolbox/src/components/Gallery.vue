@@ -20,7 +20,6 @@ const g = useGame();
           <span class="chip">×{{ e.count }}</span>
         </div>
         <p class="subtitle" style="line-height: 1.6; margin: 6px 0 0">{{ e.note }}</p>
-        <p class="subtitle" style="margin: 4px 0 0; font-size: 12px; opacity: 0.55">#{{ e.recipeId }}</p>
       </div>
     </div>
     <div class="subtitle" style="margin-top: 14px">已收集 {{ g.galleryCount }} 种离谱组合。</div>

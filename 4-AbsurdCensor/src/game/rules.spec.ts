@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { SCENES, sceneById, dayByScene } from '../data/scenes'
 import { CASES, casesForSceneDay, CaseWithScene } from '../data/cases'
-import { evaluate } from './rules'
+import { evaluate, calculateExpected } from './rules'
 
 function sceneDay(scene: string, day: number) {
   const s = sceneById(scene)!
@@ -110,9 +110,9 @@ describe('内容可解性批量校验（设计文档 5.2）', () => {
       const s = sceneById(c.scene)!
       const d = s.days.find((x) => x.date === c.day)!
       const r = evaluate(d.rules, c, d.today)
-      const hasLegal = r.allowLegal || r.denyLegal
+      const hasLegal = r.allowLegal || r.denyLegal || r.detainLegal
       expect(hasLegal, `case ${c.id} 无合法裁决`).toBe(true)
-      const engineExpected = r.allowLegal ? 'allow' : 'deny'
+      const engineExpected = calculateExpected(r)
       expect(c.expected, `case ${c.id} expected(${c.expected}) 与引擎(${engineExpected}) 不一致`).toBe(engineExpected)
     }
   })
@@ -123,11 +123,13 @@ describe('内容可解性批量校验（设计文档 5.2）', () => {
       }
     }
   })
-  it('暂扣永远合法', () => {
-    const d = sceneDay('censor', 6)
-    const c = one('censor', 6, 'd6_01')
+  it('伪造证件或通缉要犯必须依法暂扣', () => {
+    const d = sceneDay('future', 1)
+    const c = one('future', 1, 'f1_05')
     const r = evaluate(d.rules, c, d.today)
     expect(r.detainLegal).toBe(true)
+    expect(r.detainRequired).toBe(true)
+    expect(calculateExpected(r)).toBe('detain')
   })
 })
 
@@ -167,5 +169,21 @@ describe('规则理由的正确性（防止"假违规"掩盖内容缺口）', ()
     const r = evaluate(d.rules, c, d.today)
     expect(r.allowLegal).toBe(false)
     expect(r.reasons.some((x) => x.kind === 'violation' && x.ruleId === 'work_permit')).toBe(true)
+  })
+
+  it('数值阈值临界点边界测试：恰好等于临界值时的判定', () => {
+    // 边境健康健康码规则：体温 <= 37.3 合规
+    const dBorder = sceneDay('border', 3)
+    const tempRule = dBorder.rules.find((r) => r.id === 'temp_ok')!
+    expect(tempRule).toBeDefined()
+    expect(tempRule.compare).toBe('<=')
+    expect(tempRule.value).toBe(37.3)
+
+    // 审查局机器人电量规则：电量 >= 60 合规
+    const dCensor = sceneDay('censor', 3)
+    const batteryRule = dCensor.rules.find((r) => r.id === 'robot_charge')!
+    expect(batteryRule).toBeDefined()
+    expect(batteryRule.compare).toBe('>=')
+    expect(batteryRule.value).toBe(60)
   })
 })

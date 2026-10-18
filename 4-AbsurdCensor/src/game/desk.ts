@@ -37,28 +37,42 @@ export class DeskController {
     if (!c) throw new Error('no current case')
     const res = evaluate(this.day.rules, c, this.day.today)
     const legalCorrect = isLegal(res, decision)
-    const isWrongAllow = c.expected === 'deny' && decision === 'allow'
-    const isWrongDeny = c.expected === 'allow' && decision === 'deny'
+
+    const isWrongAllow = c.expected !== 'allow' && decision === 'allow'
+    const isWrongDeny = (c.expected === 'allow' && decision === 'deny') || (c.expected === 'detain' && decision === 'deny')
+    const isWrongDetain = c.expected !== 'detain' && decision === 'detain'
+    const isCorrectDetain = c.expected === 'detain' && decision === 'detain'
 
     let penalty = 0
     let conscienceDelta = 0
-    let orgDelta = 0
 
-    if (isWrongAllow) {
-      penalty = 50
-      orgDelta = 15
+    if (isCorrectDetain) {
+      // 成功扣押通缉犯/假证/违禁分子：立功表现
+      conscienceDelta = 3
+    } else if (isWrongAllow) {
+      penalty = c.expected === 'detain' ? 70 : 50
       conscienceDelta = c.moral ? -5 : -3
     } else if (isWrongDeny) {
-      penalty = 30
-      orgDelta = 8
-      conscienceDelta = c.moral ? -8 : -2
-    } else if (decision === 'detain') {
-      orgDelta = 2
-      // 暂扣：对可怜的人算善意，对危险的人中性
-      conscienceDelta = c.moral ? (c.moral.kindConscience === 'detain' ? 5 : 2) : 0
+      if (c.expected === 'detain') {
+        // 放跑了通缉犯或伪造分子
+        penalty = 50
+        conscienceDelta = -4
+      } else {
+        penalty = 30
+        conscienceDelta = c.moral ? -8 : -2
+      }
+    } else if (isWrongDetain) {
+      if (c.expected === 'allow') {
+        // 无故扣押合法公民：严重滥权
+        penalty = 30
+        conscienceDelta = -6
+      } else {
+        // 对材料不齐的普通违规人员过度执法：小额警告
+        penalty = 10
+        conscienceDelta = -1
+      }
     } else {
       // 合法且正确（allow 或 deny）
-      orgDelta = 0
       if (c.moral) {
         conscienceDelta = decision === 'allow' && c.moral.kindConscience === 'allow' ? 8 : decision === 'allow' ? 2 : 1
       } else {
@@ -68,14 +82,18 @@ export class DeskController {
 
     const outcome: CaseOutcome = {
       caseId: c.id,
+      applicantName: c.name,
       decision,
       expected: c.expected,
       legalCorrect,
       isWrongAllow,
       isWrongDeny,
+      isWrongDetain,
+      isCorrectDetain,
       penalty,
       conscienceDelta,
-      storyEffects: [...(c.storyTags || [])]
+      storyEffects: [...(c.storyTags || [])],
+      truth: c.truth
     }
     this.outcomes.push(outcome)
     this.index++
@@ -85,15 +103,14 @@ export class DeskController {
   /** 当天日结 */
   dayResult(): DayResult {
     const processed = this.outcomes.length
-    // 准确率只统计放行/拒绝两种实质裁定（暂扣是低效但安全的中性选项，不计入分母）
-    const stamped = this.outcomes.filter((o) => o.decision !== 'detain')
-    const correct = stamped.filter((o) => o.legalCorrect).length
-    const wrongAllow = stamped.filter((o) => o.isWrongAllow).length
-    const wrongDeny = stamped.filter((o) => o.isWrongDeny).length
+    const correct = this.outcomes.filter((o) => o.legalCorrect).length
+    const wrongAllow = this.outcomes.filter((o) => o.isWrongAllow).length
+    const wrongDeny = this.outcomes.filter((o) => o.isWrongDeny).length
     const detainCount = this.outcomes.filter((o) => o.decision === 'detain').length
-    const judged = correct + wrongAllow + wrongDeny
+    const judged = processed
     const accuracy = judged === 0 ? 0 : correct / judged
-    const salary = processed * 20 + (processed >= this.day.quota ? 50 : 0)
+    // 薪资计算：基本津贴 + 满额奖金 + 成功扣押嫌疑人奖金
+    const salary = processed * 20 + (processed >= this.day.quota ? 50 : 0) + this.outcomes.filter((o) => o.isCorrectDetain).length * 30
     const penalty = this.outcomes.reduce((s, o) => s + o.penalty, 0)
     const orgPressure = this.outcomes.reduce((s, o) => s + orgDeltaOf(o), 0)
     const conscience = this.outcomes.reduce((s, o) => s + o.conscienceDelta, 0)
@@ -109,7 +126,7 @@ export class DeskController {
       accuracy,
       salary,
       penalty,
-      net: salary - penalty,
+      net: Math.max(0, salary - penalty),
       orgPressure,
       conscience,
       outcomes: this.outcomes,
@@ -119,8 +136,9 @@ export class DeskController {
 }
 
 function orgDeltaOf(o: CaseOutcome): number {
-  if (o.isWrongAllow) return 15
-  if (o.isWrongDeny) return 8
-  if (o.decision === 'detain') return 2
+  if (o.isCorrectDetain) return 0
+  if (o.isWrongAllow) return o.expected === 'detain' ? 20 : 15
+  if (o.isWrongDeny) return o.expected === 'detain' ? 12 : 8
+  if (o.isWrongDetain) return o.expected === 'allow' ? 6 : 2
   return 0
 }

@@ -1,27 +1,41 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useGame } from '../store'
-import { norm } from '../case-model/claim-validator'
+import { norm, canonicalTimeForAction } from '../case-model/claim-validator'
+import { getActionOptionsForCase, type ActionOption } from '../case-model/actions'
 
 const game = useGame()
 
 const c = computed(() => game.currentCase!)
 
-// 行为选项：规范表述 + 等价表述（均判对）+ 若干干扰项（判错）
-const actionOptions = computed(() => {
-  const acc = c.value.acceptance
-  const correct = [acc.action, ...(acc.actionAliases ?? [])]
-  const correctSet = new Set(correct.map(norm))
-  const decoys = c.value.truthEvents
-    .map((e) => e.action)
-    .filter((a) => !correctSet.has(norm(a)))
-  // 去重并限制干扰数量
-  const decoyUnique = [...new Set(decoys)].slice(0, 3)
-  return [...new Set(correct), ...decoyUnique]
-})
+// 动机预设，降低输入负担
+const MOTIVE_PRESETS = [
+  '为赶上线进度绕过流程',
+  '误操作未复核确认',
+  '避免告警扩散而擅自处理',
+  '图省事擅自简化测试',
+  '测试与生产环境混淆'
+]
 
-function setAction(a: string) {
-  game.setAccusationField('action', a)
+// 行为选项：规范中文表述（标准英文术语保留括号中）+ 互斥高拟真干扰项，杜绝重复同义词与代码变量暴露
+const actionOptions = computed<ActionOption[]>(() => (c.value ? getActionOptionsForCase(c.value) : []))
+
+function isActionSelected(opt: ActionOption): boolean {
+  const current = game.accusation.action
+  if (!current) return false
+  return current === opt.value || norm(current) === norm(opt.value) || norm(current) === norm(opt.label)
+}
+
+const suggestedTime = computed(() => (c.value ? canonicalTimeForAction(c.value, game.accusation.action) : undefined))
+const truthTimes = computed(() => (c.value ? [...new Set(c.value.truthEvents.map((e) => e.time))] : []))
+
+function setAction(opt: ActionOption) {
+  game.setAccusationField('action', opt.value)
+  // 若未填写时间且有推荐时间，自动带入
+  if (!game.accusation.time && c.value) {
+    const rec = canonicalTimeForAction(c.value, opt.value)
+    if (rec) game.setAccusationField('time', rec)
+  }
 }
 function setTime(t: string) {
   game.setAccusationField('time', t)
@@ -70,12 +84,12 @@ const canSubmit = computed(
       <h3 style="margin: 0 0 8px">⚡ 危险行为</h3>
       <div class="grid grid-2">
         <button
-          v-for="a in actionOptions"
-          :key="a"
-          :class="{ 'btn-primary': game.accusation.action === a }"
-          @click="setAction(a)"
+          v-for="opt in actionOptions"
+          :key="opt.value"
+          :class="{ 'btn-primary': isActionSelected(opt) }"
+          @click="setAction(opt)"
         >
-          {{ a }}
+          {{ opt.label }}
         </button>
       </div>
       <p class="fact" style="margin-top: 8px">选择你认为真正造成事故的那一步操作。</p>
@@ -91,6 +105,28 @@ const canSubmit = computed(
           placeholder="HH:MM，如 03:02"
           style="width: 100%; background: var(--bg-soft); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 9px; font-family: inherit"
         />
+        <div class="row" style="gap: 6px; margin-top: 8px; flex-wrap: wrap; align-items: center">
+          <span class="fact" style="font-size: 0.85em">快捷填入：</span>
+          <button
+            v-if="suggestedTime"
+            type="button"
+            class="chip ok"
+            style="cursor: pointer"
+            @click="setTime(suggestedTime)"
+          >
+            推荐: {{ suggestedTime }}
+          </button>
+          <button
+            v-for="t in truthTimes.slice(0, 4)"
+            :key="t"
+            type="button"
+            class="chip"
+            style="cursor: pointer"
+            @click="setTime(t)"
+          >
+            {{ t }}
+          </button>
+        </div>
         <p class="fact" style="margin-top: 6px">根据证据里的时间戳推断案发时间，容差内均算对。</p>
       </div>
       <div class="card">
@@ -99,9 +135,22 @@ const canSubmit = computed(
           :value="game.accusation.motive"
           @input="setMotive(($event.target as HTMLTextAreaElement).value)"
           rows="2"
-          placeholder="他为什么这么做？"
+          placeholder="他为什么这么做？可点选下方快捷动机"
           style="width: 100%; background: var(--bg-soft); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 9px; font-family: inherit"
         ></textarea>
+        <div class="row" style="gap: 6px; margin-top: 8px; flex-wrap: wrap; align-items: center">
+          <span class="fact" style="font-size: 0.85em">快捷动机：</span>
+          <button
+            v-for="m in MOTIVE_PRESETS"
+            :key="m"
+            type="button"
+            class="chip"
+            style="cursor: pointer"
+            @click="setMotive(m)"
+          >
+            {{ m }}
+          </button>
+        </div>
       </div>
     </section>
 

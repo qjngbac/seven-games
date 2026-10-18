@@ -49,10 +49,14 @@ export class MenuScene extends Phaser.Scene {
       .text(WIDTH / 2, 544, "", { fontFamily: fontStack(), fontSize: "15px", color: "#ffd666" })
       .setOrigin(0.5);
 
-    makeButton(this, 130, 606, "设置 ⚙", () => this.scene.start("Settings"), { w: 180, h: 44, fontSize: 18, fill: 0x4b5168 });
+    makeButton(this, 100, 606, "设置 ⚙", () => this.scene.start("Settings"), { w: 120, h: 42, fontSize: 17, fill: 0x4b5168 });
+    makeButton(this, 240, 606, "📜 战绩", () => this.scene.start("History"), { w: 120, h: 42, fontSize: 17, fill: 0x4b5168 });
+    makeButton(this, 860, 606, "🏠 游戏大厅", () => {
+      window.location.href = "../../index.html";
+    }, { w: 140, h: 42, fontSize: 17, fill: 0x4b5168 });
 
     this.add
-      .text(WIDTH / 2, 606, "← / A 左      ↓ / 空格 跳过      → / D 右", {
+      .text(540, 606, "← / A 左   ↓ / 空格 跳过   → / D 右", {
         fontFamily: fontStack(),
         fontSize: "15px",
         color: COLORS.sub,

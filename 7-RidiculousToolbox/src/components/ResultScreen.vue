@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useGame } from '../game/store';
+import HistoryModal from './HistoryModal.vue';
+
 const g = useGame();
+const showHistory = ref(false);
+
+function goLobby(): void {
+  window.location.href = '../../index.html';
+}
 
 const tierMeta = computed(() => {
   const t = g.solution?.tier;
@@ -25,11 +32,16 @@ const stars = computed(() => '★'.repeat(g.resultStars) + '☆'.repeat(3 - g.re
       <span class="chip" style="color: var(--danger)">失败 {{ g.resultSummary?.errors ?? 0 }}</span>
       <span class="chip">搞笑分 {{ g.resultSummary?.comedy ?? 0 }}</span>
     </div>
-    <div class="row" style="justify-content: center; margin-top: 18px">
+    <div class="row" style="justify-content: center; margin-top: 18px; gap: 8px; flex-wrap: wrap">
       <button class="btn-primary" @click="g.nextLevel()">下一关 →</button>
       <button @click="g.startLevel(g.level!.id)">重玩本关</button>
+      <button @click="showHistory = true">📜 维修历史</button>
       <button @click="g.screen = 'GALLERY'">📒 图鉴</button>
       <button class="btn-ghost" @click="g.goLevelSelect()">关卡列表</button>
+      <button class="btn-ghost" @click="goLobby()">🏠 游戏大厅</button>
     </div>
   </div>
+
+  <!-- 维修历史档案弹窗 -->
+  <HistoryModal v-if="showHistory" @close="showHistory = false" />
 </template>

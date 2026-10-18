@@ -24,7 +24,7 @@ const game = useGame();
       </button>
     </div>
     <div class="row" style="margin-top: 14px">
-      <button class="btn ghost" @click="game.backToMenu()">返回</button>
+      <button class="btn ghost" @click="game.backToMenu()">返回主菜单</button>
     </div>
   </div>
 </template>

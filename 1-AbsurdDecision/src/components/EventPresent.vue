@@ -11,7 +11,20 @@ function avail(c: ChoiceDef): boolean {
   return game.game ? choiceAvailable(c, game.game, CONTENT) : true;
 }
 function pick(c: ChoiceDef) {
-  if (avail(c)) game.chooseChoice(c.id);
+  if (avail(c)) {
+    game.chooseChoice(c.id);
+  }
+}
+
+function lockReason(c: ChoiceDef): string {
+  if (avail(c)) return "";
+  const req = c.requires;
+  if (!req) return "条件不满足";
+  const missingTags = (req.requiredTags ?? []).filter((t) => !game.game?.tags.includes(t));
+  if (missingTags.length) return `缺少条件：${missingTags.join("、")}`;
+  if (req.dayMin && game.game && game.game.day < req.dayMin) return `第 ${req.dayMin} 天后解锁`;
+  if (req.resourceRange && game.game) return "资源状态未达要求";
+  return "条件不满足";
 }
 
 function onKey(e: KeyboardEvent) {
@@ -25,7 +38,9 @@ function onKey(e: KeyboardEvent) {
   }
 }
 onMounted(() => window.addEventListener("keydown", onKey));
-onUnmounted(() => window.removeEventListener("keydown", onKey));
+onUnmounted(() => {
+  window.removeEventListener("keydown", onKey);
+});
 </script>
 
 <template>
@@ -52,10 +67,13 @@ onUnmounted(() => window.removeEventListener("keydown", onKey));
       >
         <span class="key">{{ i + 1 }}</span>
         <span class="ctext">{{ c.text }}</span>
-        <span class="lock" v-if="!avail(c)">🔒 条件不满足</span>
+        <span class="lock" v-if="!avail(c)">🔒 {{ lockReason(c) }}</span>
       </button>
     </div>
-    <div class="hint">按键 1 / 2 / 3 快速选择</div>
+    <div class="event-footer">
+      <div class="hint">按键 1 ~ {{ game.event.choices.length }} 快速选择</div>
+      <button class="pause-link" @click="game.quitToMenu()" title="保存当前局进度并返回主菜单">💾 暂存并回主菜单</button>
+    </div>
   </div>
 </template>
 
@@ -139,14 +157,33 @@ onUnmounted(() => window.removeEventListener("keydown", onKey));
 .ctext {
   flex: 1;
 }
-.lock {
-  font-size: 12px;
-  color: var(--crit);
+.event-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
 }
 .hint {
-  text-align: center;
   color: var(--muted);
   font-size: 12px;
-  margin-top: 10px;
+}
+.pause-link {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.pause-link:hover {
+  color: var(--accent);
+  background: rgba(0, 0, 0, 0.04);
 }
 </style>

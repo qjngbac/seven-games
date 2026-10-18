@@ -3,9 +3,11 @@
  * 职责：根据当前规则集生成「有意义且唯一可判定」的刺激；不决定 UI 动画、不解析规则文本。
  *
  * 关键保证：
- *  - 先「瞄准」一条目标规则并构造满足它的刺激，保证本轮至少有一条规则命中（不会无聊到全 SKIP）；
- *  - 再附加 0-2 个随机干扰字段，自然产生规则组合（如 红 + 猫 → 反转）；
- *  - 若最终动作仍是 SKIP（仅反转规则命中而无基础规则），补一条基础规则特征，避免无效回合。
+ *  - 先「瞄准」一条目标规则并构造满足它的刺激，保证本轮至少有一条规则命中；
+ *  - 若目标规则为反转修饰型（如 cat_invert），为其补足底色/基础规则特征，确保有动作可供反转；
+ *  - 再附加 0-2 个随机干扰字段，自然产生规则组合与冲突（如 红 + 偶数，由优先级决胜）；
+ *  - 若目标规则自身动作就是 SKIP（如 绿色跳过、三角跳过、机器人跳过），完整保留该特征与 SKIP 动作，绝不暴力覆写；
+ *  - 保证卡片始终拥有视觉底色，提升视觉冲击与冲突体验。
  */
 import type { Predicate, Rule, Stimulus, StimField, MatchOp } from "../rules/schema";
 import type { Rng } from "../rng";
@@ -15,7 +17,7 @@ import { COLORS, SHAPES, CHARS, ALL_WORDS, NUMBER_MIN, NUMBER_MAX, FLAGS, random
 export interface GenOptions {
   /** 优先让这条规则命中（用于覆盖度/教学） */
   targetRuleId?: string;
-  /** 是否允许最终动作为 SKIP 的回合（默认不允许，除非包里本就只有反转规则） */
+  /** 是否允许最终动作为 SKIP 的回合 */
   allowSkip?: boolean;
 }
 
@@ -93,16 +95,10 @@ export function satisfy(p: Predicate, rng: Rng): Stimulus {
   }
 }
 
-function addRandomFeature(s: Stimulus, rng: Rng): void {
-  const candidates: StimField[] = ["color", "word", "number", "shape", "character"];
-  const open = candidates.filter((f) => s[f] === undefined);
-  if (open.length === 0) return;
-  const f = rng.pick(open);
-  if (f === "color") s.color = rng.pick(COLORS);
-  else if (f === "word") s.word = rng.pick(ALL_WORDS);
-  else if (f === "number") s.number = rng.range(NUMBER_MIN, NUMBER_MAX);
-  else if (f === "shape") s.shape = rng.pick(SHAPES);
-  else if (f === "character") s.character = rng.pick(CHARS);
+/** 检查刺激是否已经命中了有实质设定的基础规则（包含 LEFT, RIGHT, 或显式 SKIP） */
+function hasConcreteRuleHit(s: Stimulus, rules: Rule[]): boolean {
+  const ev = evaluate(s, rules);
+  return ev.rawMatches.some((r) => r.action !== "INVERT_BASE");
 }
 
 /** 主生成函数 */
@@ -114,22 +110,70 @@ export function generateStimulus(rng: Rng, rules: Rule[], opts: GenOptions = {})
     target = rng.pick(base.length ? base : rules);
   }
 
+  // 1. 满足目标规则
   const s = satisfy(target.predicate, rng);
 
-  // 附加干扰字段，制造组合与视觉噪声
-  const extra = rng.int(3); // 0~2
-  for (let i = 0; i < extra; i++) addRandomFeature(s, rng);
-
-  // 防止出现「无规则命中 → SKIP」的无聊回合
-  if (!opts.allowSkip) {
-    let guard = 0;
-    while (evaluate(s, rules).action === "SKIP" && guard < 6) {
-      const baseRules = rules.filter((r) => r.action === "LEFT" || r.action === "RIGHT");
-      if (baseRules.length === 0) break;
+  // 2. 若目标规则是反转修饰型（INVERT_BASE），必须补充一个基础规则（LEFT/RIGHT），否则无动作可反转
+  if (target.action === "INVERT_BASE") {
+    const baseRules = rules.filter((r) => r.action === "LEFT" || r.action === "RIGHT");
+    if (baseRules.length > 0) {
       const br = rng.pick(baseRules);
       const add = satisfy(br.predicate, rng);
-      Object.assign(s, add);
-      guard++;
+      for (const [k, v] of Object.entries(add)) {
+        if ((s as any)[k] === undefined) {
+          (s as any)[k] = v;
+        }
+      }
+    }
+  }
+
+  // 3. 保证视觉上有底色（如果还没设置颜色）
+  if (s.color === undefined) {
+    // 优先选择与当前规则兼容的颜色
+    const candColors = COLORS.filter((c) => {
+      const testStim = { ...s, color: c };
+      const ev = evaluate(testStim, rules);
+      // 保证 target 依然命中
+      return ev.rawMatches.some((r) => r.id === target!.id);
+    });
+    s.color = candColors.length > 0 ? rng.pick(candColors) : rng.pick(COLORS);
+  }
+
+  // 4. 附加干扰字段，制造自然组合
+  const candidates: StimField[] = ["word", "number", "shape", "character"];
+  const extra = rng.int(3); // 0~2 个干扰
+  for (let i = 0; i < extra; i++) {
+    const open = candidates.filter((f) => s[f] === undefined);
+    if (open.length === 0) break;
+    const f = rng.pick(open);
+    const backup = { ...s };
+
+    if (f === "word") s.word = rng.pick(ALL_WORDS);
+    else if (f === "number") s.number = rng.range(NUMBER_MIN, NUMBER_MAX);
+    else if (f === "shape") s.shape = rng.pick(SHAPES);
+    else if (f === "character") s.character = rng.pick(CHARS);
+
+    // 检查添加该干扰后，target 是否仍然有效（避免干扰项反客为主把 target 灭了）
+    const ev = evaluate(s, rules);
+    const targetHit = ev.rawMatches.some((r) => r.id === target!.id);
+    if (!targetHit) {
+      // 回滚冲突字段
+      Object.assign(s, backup);
+      delete (s as any)[f];
+    }
+  }
+
+  // 5. 兜底保护：防止出现没有任何规则命中的无效回合（仅在完全无实质规则命中时补充，绝不覆写显式 SKIP 规则）
+  if (!opts.allowSkip && !hasConcreteRuleHit(s, rules)) {
+    const baseRules = rules.filter((r) => r.action === "LEFT" || r.action === "RIGHT" || r.action === "SKIP");
+    if (baseRules.length > 0) {
+      const br = rng.pick(baseRules);
+      const add = satisfy(br.predicate, rng);
+      for (const [k, v] of Object.entries(add)) {
+        if ((s as any)[k] === undefined) {
+          (s as any)[k] = v;
+        }
+      }
     }
   }
 

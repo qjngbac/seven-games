@@ -43,7 +43,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "服务器γ 是伪装者。",
+        "text": "服务器γ 是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -53,7 +53,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "服务器α 是伪装者。",
+        "text": "服务器α 是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -63,7 +63,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "服务器α 是伪装者。",
+        "text": "服务器α 是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -117,7 +117,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我是伪装者。",
+        "text": "我是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "A",
@@ -127,7 +127,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "服务器γ 是伪装者。",
+        "text": "服务器γ 是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "C",
@@ -137,7 +137,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "服务器α 说的是真话。",
+        "text": "服务器α 说的是真话",
         "expr": {
           "op": "stmtTruth",
           "statement": "stmt_A"
@@ -190,7 +190,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "我不是老实人。",
+        "text": "我不是老实人",
         "expr": {
           "op": "not",
           "arg": {
@@ -203,7 +203,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "我是伪装者。",
+        "text": "我是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "B",
@@ -213,7 +213,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "服务器α 不是伪装者。",
+        "text": "服务器α 不是伪装者",
         "expr": {
           "op": "not",
           "arg": {
@@ -270,7 +270,7 @@
       {
         "id": "stmt_A",
         "speaker": "A",
-        "text": "服务器β 是伪装者。",
+        "text": "服务器β 是伪装者",
         "expr": {
           "op": "roleIs",
           "character": "B",
@@ -280,7 +280,7 @@
       {
         "id": "stmt_B",
         "speaker": "B",
-        "text": "服务器α 说的是真话。",
+        "text": "服务器α 说的是真话",
         "expr": {
           "op": "stmtTruth",
           "statement": "stmt_A"
@@ -289,7 +289,7 @@
       {
         "id": "stmt_C",
         "speaker": "C",
-        "text": "我不是伪装者。",
+        "text": "我不是伪装者",
         "expr": {
           "op": "not",
           "arg": {

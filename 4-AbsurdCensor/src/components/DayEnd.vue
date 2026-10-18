@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useGame } from '../store'
+import HistoryModal from './HistoryModal.vue'
 
 const game = useGame()
+const showHistory = ref(false)
 const dr = computed(() => game.dayResults[game.dayResults.length - 1])
 </script>
 
@@ -29,10 +31,18 @@ const dr = computed(() => game.dayResults[game.dayResults.length - 1])
         <li v-if="!dr?.events?.length" class="muted">今天风平浪静，没有特别的事发生。</li>
       </ul>
 
-      <button class="btn-primary" style="margin-top: 18px; width: 100%; font-size: 17px" @click="game.nextDay()">
-        进入第 {{ game.dayNumber + 1 }} 天 →
-      </button>
+      <div style="display: flex; gap: 12px; margin-top: 18px">
+        <button class="btn-sm" style="flex: 1; padding: 10px; font-size: 15px" @click="showHistory = true">
+          📁 查阅执勤履历档案 ({{ game.history.length }})
+        </button>
+        <button class="btn-primary" style="flex: 2; font-size: 17px" @click="game.nextDay()">
+          进入第 {{ game.dayNumber + 1 }} 天 →
+        </button>
+      </div>
     </div>
+
+    <!-- 执勤档案 -->
+    <HistoryModal v-if="showHistory" @close="showHistory = false" />
   </div>
 </template>
 
